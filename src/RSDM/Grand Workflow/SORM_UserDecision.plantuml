@@ -1,0 +1,41 @@
+@startuml
+
+title User Decision Matrix
+
+start
+
+if(Action) then 
+    :Want to Onboard Service under RM scope;
+    if (Service previously onboarded in Service-CMDB?) then (TRUE)
+        if(Service previously Onboarded into RM scope?) then (TRUE)
+            #Thistle:SORM-InitFlow
+            - Init ServiceEnvironment for each diff in Environment|
+        else (FALSE)
+            #Thistle:SORM-InitFlow
+            - Init Service
+            - Init ServiceEnvironment for each Environment
+            - Init GitRepo if new|
+        endif
+        stop
+    else (FALSE)
+        #Thistle:Go through ASJP to init in CMDB|
+        note right
+            Service need to be 
+            have been initialised
+            in CMDB before onboarding 
+            into RM scope.
+        end note
+        #Thistle:ASJP will include SORM-InitFlow|
+        stop
+    endif
+else
+    if(UpdateFlow is Ready) then (TRUE)
+        #Thistle:SORM-UpdateFlow|
+        stop
+    else (FALSE, still WIP)
+        #LightGreen:Find RM to update config;
+        stop
+    endif
+endif
+
+@enduml

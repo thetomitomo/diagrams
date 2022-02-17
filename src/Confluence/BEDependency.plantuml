@@ -1,0 +1,40 @@
+@startuml
+
+title General BE Dependency Overview
+
+start
+
+#Grey:Coreserver;
+floating note left: Generally we will finish CS deployment first.
+
+
+split
+    #LightGreen:Other backend services
+    - via DSG;
+    floating note left: Other backend services may NOT be hard blocker.\nDo check with individual dev/CR to investigate\nwhen there is a need to expedite 
+    detach
+split again
+    #LightGreen:mpp-bridge-api;
+split again
+    #Grey:mpcheckout-core;
+split again
+    #Grey:Other WSA services;
+    floating note right: Other WSA services is not exhaustive.\nRefer to GSDB.
+    detach
+end split
+
+#Grey:mall-bass item;
+#Grey:mall-api;
+
+detach
+
+detach
+partition "Legend" {
+    #LightGreen:Color: Light Green\nIn BE deployment scope;
+    detach
+    #Grey:Color: Grey\nNot in BE deployment scope;
+    detach
+}
+
+
+@enduml

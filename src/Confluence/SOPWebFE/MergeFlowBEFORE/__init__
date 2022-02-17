@@ -1,0 +1,8 @@
+!theme bluegray
+skinparam FooterFontColor black
+!$pageNum = %substr(%filename(),0,1)
+footer Page $pageNum
+
+!include Legends
+
+autonumber $AutonumStart.1

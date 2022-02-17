@@ -1,0 +1,13 @@
+participant feature as feature
+participant master as master
+participant staging as staging
+participant release as release
+
+legend top left
+    |<#CornflowerBlue> **Item** |<#CornflowerBlue> **Description** |
+    |<#DarkOrchid> Hexagon | Version tag operation |
+    |<#Thistle> Hexagon | DOD operation |
+    |<#LimeGreen> Hexagon | RM operation |
+    |<#Orange> Hexagon | Automation operation |
+    |<#0568ae> <color #white>Notes </color> | Annotation |
+endlegend

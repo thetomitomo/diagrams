@@ -1,0 +1,44 @@
+@startuml
+
+!$AutonumStart = 4
+!include __init__
+
+title Hotfix/Adhoc Between Cutoff and Regular Release Pre-Build
+
+== Regular Release cut-off (Usually the previous Friday 17:00) ==
+
+autonumber $AutonumStart.1
+
+hnote over host_release #DarkOrchid: LIVE version\nV1.5.5
+
+group Hotfix/Adhoc Flow (before Regular Release)
+    group Feature Development
+        release -> FB: NEW branch out of <b>release</b>
+
+        FB -> FB: commit into\n<b>feature</b>
+        
+        note over FB,release: After Hotfix/Adhoc is approved
+    end
+
+    group To Release in LIVE
+        FB -> release: merge <b>feature</b> into <b>release</b>
+        hnote over release #DarkOrchid:New Tag\n+patch\nV1.5.6
+        note over release: V1.5.6 includes\nONLY the Irregular request
+
+        release -> host_release: Build version,\nand bump version in host repo
+        note over host_release #Green: DEPLOYMENT
+        hnote over host_release #DarkOrchid: LIVE version\nV1.5.6
+    end
+
+    group To include in upcoming Regular Scope
+        FB -> staging: merge <b>feature</b> into <b>staging</b>
+        hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.2
+        note over staging: V1.6.2 includes\nRegular Release\nAND the Irregular request
+
+        release -> host_master: Build version,\nand bump version in host repo
+    end
+end
+
+== Regular Release Release Pre-Build (Usually Wed 17:30) ==
+
+@enduml

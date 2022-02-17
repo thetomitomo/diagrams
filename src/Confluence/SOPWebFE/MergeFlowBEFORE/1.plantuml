@@ -1,0 +1,64 @@
+!$AutonumStart = 1
+!include __init__
+
+title CHANGE FE Regular Release Schedule
+
+note over feature,release: Assuming normal release week without code freeze
+
+group 1.0 Feature Branch Management
+    master -> feature: NEW branch out of <b>master</b>
+    feature -> feature: commit into\n<b>feature</b>
+end
+
+autonumber inc A
+group 2.0 Regular Release Flow
+    group Merge for Regular Release
+        note over feature,master: sync <b>feature</b> with <b>master</b>
+        master -> feature: merge <b>master</b>\ninto <b>feature</b>
+        note over feature,master: - Added Release Cycle\n- Pass verifications
+        feature -> master: merge <b>feature</b>\ninto <b>master</b>
+        note over feature,master:Merge can be done anytime before Monday 17:00\nas long as scope passes verification.\nMerge early to avoid pipeline jam!
+    end
+    
+    
+    ' note over feature,release #Coral: Instead of keeping master as "staging" branch, we have a dedicated **staging** branch\n RM will execute auto branch merge **master** into **staging** 
+    
+
+    
+    == Monday Code Freeze 17:00 ==
+    hnote over master,staging #Orange:Auto-Merge **master** into **staging**
+    master -> staging: Merge <b>master</b>\ninto <b>staging</b>
+
+    note right #Coral
+        <color #Yellow >**ORP CHANGE**</color>
+        Instead of keeping master as "staging" branch,
+        we have a dedicated **staging** branch
+        RM will execute auto branch merge
+        **master** into **staging** 
+    end note
+
+    
+    feature->master:Next week features can\ncontinue merging into master
+    note right #Coral
+        <color #Yellow >**ORP CHANGE**</color>
+        With dedicated **staging** branch,
+        we can have longer merge window
+    end note 
+
+    group Late Regular Release Merge
+
+        note over feature,staging: After valid late merge request is verified by RM
+        feature -> staging: merge <b>feature</b>\ninto <b>staging</b>
+        
+        note right #Coral
+            <color #Yellow >**ORP CHANGE**</color>
+            Late merges will go directly 
+            into **staging** 
+            instead of merging 
+            into **master**
+        end note 
+    end
+
+end
+hnote over staging #Thistle: DOD deploy staging into STAGING
+note over feature,release #Coral: <color #Yellow >**ORP CHANGE**</color>\nStaging deployments should now be done from **staging**

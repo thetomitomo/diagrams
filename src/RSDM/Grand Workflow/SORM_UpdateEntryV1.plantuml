@@ -1,0 +1,68 @@
+@startuml
+title SORM-UpdateFlow-Entry (Mainly via SWP)
+
+split
+    -[hidden]->
+    :Entry Point 1:\n-> SWP\n-> Release Management\n-> Update Release Config;
+split again
+    -[hidden]->
+    :Entry Point 2:\nRedirected from init SORM flow;
+end split
+
+#LightGreen:UI: Item to update: __ ;
+
+if (Item == Service) then
+    #LightBlue:<b>RMDB Onboarded Services</b> = GET onboarded service names in RMDB;
+    #LightGreen:UI: Service Name: __ ;
+
+    if (Service <b>is</b> previously onboarded:\n Service name in <b>RMDB Onboarded Services</b>) then (TRUE)
+        #Thistle:Proceed with ServiceUpdate flow|
+        stop
+    else (FALSE)
+        #LightBlue:Return to User:\nService is new, please onboard via {URL to SORM-InitFlow};
+        #Thistle:Redirect to SORM-InitFlow|
+        stop
+    endif
+elseif (Item == Repository)
+    #LightBlue:<b>RMDB Onboarded Repositories</b> = GET onboarded Repositories in RMDB;
+    #LightGreen:UI: Repository Path: __ ;
+    if (Repository <b>is</b> previously onboarded:\n Repository path in <b>RMDB Onboarded Repositories</b>) then (TRUE)
+        #Thistle:Proceed with RepoUpdate flow|
+        stop
+    else (FALSE)
+        #Yellow:Notes\nUsers should not initiate Repository on its own.\nIt should be initiated with a Service.<
+        #LightBlue:Return to User:\nRepository is new, please onboard with Service via {URL to SORM-InitFlow};
+        #Thistle:Redirect to SORM-InitFlow|
+        stop
+    endif
+elseif (Item == Service Env Release Configuration\nAKA: ServiceEnvironment)
+    #LightBlue:GET services in DB;
+    #LightGreen:UI: Service to update: __\n(Select from GET);
+    #LightBlue:GET env registered in DB;    
+    #LightGreen:UI: Environment to update: __\n(Select from ALL ENVs);
+    if (User selected ENV in previously onboarded ENV) then (TRUE) 
+        #Thistle:ServiceEnvironmentUpdate Flow|
+        stop
+    else (FALSE)
+        #Thistle:ServiceEnvironmentInit Flow|
+        stop
+    endif
+elseif (Item == User)
+    ' :Item == User]
+    #LightGreen:UI: User Email: __ ;
+    if (<back:lightblue>Check DB if User exists) then (TRUE)
+    else (FALSE)
+        if (<back:lightblue>Regex email check) then (TRUE)
+        else (FALSE)
+            #LightBlue:Return to User:\nUser email is incorrect;
+            stop
+        endif
+    endif
+    #Thistle:Proceed with UserUpdate flow|
+    stop
+else
+    stop
+endif
+
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+title SORM SWP Entry
+
+partition "Entry from SWP>ReleaseManagement"
+    -[hidden]->
+    :<b>Entry Point 1</b>:
+    User directly start from SWP-RM;
+    
+    #LightGreen:SWP>Release Management>Service Onboarding into Release Management;
+    #LightBlue:GET Services in CMDB for User UI selection;
+    #LightGreen:UI: <b>Service Name</b>: __ ;
+
+    partition "Verify Service is in CMDB Logic"
+        #LightBlue:GET Service in Service-CMDB;
+        if (GET Service success) then (TRUE)
+            #LightBlue:Get data to pass to SORM
+            - GET <b>Service Name</b> from prior User Input
+            - GET <b>Regions</b> in Service from Service-CMDB
+            - GET <b>Environments</b> in Service from Service-CMDB
+            - GET <b>GitRepo</b> of Service from Service-CMDB;
+        else (FALSE)
+            #Yellow:Notes:\n- This is the case where service is new in CMDB AND REDB<
+            #LightBlue:Return to User:\nTo initiate new service please use SRE form: {URL to ASJP};
+            #Thistle:Redirect to ASJP|
+            #Pink:User has to init Service in CMDB before onboarding under RM;
+            stop
+        endif
+    }
+}
+#Thistle:Continue SORM-InitFlow|
+@enduml

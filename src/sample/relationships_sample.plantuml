@@ -1,0 +1,59 @@
+@startuml
+
+title Classes - Class Diagram
+
+
+class Dwelling {
+  +Int Windows
+  +void Lock()
+}
+
+class Apartment
+class House
+class Commune
+
+
+title Relationships - Class Diagram
+
+
+class Dwelling {
+  +Int Windows
+  +void LockTheDoor()
+}
+
+class Apartment
+class House
+class Commune
+class Window
+class Door
+
+' # Association
+' A ---> B
+
+' # Inheritance 
+' A ---|> B
+
+' # Aggregation
+' A o--- B
+
+' # Composition
+' A *--- B
+
+' # Cardinality
+' A {#} --> {#} B 
+
+' # Labelling
+' A --{label}--> B
+
+
+
+Dwelling <|-down- Apartment: Inheritance
+Dwelling <|-down- Commune: Inheritance
+Dwelling <|-down- House: Inheritance
+Dwelling <|-down- Apartment: Inheritance
+Dwelling <|-down- Commune: Inheritance
+Dwelling <|-down- House: Inheritance
+Dwelling "1" *-up- "many" Window: Composition
+Dwelling "1" *-up- "many" Door: Composition
+
+@enduml

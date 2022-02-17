@@ -1,0 +1,20 @@
+@startuml
+
+!$AutonumStart = 6
+!include __init__
+
+title Action After Regular Deployment Start
+
+== Regular Release Deployment Start (Usually Thurs 09:30) ==
+
+note over host_release #Green: DEPLOYMENT
+hnote over host_release #DarkOrchid: LIVE version\nV1.6.3
+
+autonumber inc A
+group Sync branches
+    release -> staging: merge <b>release</b>\ninto <b>staging</b>
+    staging -> release: merge <b>staging</b>\ninto <b>release</b>
+    release -> master: merge <b>release</b>\ninto <b>master</b>
+end
+
+@enduml

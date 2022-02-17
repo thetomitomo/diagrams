@@ -1,0 +1,20 @@
+@startuml
+
+!$AutonumStart = 1
+
+!include __init__
+
+group 1.0 Including Feature in Regular Release
+    req -> Art : Raise JIRA ticket\nin project board
+    hnote over Art#LimeGreen: JIRA Feature\nTicket
+    req -> Art : Add Release Cycle\nin JIRA ticket
+
+    req -> FeatDev: Communicate request\nto Feature Dev
+
+    note over req,FeatDev: Follow Team's Development Flow
+    FeatDev -> Art: Raise MR for\nfeature code change
+    hnote over Art#LimeGreen: Feature <b>MR</b>\nin plugin repo
+    FeatDev -> Art: Link MR to\nJIRA Feature Ticket
+end
+
+@enduml

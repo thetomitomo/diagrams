@@ -1,0 +1,20 @@
+!theme bluegray
+skinparam FooterFontColor black
+!$pageNum = %substr(%filename(),0,1)
+footer Page $pageNum
+
+!include Legends.plantuml
+
+box "RN Plugin Repository" 
+    participant featureBranch as FB
+    participant master as master
+    participant staging as staging
+    participant release as release
+end box
+box "Host Repository" 
+    participant host_master as host_master
+    participant host_release as host_release
+    participant host_release_backup as host_release_backup
+end box
+
+autonumber $AutonumStart.1

@@ -1,0 +1,16 @@
+@startuml
+title ASJP-Flow
+
+
+(*) --> "Draft"
+"Draft" --> [Submit] "Manager Approval"
+"Draft" --> [Assign to SRE] "SRE Approval"
+"Draft" --> [Emergency Request] "Processing"
+"Manager Approval" --> [Approve] "SRE Approval"
+"Manager Approval" --> [Reject] "Rejected"
+"SRE Approval" --> [Approve] "Processing"
+"SRE Approval" --> [Reject] "Rejected"
+"Processing" --> [Process Complete] "Completed"
+"Processing" --> [Process Fail] "Failed"
+
+@enduml

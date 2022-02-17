@@ -1,0 +1,29 @@
+@startuml
+
+!$AutonumStart = 7
+!include __init__
+
+title Irregular Release Outside of Regular Release Timeline
+
+== Regular Release Deployment Start (Usually Thurs 09:30) ==
+
+hnote over host_release #DarkOrchid: LIVE version\nV1.6.3
+
+autonumber inc A
+group Hotfix/Adhoc Flow (after Regular Release)
+    release -> FB : NEW branch out of <b>release</b>
+
+    FB -> FB: commit into\n<b>release</b>
+    FB -> release: merge <b>feature</b> into <b>release</b>
+    hnote over release #DarkOrchid:New Tag\n+patch\nV1.6.4
+    release -> host_release:Build version,\nand bump version in host repo release-backup branch
+    note over host_release #Green: DEPLOYMENT
+    hnote over host_release #DarkOrchid: LIVE version\nV1.6.4
+
+    note over master,host_release: After irregular release is verified, sync release to master
+    release->master:merge **release**\ninto **master**
+end
+
+== Regular Release Cutoff (Usually Fri 17:00) ==
+
+@enduml

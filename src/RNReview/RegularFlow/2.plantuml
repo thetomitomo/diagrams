@@ -1,0 +1,40 @@
+@startuml
+
+!$AutonumStart = 2
+
+!include __init__
+
+group 2.0 Code Merge, Cut-Off, & New Version
+    req -> Art: Ensure artefacts\nare in order
+    FeatDev->FeatDev: Get MR to be reviewed
+
+    RM->Art: RM executes verifications
+    note over req,FeatDev: JIRA Ticket verified & MR reviewed
+
+    FeatDev -> Art: Merge Feature <b>MR</b>\ninto plugin <b>master</b>
+    note over req,FeatDev: Feature Dev can merge into **master** anytime \nafter ticket & MR are verified
+    hnote over Art#LimeGreen:<b>MERGED\n<b>Feature MR\n in plugin repo
+
+    == Friday 17:00 - Regular Release Cutoff==
+
+    PluginDOD -> PluginDOD: merge **master**\ninto **staging**
+    PluginDOD -> Art: Generate new plugin patch version tag\nin **staging**
+    hnote over Art#DarkOrchid:New feature\npatch version
+
+    PluginDOD -> Art: (IB Only) Build new patch version
+    hnote over Art#LimeGreen:New patch\nversion build
+
+
+    PluginDOD -> Art : Raise JIRA ticket\nin <b>SPFE</b> board
+    hnote over Art#LimeGreen: JIRA SPFE\nTicket
+
+    PluginDOD -> Art: Raise version-bump <b>MR</b>\nto host-repo
+    PluginDOD -> Art: Link version-bump <b>MR</b>\nto **SPFE** ticket
+    hnote over Art#LimeGreen:<b>OPEN MR\nin host repo
+
+    PluginDOD -> RN_DOD: Notify RN DOD\nto review **SPFE** MR
+    RN_DOD->RN_DOD: If CB, triggers\nRN Pipeline 
+    note over Art,RN_DOD#Tomato: Make sure to follow MR requirement to avoid missed out MR merge
+end
+
+@enduml

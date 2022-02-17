@@ -1,0 +1,21 @@
+@startuml
+legend top left
+    |<#CornflowerBlue> **Item** |<#CornflowerBlue> **Description** |
+    | Artefacts | Refers to documentations required for proper process |
+    | Requester | Person in charge raising the emergency release request |
+    | Feature Dev | Developer from plugin team responsible for development of the code changes |
+    | Plugin DOD | Developer from plugin team on duty to manage release related tasks |
+    | RN DOD | Developer from SG platform team on duty to manage release related tasks |
+    | RM | SG Release Manager responsible for verification and deployment of change requests |
+    | JIRA Feature Ticket | JIRA ticket to be raised to track change request in plugin team's Jira board. Example: SPPAY |
+    | JIRA SPFE Ticket | JIRA ticket to be raised to track version change in host repo, always done in SPFE JIRA board |
+    | Feature MR | Merge Request that is in plugin repo |
+    | SPFE MR | Merge Request that is in host repo, containing version bump |
+    | Host Repo | Refers to shopee/shopee_react_native repository |
+    | Plugin Repo | Refers to plugin team's feature repository. Example: wallet/fe/shopeepay-plugin |
+    |<#DarkOrchid> Hexagon | Version tag operation |
+    |<#LimeGreen> Hexagon | Release artefacts required for proper process |
+    |<#0568ae> <color #white> Notes </color> | Important remarks |
+    |<#Tomato> Notes | Critical remarks |
+endlegend
+@enduml

@@ -1,0 +1,128 @@
+@startuml
+
+legend top left
+    |Color| Type |
+    |<#DarkOrchid>| Version tag operation|
+    |<#Green>| Deployment operation|
+    |<#Yellow>| Annotation|
+
+endlegend
+
+title <b>RN Plugin</b> 2021 Full Flow
+
+box "RN Plugin Repository" 
+    participant featureBranch as FB
+    participant master as master
+    participant release as release
+end box
+box "Host Repository" 
+    participant host_master as host_master
+    participant host_release as host_release
+    participant host_release_backup as host_release_backup
+end box
+
+autonumber 1.1
+hnote over release #DarkOrchid:LIVE version\nV1.5.5
+hnote over host_release #DarkOrchid:LIVE version\nV1.5.5
+
+group Feature Branch Management
+    note over FB,master: NEW branch out of <b>master</b>
+    master -> FB
+    FB -> FB: commit into\n<b>feature</b>
+end
+
+autonumber inc A
+group Regular Release Flow
+    note over FB,master: sync <b>feature</b> with <b>master</b>
+    master -> FB: merge <b>master</b>\ninto <b>feature</b>
+
+    FB -> master: After verified:\nmerge <b>feature</b>\ninto <b>master</b>
+
+    == Friday 17:00 - Regular Release Cutoff==
+
+    hnote over master #DarkOrchid:New Tag\n+minor\nV1.6.0
+    master -> host_master: Build version,\nand bump version in host repo master branch
+end
+
+autonumber inc A
+group Regression Bug Flow
+    note over FB, master : Regression Bug Flow fix is ONLY for bugs found in upcoming version.\nQA lead has to certify by adding <b><color #118888>SZ/SG_QA_Regression</color></b>
+    note over FB,master: NEW branch out of <b>master</b>
+    master -> FB
+    FB -> FB: commit into\n<b>feature</b>
+    FB -> master: merge <b>feature</b> into <b>master</b>
+    hnote over master #DarkOrchid:New Tag\n+patch\nV1.6.1
+    master -> host_master: Build version,\nand bump version in host repo master branch
+
+end
+
+autonumber inc A
+group Hotfix/Adhoc Flow (before Regular Release)
+    note over FB,release: NEW branch out of <b>release</b>
+    release -> FB
+
+    FB -> FB: commit into\n<b>feature</b>
+    
+    note over FB,release: After Hotfix/Adhoc is approved
+    FB -> master: merge <b>feature</b> into <b>master</b>
+    hnote over master #DarkOrchid:New Tag\n+patch\nV1.6.2
+    master -> host_master: Build version,\nand bump version in host repo master branch
+
+    FB -> release: merge <b>feature</b> into <b>release</b>
+    hnote over release #DarkOrchid:New Tag\n+patch\nV1.5.6
+    release -> host_release: Build version,\nand bump version in host repo release branch
+    note over host_release #Green: DEPLOYMENT
+    hnote over host_release #DarkOrchid: LIVE version\nV1.5.6
+end
+
+== Regular Release prebuild (Usually Wed 17:30) ==
+
+host_master->host_release: Plugins' version in host-master\nnow in host-release
+
+autonumber inc A
+
+group Hotfix/Adhoc Flow (After Regular Release Pre-Build)
+note over host_master,host_release_backup: Any adhoc now merge into host release-backup
+    note over FB,release: NEW branch out of <b>release</b>
+    release -> FB
+
+    FB -> FB: commit into\n<b>feature</b>
+    
+    note over FB,release: After Hotfix/Adhoc is approved
+    FB -> master: merge <b>feature</b> into <b>master</b>
+    hnote over master #DarkOrchid:New Tag\n+patch\nV1.6.3
+    master -> host_release: Build version,\nand bump version in host repo release branch
+
+    FB -> release: merge <b>feature</b> into <b>release</b>
+    hnote over release #DarkOrchid:New Tag\n+patch\nV1.5.7
+    release -> host_release_backup: Build version,\nand bump version in host repo release-backup branch
+    note over host_release_backup #Green: DEPLOYMENT
+    hnote over host_release_backup #DarkOrchid: LIVE version\nV1.5.7
+end
+
+== Regular Release Start (Usually Thurs 09:30) ==
+
+autonumber inc A
+group Sync branches
+    host_release_backup->host_release: Sync backup\nbefore regular deployment
+    note over host_release #Green: DEPLOYMENT
+    hnote over host_release #DarkOrchid: LIVE version\nV1.6.3
+    release -> master: merge <b>release</b>\ninto <b>master</b>
+    master -> release: merge <b>release</b>\ninto <b>master</b>
+end
+
+autonumber inc A
+group Hotfix/Adhoc Flow (after Regular Release)
+    note over FB,release: NEW branch out of <b>release</b>
+    release -> FB
+
+    FB -> FB: commit into\n<b>release</b>
+    FB -> release: merge <b>feature</b> into <b>release</b>
+    hnote over release #DarkOrchid:New Tag\n+patch\nV1.6.4
+    release -> host_release: Build version,\nand bump version in host repo release branch
+    note over host_release #Green: DEPLOYMENT
+    hnote over host_release #DarkOrchid: LIVE version\nV1.6.4
+
+end
+
+@enduml

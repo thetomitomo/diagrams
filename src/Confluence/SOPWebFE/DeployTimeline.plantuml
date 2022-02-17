@@ -1,0 +1,33 @@
+title WebFE Deployment Timeline
+
+actor RM
+collections Release as release
+actor Automation as automation #Thistle
+
+autonumber
+note over RM,automation: Assuming normal release week without code freeze
+== Previous Friday 12:00 - RN Plugin Regular Release Cutoff ==
+== Monday 12:00 - WebFE Regular Release Cutoff ==
+automation->release: Executes auto cut-off
+RM->release: Executes Pre-screening
+== Monday 17:00-19:00 ; Regular Release Code Freeze ==
+automation->release: (ORP)Executes auto removal
+
+== Monday 18:00-21:00 ; Staging Deployments ==
+RM->release: Executes staging deployments
+
+== Tuesday ==
+RM->release: Refer to Pre-screening,\nremove non-ORP missed merges
+
+== Wednesday 16:30 ; Finalise scope for release-backup ==
+RM->release: Review the scope for regular release
+RM->release: Inform WebFE/RN DOD to \nprocess release-backup
+
+== Wednesday 18:00 ; Regular release prebuilds start  ==
+RM->release: Ensure prebuilds can start by then
+
+== Thursday 10:00 ++ ; Regular release start  ==
+RM->release: Execute RN greyscale rollout
+RM->release: Execute PC/RW deployment
+RM->release: Execute Promotion WebFE deployment
+RM->release: Execute other FE deployment scope

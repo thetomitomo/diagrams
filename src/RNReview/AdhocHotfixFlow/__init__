@@ -1,0 +1,19 @@
+!theme bluegray
+skinparam FooterFontColor black
+!$pageNum = %substr(%filename(),0,1)
+footer Page $pageNum
+
+!$title_1 = "<b>RN Plugin</b> Adhoc/Hotfix Flow p"
+!$title_final = %string($title_1 + $pageNum)
+title $title_final
+
+!include Legends.plantuml
+
+actor Requester as req
+collections Artefacts as Art
+actor FeatureDev as FeatDev
+actor PluginDOD as PluginDOD
+actor RN_DOD as RN_DOD
+actor RM as RM
+
+autonumber $AutonumStart.1

@@ -1,0 +1,118 @@
+@startuml Entity Diagram
+
+!theme reddress-darkred
+title REDB Entity Diagram
+
+class Service {
+    +ID: uint
+
+    +<b>CmdbID: uint</b>
+    +<b>NonCmdbID: string</b>
+    -----
+    +Active: bool
+    +CreatedAt: int64
+    +UpdatedAt: int64
+    -----
+    +SourceRepoID: uint
+    +ServiceEnvironments: []ServiceEnvironment
+    +ServiceDependencies: []Service
+    +PlatformDependencies: []DeploymentPlatform
+}
+
+class ServiceEnvironment {
+    +ID: uint
+
+    +<b>ServiceID: uint</b>
+    +<b>Environment: string</b>
+    -----
+    +Active: bool
+    +CreatedAt: int64
+    +UpdatedAt: int64
+    +InRmScope: bool
+    +ReportTitle: string
+    +NonScopeReason:string
+    +CustomParams: string
+    +Priority: string
+    -----
+    +PICIDs: []string
+}
+
+class DeploymentPlatform {
+    +ID: uint
+
+    +<b>Name: string</b>
+    -----
+    +Active: bool
+    +CreatedAt: int64
+    +UpdatedAt: int64
+    +ShortName: string
+    +LongName: string
+    +MmChannel: string
+    +Subplatforms: string
+    -----
+    +DependentServices: []Service
+}
+
+class GitRepo {
+    +ID: uint
+    +<b>RepoPath: string </b>
+    +<b>GitID : uint</b>
+    -----
+    +Active: bool
+    +CreatedAt:  int64
+    +UpdatedAt:  int64
+    +TagPrefix: string
+    +GitKey: string
+    -----
+    +DeploymentPlatformID: uint
+    +ReleaseContextID: uint
+    +ReleaseProcessID: uint
+
+}
+
+class JiraBoard {
+    +ID: uint
+
+    +<b>Name: string</b>
+    +<b>LiveJiraBoardID: string</b>
+    -----
+    +Active: bool
+    +CreatedAt: int64
+    +UpdatedAt: int64
+    -----
+    +ReleaseContextID: uint
+    +ProductLines: []ProductLine
+}
+
+class ReleaseContext {
+    +ID: uint
+
+    +<b>Name: string</b>
+    -----
+    +Active: bool
+    +CreatedAt: int64
+    +UpdatedAt: int64
+    +MasterTicketBoardID: uint
+    -----
+    +JiraBoards: []JiraBoard
+}
+
+class ReleaseProcess {
+    +ID: uint
+
+    +<b>Name: string</b>
+    -----
+    +Active: bool
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+ReleaseProcess  "1" <-up- "0..*" GitRepo
+ReleaseContext  "1" <-- "0..*" GitRepo
+ReleaseContext  "1" -- "0..*" JiraBoard
+DeploymentPlatform  "1" <-- "0..*" GitRepo
+DeploymentPlatform  "0..*" -- "0..*" Service
+ServiceEnvironment "0..*" -up- "1" Service
+Service "0..*" -- "0..*" Service
+GitRepo  "1" <-- "0..*" Service
+@enduml

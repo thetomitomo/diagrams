@@ -1,0 +1,22 @@
+@startuml
+title ASJP-SORM Redirection Flow
+
+start
+
+:User starts ASJP flow;
+
+if (Onboarding service into Release Management?) then (TRUE)
+    if (Already in Release Management?) then (TRUE)
+        ' :ASJP Normal Flow;
+    else (FALSE)
+        :Add pages from SORM flow into current flow;
+    endif
+else (FALSE)
+    ' :ASJP Normal Flow;
+endif
+
+:ASJP Normal Flow;
+:User submits ASJP;
+end
+
+@enduml

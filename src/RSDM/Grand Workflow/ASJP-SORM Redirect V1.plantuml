@@ -1,0 +1,78 @@
+@startuml
+title ASJP-SORM Redirection Flow
+
+start
+#Thistle:ASJP Normal Flow|
+:<b>Entry Point 2</b>:\nRedirected from ASJP;
+#LightBlue:GET <b>Service Name</b> from ASJP;
+
+#LightBlue: <b>Compulsory-RM-Scope</b> = GET whitelist of Product Lines that is required to be under RM management;
+#LightGreen:User Input for <b>Product line</b>;
+if (<b>Product Line</b> input IN <b>Compulsory-RM-Scope</b>) then (TRUE)
+    #LightBlue:Autofill & Lock for downstream \n<b>Onboarding service into Release Management?</b> == TRUE;
+else (FALSE)
+    #Yellow:Notes\n- For <b>Product Lines</b> not in compulsory scope,\nit will be optional to onboard into RM scope.<
+endif
+if (**Added question in ASJP:**\nOnboarding service into Release Management?) then 
+    #LightGreen:User Input == TRUE;
+    #LightBlue:GET existing list of onboarded services from REDB;
+    if (Service is onboarded before) then (TRUE)
+        #Yellow:Notes
+
+        This scenario is for
+        - Service already in CMDB
+        - Service already onboarded in REDB
+        but is still raising ASJP CR
+
+        It means:
+        - User wants to init new Service in other Environment
+        - User wants to update default Regions to be deployed
+
+        Consequently, we will need to integrate
+        - Entity Init flow for respective NEW entities
+        - REDB to fetch new data for given Service upon ASJP processing<
+        #LightBlue:GET diff between CURRENT config & user CR
+        - GET diff for Environment
+        - GET diff for Region;
+        #LightBlue:Add pages into current flow;
+        note right 
+            User has to complete all 
+            pages before he can submit.
+        end note
+        #Thistle:SORM InitFlow:
+        - ServiceEnvironment for each new Environment|
+    else (FALSE)
+        #LightBlue:Add pages into current flow;
+        note left 
+            User has to complete all 
+            pages before he can submit.
+        end note
+        #Thistle:SORM InitFlow
+        - Service Init
+        - ServiceEnvironment Init for each Environment
+        - Repo Init|
+    endif
+    #LightGreen:User submits ASJP;
+    #Thistle:ASJP Approval Flow|
+    
+    :ASJP ticket status == Processing]
+    #LightBlue:Create an SWP-SORM ticketfor RM reference
+    Should contain copy of ASJP fields 
+    + queried fields in SORM;
+    note right 
+        SWP ticket for RM reference is <b>STATELESS</b>.
+        Just plain ticket for storing fields.
+    end note
+    #LightBlue:POST to trigger REDB to fetch data fields from Jenkins
+    - Regions;
+    #Pink:User should be able to observe changes applied;
+    stop
+else
+    #LightGreen:User Input == FALSE;
+    #Thistle:ASJP Approval Flow|
+    #Pink:User go through normal ASJP 
+    as per normal;
+    stop
+endif
+
+@enduml

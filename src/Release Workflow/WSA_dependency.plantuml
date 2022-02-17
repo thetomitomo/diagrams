@@ -1,0 +1,41 @@
+@startuml
+!theme bluegray
+title WSA Dependency Overview
+
+start
+
+:Prior deployments;
+
+split
+    split
+        #Grey:Other backend services;
+        floating note left: Other backend services may NOT be hard blocker.\nDo check with individual dev/CR to investigate\nwhen there is a need to expedite 
+    split again
+        #Grey:mpp-bridge-api;
+split again
+    split
+        #Grey:mpp-bridge-api;
+    split again
+        #Grey:mplogistics-channelfeeshippability\n(Infrequent dependency);
+    end split
+    #DarkGreen:mpcheckout-core;
+    #DarkGreen:mall-central;
+    detach
+end split
+
+#DarkGreen:mall-bass item;
+#DarkGreen:mall-api;
+
+detach
+:Other WSA services;
+floating note left: Other WSA services are not\n known to have fixed dependency
+
+detach
+
+legend top left
+    |<#CornflowerBlue> **Item** |<#CornflowerBlue> **Description** |
+    | <#DarkGreen> Dark Green | In WSA deployment scope |
+    | <#Grey> Grey | Not in WSA deployment scope |
+endlegend
+
+@enduml

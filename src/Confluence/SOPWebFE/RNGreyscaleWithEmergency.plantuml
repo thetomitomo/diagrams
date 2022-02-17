@@ -1,0 +1,31 @@
+@startuml
+title RN Greyscale Regular \nRelease Schedule\n With Irregular Scope
+
+robust "Greyscale %" as RN
+concise "RN Version Released" as version
+
+legend
+hours lapsed
+end legend
+
+@-2
+RN is "0%"
+version is "v1.4.5"
+
+@0
+version is "v1.5.0"
+RN is "34%"
+
+@2
+version is "v1.5.1"
+RN is "68%"
+
+@4
+version is "v1.5.2"
+RN is "68%"
+
+@6
+version is "v1.5.2"
+RN is "100%"
+
+@enduml

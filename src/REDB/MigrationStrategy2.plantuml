@@ -1,0 +1,55 @@
+
+@startuml Entity Diagram
+!theme reddress-darkred
+
+title REDB Migration Step 2 (completion)
+
+note "This state is only achievable\nonce all dependency to GSDB\nis migrated" as floatNote
+
+entity SORM {
+    +<b>Active: TRUE</b>
+}
+note left: This requires SORM entrypoint\nwithout CMDB creation
+
+entity REDB {
+    +<b>Active: TRUE</b>
+}
+
+note "We will need periodical script\nfor VerifyOnboarding for\nrepos that are only\nset up after onboarding\n\n- <b>[NEW]</b> RE:VerifyREDBRepoOnboarding" as REDB_Maintenance
+
+entity GForm {
+    +<b>Active: FALSE</b>
+}
+
+entity GSDB {
+    +<b>Active: FALSE</b>
+}
+
+note "Still run scripts without new data from GForm\nto allow repo onboarding in GSDB via SORM\nThis allows for continuation of usage of GSDB\n\nScripts:\n- RMTools:runner_scripts/database/database_refresh.py\n- RMTools:cronjobs/orp/verify_onboarding_repos.py\n- <b>[NEW]</b> RMTools:FetchSORMSubmissions" as GSDB_Maintenance #Grey
+
+note "<b>Active:FALSE</b>\n- RMTools:database_refresh\n- RMTools:verify_onboarding_repos\n\n writes via database refresh" as GForm_REDB_write #Grey
+' includes: 
+' - runner_scripts/database/database_refresh.py
+' - cronjobs/orp/verify_onboarding_repos.py
+
+note "<b>Active:TRUE</b>\n- <b>[NEW]</b> RE:VerifyOnboarding\n- <b>[NEW]</b> RE: HandleSORMWriteREDB" as SORM_REDB_write
+
+
+note "<b>Active:FALSE</b>\n- <b>[NEW]</b> RMTools:handle_SORM_write_GSDB" as SORM_GSDB_write #Grey
+
+
+GForm .. GForm_REDB_write 
+GForm_REDB_write .. GSDB
+GSDB .. GSDB_Maintenance
+GSDB_Maintenance .. GSDB
+
+SORM --> SORM_REDB_write : transform >
+SORM_REDB_write --> REDB : write >
+
+SORM .. SORM_GSDB_write
+SORM_GSDB_write .. GSDB
+
+REDB_Maintenance --> REDB
+REDB --> REDB_Maintenance
+
+@enduml

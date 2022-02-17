@@ -1,0 +1,45 @@
+@startuml
+title SORM-UpdateFlow-Entry (Mainly via CRUD-Table)
+    
+#Red:Warning\nCRUD-Table framework does NOT allow APPROVAL system.\nTo implement approvals will be akin to SWP system.<
+kill
+
+split
+    -[hidden]->
+    :Entry Point 1:\n-> SPACE\n-> Release Management\n-> Release Config;
+split again
+    -[hidden]->
+    :Entry Point 2:\nRedirected from init SORM flow;
+end split
+
+:Which Entity does user want to update?;
+
+if (Entity == Service) then
+    #LightGreen:User should go to <b>Service</b> tab;
+    
+elseif (Entity == Repository)
+    #LightGreen:User should go to <b>Repository</b> tab;
+    
+elseif (Entity == Service Env Release Configuration\nAKA: ServiceEnvironment)
+    #LightGreen:User should go to <b>ServiceEnvironment</b> tab;
+    #LightGreen:User select <b>Service name</b> from dropdown;
+    #LightBlue:GET Environments in Service;
+    #Yellow:Notes\nUsers will be able to see all Environments that exists under the Service in CMDB<
+
+    if (User wishes to update ENV) then (from FALSE to TRUE) 
+        #Thistle:ServiceEnvironmentUpdate Flow|
+        stop
+    else (from TRUE to FALSE)
+        #Thistle:ServiceEnvironmentUpdate Flow|
+        stop
+    endif
+
+else
+    stop
+endif
+
+#Yellow:Notes\nUsers will be able to see all Entities\n that has been onboarded onto RM scope here.<
+#LightBlue:Updatable fields will be shown as editable;
+#LightBlue:Any edit will trigger POST to REDB;
+kill    
+@enduml

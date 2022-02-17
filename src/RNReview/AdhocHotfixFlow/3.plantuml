@@ -1,0 +1,46 @@
+@startuml
+
+!$AutonumStart = 3
+
+!include __init__
+
+group 3.0 Deployment
+    RM -> Art: Executes\nfinal verifications
+    note over RM: All artefacts are in order
+    RM -> Art: push SWP to Release status
+
+    hnote over Art#LimeGreen: SWP in "Release"
+
+    Art -> req: SWP notifies requester
+    Art -> RN_DOD: SWP notifies RN_DOD
+
+
+    note over Art#Tomato: <b>Host repo MR</b>\npipeline passes
+    RN_DOD -> Art: Merge SPFE MR
+    hnote over Art#LimeGreen:<b>MERGED\n<b>SPFE MR
+    RN_DOD -> Art: Generate new patch tag in host repo
+    hnote over Art#DarkOrchid:New host\npatch version
+    RN_DOD -> Art: Initiate RN pre-build in Jenkins
+    hnote over Art#LimeGreen:RN pre-build
+    RN_DOD -> RM: Communicate\npre-build to RM
+
+    note over Art#Tomato:RN pre-build\n success
+    hnote over Art#LimeGreen:<b>SUCCESS\nRN pre-build
+
+    RM->req: RM notifies deployment is starting
+    RM->FeatDev: RM notifies deployment is starting
+    RM->PluginDOD: RM notifies deployment is starting
+    RM->RN_DOD: RM notifies deployment is starting
+    RM -> Art: Triggers RN deployment
+    hnote over Art#LimeGreen:<b>SUCCESS\nRN deployment
+
+    RM -> FeatDev: RM requires verification from plugin team.
+    RM -> req: RM requires verification from plugin team.
+    note over req,FeatDev #Tomato: Plugin team MUST verify feature in <b>live</b>
+    req -> RM: Inform RM verification pass
+
+    RM -> Art: Updates SWP to Done status
+    hnote over Art#LimeGreen: SWP in "Done"
+end
+
+@enduml

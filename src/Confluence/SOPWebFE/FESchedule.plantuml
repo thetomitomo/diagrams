@@ -1,0 +1,27 @@
+title FE Regular Release Schedule
+
+legend top left
+    |<#CornflowerBlue> **Item** |<#CornflowerBlue> **Description** |
+    |<#DarkOrchid> Hexagon | Version tag operation |
+    |<#Thistle> Hexagon | DOD operation |
+    |<#LimeGreen> Hexagon | RM operation |
+    |<#Yellow> Notes | Annotation |
+endlegend
+
+' actor DOD as DOD
+participant master as master
+participant release as release
+participant "release-backup" as release_backup
+
+autonumber 1.1
+
+hnote over release #DarkOrchid: Current LIVE\nversion: **V1.5.0**
+note over master,release_backup: Assuming normal release week without code freeze
+== Wednesday 16:30 ; RM finalise scope of regular release == 
+!include ReleaseBackupPrep
+
+== Thursday 10:00 ; RM verifies no other blocker to release == 
+
+hnote over release#LimeGreen: RM executes deployment with **V1.6.0**
+
+hnote over release #DarkOrchid: Current LIVE\nversion: **V1.6.0**

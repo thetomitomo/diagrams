@@ -1,0 +1,22 @@
+@startuml
+
+!$AutonumStart = 3
+!include __init__
+
+title Regression Bug Flow
+
+hnote over staging #DarkOrchid: Upcoming version\nV1.6.0
+
+group Regression Bug Flow
+    note over FB, staging : Regression Bug Flow fix is ONLY for bugs found in STAGING.\nQA lead has to certify by adding <b><color #118888>SZ/SG_QA_Regression</color></b>
+    staging -> FB: NEW branch out of <b>staging</b>
+    FB -> FB: commit into\n<b>feature</b>
+    FB -> staging: merge <b>feature</b> into <b>staging</b>
+    hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.1
+    staging -> host_master: Build version,\nand bump version in host repo
+
+end
+
+hnote over staging #DarkOrchid: Upcoming version\nV1.6.1
+
+@enduml

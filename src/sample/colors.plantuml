@@ -1,0 +1,33 @@
+@startwbs
+<style>
+wbsDiagram {
+  Linecolor black
+  arrow {
+    LineColor green
+  }
+  :depth(1) {
+      BackgroundColor White
+      RoundCorner 10
+      LineColor red
+  }
+
+ .mexicoStyle * {
+     BackgroundColor Red
+     FontColor White
+     RoundCorner 10
+ }
+}
+</style>
+* World
+** America
+*** Canada
+*** Mexico <<mexicoStyle>>
+**** Chihuahua
+*** USA
+**** Texas
+***< New York
+** Europe
+*** England
+*** Germany
+*** Spain
+@endwbs

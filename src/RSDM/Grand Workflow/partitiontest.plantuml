@@ -1,0 +1,23 @@
+@startuml
+
+partition TEST1 {
+    :this is 1;
+    partition TEST2 {
+        :Nested;
+    }
+}
+
+partition TEST4{
+
+split
+    partition TEST3{
+        :x;
+    }
+split again
+    :y;
+end split
+}
+
+:z; 
+
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+legend top left
+    |<#CornflowerBlue> **Item** |<#CornflowerBlue> **Description** |
+    |<#DarkOrchid> Hexagon | Version tag operation |
+    |<#Green> Notes | Deployment operation |
+    |<#Yellow> Notes | Annotation |
+    | Host Repo | Refers to shopee/shopee_react_native repository |
+    | Plugin Repo | Refers to plugin team's feature repository. Example: wallet/fe/shopeepay-plugin |
+endlegend
+@enduml

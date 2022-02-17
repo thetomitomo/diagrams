@@ -1,0 +1,25 @@
+!$AutonumStart = 7
+!include __init__
+
+title FE Regular Release Schedule
+
+== Thursday 10:00 == 
+hnote over staging #DarkOrchid: Upcoming LIVE\nversion: **V1.6.1**
+hnote over release #DarkOrchid: Current LIVE\nversion: **V1.5.6**
+
+group 7.0 At Regular Deployment
+    note over feature,release #LimeGreen: RM verifies no other blocker to release 
+
+    hnote over staging,release#LimeGreen: RM executes deployment with **V1.6.1**
+
+    hnote over staging,release #DarkOrchid: Current LIVE\nversion: **V1.6.1**
+
+    staging->release: merge **staging** into **release**
+    note right #Coral
+        <color #Yellow >**ORP CHANGE**</color>
+        After we start regular release
+        we merge **staging** into **release**
+        to sync LIVE version
+    end note 
+    note over staging,release: Further emergency releases should \ncontain regular release scope
+end group

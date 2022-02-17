@@ -1,0 +1,42 @@
+@startuml
+
+title Legend
+
+partition "Representation of a nested flow." {
+    #Thistle:Simplified Nested Workflow:\n- Banded Square\n- Thistle color|
+    detach
+}
+
+partition "A general inflow note." {
+    #Yellow:Notes\n- Yellow\n- Right clipped square<
+    detach
+}
+
+partition "Description of end point." {
+    :Some activity;
+    #Pink:End description:\n- Pink\n- Bubble;
+    detach
+}
+
+partition "User Activity" {
+    :Some activity;
+    #LightGreen:User Input:\n- Light Blue\n- Bubble;
+    detach
+}
+
+partition "System Activity" {
+    :Some activity;
+    #LightBlue:System activity:\n- Light Blue\n- Bubble;
+    detach
+}
+
+partition "Conditional Decision" {
+    if (CONDITION) then (TRUE)
+        :True Activity;
+    else (FALSE)
+        :False Activity;
+    endif
+    detach
+}
+  
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+
+title Legend
+
+partition "A general inflow note." {
+    #Yellow:Notes\n- Yellow\n- Right clipped square<
+    detach
+}
+
+partition "Description of end point." {
+    :Some activity;
+    #Pink:End description:\n- Pink\n- Bubble;
+    detach
+}
+
+partition "RM Activity" {
+    :Some activity;
+    #LightGreen:User Input:\n- Light Blue\n- Bubble;
+    detach
+}
+
+partition "Dev Activity" {
+    :Some activity;
+    #LightBlue:User Input:\n- Light Blue\n- Bubble;
+    detach
+}
+
+partition "Conditional Decision" {
+    if (CONDITION) then (TRUE)
+        :True Activity;
+    else (FALSE)
+        :False Activity;
+    endif
+    detach
+}
+  
+@enduml

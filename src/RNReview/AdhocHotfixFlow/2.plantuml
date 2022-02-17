@@ -1,0 +1,39 @@
+@startuml
+
+!$AutonumStart = 2
+
+!include __init__
+
+group 2.0 Verification_&_Approval
+    req -> Art: Ensure artefacts\nare in order
+    note over Art: SWP approved
+    note over Art: JIRA Ticket verified
+
+    req -> FeatDev: Notify feature dev to merge
+    
+    note over Art: MR reviewed
+    FeatDev -> Art: Merge Feature <b>MR</b>\ninto plugin <b>release</b>
+    hnote over Art#LimeGreen:<b>MERGED\n<b>Feature MR\n in plugin repo
+
+    FeatDev -> PluginDOD: Communicate with \nplugin DOD to tag
+    note over PluginDOD: Execute branch\nmerge flow
+    PluginDOD -> Art: Generate new patch version
+    hnote over Art#DarkOrchid:New feature\npatch version
+
+    PluginDOD -> Art: (IB Only) Build new patch version
+    hnote over Art#LimeGreen:New patch\nversion build
+
+    PluginDOD -> Art: Raise version-bump <b>MR</b>\nto host-repo
+    PluginDOD -> Art: Link version-bump <b>MR</b>\nto SPFE ticket
+    hnote over Art#LimeGreen:<b>OPEN MR\nin host repo
+
+    PluginDOD -> RN_DOD: Notify RN DOD\nto review SPFE MR
+    RN_DOD->RN_DOD: If CB, triggers\nRN Pipeline 
+    note over Art,RN_DOD#Tomato: <b>Host repo MR</b> needs to run pipeline, takes about 45 mins
+
+    == Daily cut-off for verification to release on same day is 16:30 ==
+    note over req,RM#Tomato: Any requests verified after this point may not be able to be deployed on the same day.
+
+end
+
+@enduml

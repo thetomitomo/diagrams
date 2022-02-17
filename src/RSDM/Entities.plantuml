@@ -1,0 +1,192 @@
+@startuml Class Diagram
+
+title REDB Entity Diagram
+
+class DeploymentPlatform {
+    +ID: uint
+
+    +Name: string
+    +ShortName: string
+    +LongName: string
+    +MmChannel: string
+    +Active: bool
+    +SubDeploymentPlatforms: []SubDeploymentPlatform
+    +Services: []Service
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class GitRepo {
+    +ID: uint
+
+    +RepoPath: string 
+    +TagPrefix: string
+    +GitKey: string
+    +Active: bool
+    +DevLeadID <User>: uint
+    +RepoPicID <User>: uint
+    +DeploymentPlatformID: uint
+    +ReleaseContextID: uint
+    +ReleaseProcessID: uint
+
+    +CreatedAt:  int64
+    +UpdatedAt:  int64
+}
+
+class JiraBoard {
+    +ID: uint
+
+    +Name: string
+    +LiveJiraBoardID: string
+    +Active: bool
+    +ReleaseContextID: uint
+    +ProductLines: []ProductLine
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class Label {
+    +ID: uint
+
+    +Name: string
+    +Users: []User
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class ProductLine {
+    +ID: uint
+
+    +Name: string
+    +JiraBoardID: uint
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class ReleaseContext {
+    +ID: uint
+
+    +Name: string
+    +MasterTicketBoards: []JiraBoard
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class ReleaseProcess {
+    +ID: uint
+
+    +Name: string
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class ServiceEnvironment {
+    +ID: uint
+
+    +ReportTitle: string
+    +InRmScope: bool
+    +NonScopeReason:string
+    +CustomParams: string
+    +Priority: string
+    +Regions: string
+    +ServiceUicID: int
+    +Active: bool
+    +Environment: string
+    +ServiceID: uint
+    +PICs: []User
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class Service {
+    +ID: uint
+
+    +<b>Name: string</b>
+    +SubTeam: string
+    +JenkinsJobName: string
+    +ReleaseLine: string
+    +Active: bool
+    +ServiceSREs: []User
+    +ServiceEnvironments: []ServiceEnvironment
+    +ServiceDependencies: []Service
+    +PlatformDependencies: []DeploymentPlatform
+    +ProductLineID: uint
+    +SourceRepoID: uint
+    +SpexServiceID: uint
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class SpexService {
+    +ID: uint
+
+    +Name: string
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class SubDeploymentPlatform {
+    +ID: uint
+
+    +Name: string
+    +DeploymentPlatformID: uint
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class Team {
+    +ID: uint
+
+    +Name:  string
+    +Users: []User
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+class User {
+    +ID: uint
+
+    +Email: string
+    +DisplayName: string
+    +Role: string
+    +Position: string
+    +Active: bool
+    +Labels: []Label
+    +Teams: []Team
+    +EnvironmentsInCharge: []ServiceEnvironment
+    +SREOf: []Service
+
+    +CreatedAt: int64
+    +UpdatedAt: int64
+}
+
+ReleaseProcess  "1" <-up- "0..*" GitRepo
+ReleaseContext  "1" <-- "0..*" GitRepo
+ReleaseContext  "1" -- "0..*" JiraBoard
+JiraBoard  "1" -- "0..*" ProductLine
+DeploymentPlatform  "1" -- "0..*" SubDeploymentPlatform
+ProductLine  "1" <-- "0..*" Service
+DeploymentPlatform  "1" <-- "0..*" GitRepo
+DeploymentPlatform  "0..*" -left- "0..*" Service
+GitRepo  "0..*" --> "1" User
+GitRepo  "0..*" --> "1" User
+User  "0..*" -- "0..*" Team
+User  "0..*" -- "0..*" Label
+User  "0..*" -- "0..*" Service
+ServiceEnvironment "0..*" -up- "1" Service
+Service "1..*" -left-> "0..1" SpexService
+Service "0..*" -- "0..*" Service
+GitRepo  "1" <-right- "0..*" Service
+ServiceEnvironment "0..*" -- "0..*" User
+@enduml

@@ -1,0 +1,12 @@
+!$AutonumStart = 3
+!include __init__
+
+title FE Regular Release Schedule
+
+group 3.0 Regression Bug Flow
+    note over feature, staging : Regression Bug Flow fix is ONLY for bugs found in STAGING.\nQA lead has to certify by adding <b><color #Navy>SZ/SG_QA_Regression</color></b>
+    staging -> feature: NEW branch out of <b>staging</b>
+    feature -> feature: commit into\n<b>feature</b>
+    note over feature: - QA signed-off\n- MR reviewed
+    feature -> staging: merge <b>feature</b> into <b>staging</b>
+end

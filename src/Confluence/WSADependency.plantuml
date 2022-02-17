@@ -1,0 +1,34 @@
+@startuml
+
+title WSA Dependency Overview
+
+#Grey:Coreserver;
+floating note left: Generally we will finish CS deployment first.
+
+
+split
+    #LightGreen:mpcheckout-core;
+    detach
+split again
+    #LightGreen:Other WSA services;
+    floating note right: Other WSA services is not exhaustive.\nRefer to GSDB.
+    detach
+split again
+    #LightGreen:mall-bass item;
+    floating note right: Other backend services may be hard blocker.\nDo check with individual dev/CR to investigate\nwhen there is a need to expedite 
+    #LightGreen:mall-api;
+end split
+
+
+detach
+
+detach
+partition "Legend" {
+    #LightGreen:Color: Light Green\nIn WSA deployment scope;
+    detach
+    #Grey:Color: Grey\nNot in WSA deployment scope;
+    detach
+}
+
+
+@enduml

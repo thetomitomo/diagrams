@@ -1,0 +1,56 @@
+@startuml
+
+!$AutonumStart = 4
+!include __init__
+
+actor QA as QA
+
+title Regression Bug User Flow
+
+
+group Raising Regression Bug
+    == Tuesday : Regression Testing Period ==
+
+    req->Art: Raise JIRA bug ticket
+    hnote over Art#LimeGreen:Plugin Repo\nfix Ticket
+    QA->Art: Add label in ticket\n<b><color #118888>SZ/SG_QA_Regression</color></b> 
+
+    FeatDev->FeatDev: New branch out \nof **staging**
+    FeatDev->Art: Raise MR into **staging**
+    hnote over Art#LimeGreen:Plugin Repo\nfix MR\n**OPEN**
+    FeatDev->FeatDev: Execute fix
+    FeatDev->FeatDev: Get MR Review
+    note over QA,FeatDev: Can use PFB for QA verification
+    QA->Art: Attach QA Sign-Off in fix ticket
+    note over Art,FeatDev: MR Reviewed, Ticket Verified
+
+    FeatDev->Art: Merge fix branch \ninto staging
+    hnote over Art#LimeGreen:Plugin Repo\nfix MR\n**MERGED**
+    
+    FeatDev->PluginDOD: Notify Plugin DOD\nabout fix
+end
+
+group Including Regression Bug in Regular Release Scope
+    note over Art,PluginDOD: In the case of multiple regression bugs,\n you can batch it in 1 SPFE ticket and patch version.
+    PluginDOD->Art: Generate new patch tag in staging
+    hnote over Art#DarkOrchid:Plugin Repo \nnew patch tag
+
+    PluginDOD -> Art: Raise new SPFE ticket
+    hnote over Art#LimeGreen: New JIRA\nSPFE ticket
+
+    PluginDOD -> Art: Raise new MR to bump new version
+
+    hnote over Art#LimeGreen: New host\nrepo MR
+    PluginDOD -> Art: Link to new MR new SPFE ticket
+
+    PluginDOD -> RN_DOD: Notify to get MR review
+    PluginDOD -> RM: Notify to indicate scope change
+
+    note over Art#Tomato: Host repo MR pipeline\nneed to run & pass
+    RN_DOD -> Art: Review host repo MR
+    note over Art: Pipeline pass & MR reviewed pass
+    RN_DOD -> Art: Merge host repo MR
+    hnote over Art#LimeGreen: <b>MERGED\nNew host\nrepo MR
+
+    note over Art,PluginDOD: Regression fix will be included in regular release scope
+end

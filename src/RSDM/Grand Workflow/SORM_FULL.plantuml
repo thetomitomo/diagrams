@@ -1,0 +1,156 @@
+@startuml
+title SORM-FullFlow-Overview
+
+split
+    partition "Entry from SWP>ReleaseManagement"
+        -[hidden]->
+        :<b>Entry Point 1</b>:
+        User directly start from SWP-RM;
+        
+        #LightGreen:SWP>Release Management>Service Onboarding into Release Management;
+        #LightBlue:GET Services in CMDB for User UI selection;
+        #LightGreen:UI: <b>Service Name</b>: __ ;
+
+        partition "Verify Service is in CMDB Logic"
+            #LightBlue:GET Service in Service-CMDB;
+            if (GET Service success) then (TRUE)
+                #LightBlue:Get data to pass to SORM
+                - GET <b>Service Name</b> from prior User Input
+                - GET <b>Regions</b> in Service from Service-CMDB
+                - GET <b>Environments</b> in Service from Service-CMDB
+                - GET <b>GitRepo</b> of Service from Service-CMDB;
+            else (FALSE)
+                #Yellow:Notes:\n- This is the case where service is new in CMDB AND REDB<
+                #LightBlue:Return to User:\nTo initiate new service please use SRE form: {URL to ASJP};
+                #Thistle:Redirect to ASJP|
+                #Pink:User has to init Service in CMDB before onboarding under RM;
+                stop
+            endif
+        }
+    }
+split again
+    partition "ASJP>SORM Redirect Logic"
+        -[hidden]->
+        :<b>Entry Point 2</b>:\nRedirect from ASJP;
+        #LightGreen:User start ASJP Flow;
+        #Thistle:ASJP Normal Flow|
+        #LightGreen:User Input for ASJP fields;
+        #LightBlue: <b>Compulsory-RM-Scope</b> = GET whitelist of Product Lines that is required to be under RM management;
+        note right
+            For RM to provide endpoint 
+            to retrieve whitelist
+        end note
+        #LightGreen:User Input for <b>Product line</b>;
+        if (<b>Product Line</b> input IN <b>Compulsory-RM-Scope</b>) then (TRUE)
+            #LightBlue:Autofill & Lock for downstream \n<b>Onboarding service into Release Management?</b> == TRUE;
+        else (FALSE)
+            #Yellow:Notes\n- For <b>Product Lines</b> not in compulsory scope,\nit will be optional to onboard into RM scope.<
+        endif
+        
+        if (**Added question in ASJP:**\nOnboarding service into Release Management?) then 
+        #LightGreen:User Input == TRUE;
+        else
+            #LightGreen:User Input == FALSE;
+            #Thistle:ASJP Approval Flow|
+            #Pink:User go through normal ASJP 
+            as per normal;
+            stop
+        endif
+        #LightBlue:GET data to pass to SORM
+        - GET <b>Service Name</b> from ASJP
+        - GET <b>Regions</b> from ASJP
+        - GET <b>Environments</b> from ASJP
+        - GET <b>GitRepo</b> of Service from ASJP;
+    }
+end split
+
+#LightBlue:Pass respective data to SORM Change Request as
+- <b>CR-ServiceName</b>
+- <b>CR-Regions</b>
+- <b>CR-Environments</b>
+- <b>CR-GitRepo</b>;
+#LightBlue:INIT SWP-SORM ticket object, 
+inherits all fields from ASJP;
+
+partition "SORM InitFlow: Service" {
+    #LightBlue:<b>REDB Onboarded Services</b> = GET onboarded service names in REDB;
+    note right 
+        REDB Onboarded Services = Services in REDB that are <b>Active</b>
+    end note
+        if (Service <b>is</b> previously onboarded:\n CR-ServiceName in <b>REDB Onboarded Services</b>) then (TRUE)
+            partition "SORM InitFlow: Identify DIFF of REDB & CR"{
+                #Yellow:Notes
+
+                This scenario is for
+                - Service already in CMDB
+                - Service already onboarded in REDB
+
+                It means:
+                - User wants to init new Service in other Environment
+                - OR User wants to update default Regions to be deployed
+
+                Consequently, we will need to integrate
+                - Entity Init flow for respective NEW entities
+                - REDB to fetch new data for given Service upon ASJP processing<
+                #LightBlue:GET current data in onboarded REDB
+                - GET REDB-ServiceEnvironments : Environments that are initialised in REDB for this Service;
+                
+                #LightBlue:<b>EnvDiff</b> = GET diff between CURRENT config & user CR
+                Given 
+                A = REDB-ServiceEnvironments
+                B = CR-Environments
+
+                - <b>CR-Env</b> = GET Env that is in CR that is not in REDB
+                    - <b>B'∩A</b>;
+            }
+    else (FALSE)
+        partition "SORM InitFlow: Full Service Onboarding"{
+            #LightBlue:Add page for <b>SORM-InitFlow-Service</b> into current flow;
+            #Thistle:SORM-InitFlow-Service|
+            #LightGreen:Answer Queries for InitFlow
+            Refer to <b>RSDM:Truncated SORM Metadata</b> for exact queries;
+        }
+    endif
+}
+
+partition "SORM InitFlow: ServiceEnvironment"{
+    #LightBlue:For each Environment in <b>CR-Environments</b>:
+    - Add page for <b>SORM-InitFlow-ServiceEnvironment</b> into current flow;
+    note right
+        Only Query for
+        - LIVE
+        - STABLE
+        - STAGING
+        - UAT
+    end note
+    #Thistle:SORM-InitFlow-ServiceEnvironment|
+    #LightGreen:Answer Queries for InitFlow
+    Refer to <b>RSDM:Truncated SORM Metadata</b> for exact queries;
+}
+
+partition "SORM InitFlow: GitRepo"{
+    #LightBlue: <b>REDB-GitRepo</b> = GET GitRepo onboarded in REDB;
+    if ("<b>CR-GitRepo</b> in <b>REDB-GitRepo</b>") then (True)
+        #Yellow:Notes
+        GitRepo is already onboarded
+        User does not need to onboard again<
+    else (False)
+        #LightBlue:Add page for <b>SORM-InitFlow-GitRepo</b> into current flow;
+        #Thistle:SORM-InitFlow-GitRepo|
+        #LightGreen:Answer Queries for InitFlow
+        Refer to <b>RSDM:Truncated SORM Metadata</b> for exact queries;
+    endif
+}
+
+#LightGreen:User submits ASJP-SORM;
+#LightBlue:Store all body params for POST requests to REDB;
+
+
+repeat
+    #Thistle:ASJP Approval Flow|
+repeat while (Approved?) is (No)
+->Yes;
+#LightBlue:Send POST requests to REDB to update DB;
+stop
+    
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+
+!$AutonumStart = 1
+
+!include __init__
+
+group 1.0 Initalisation
+    note over req: Have <b>Urgent</b> and <b>Impactful</b>\nrequirements
+    note over req,RM: Inform RM the <b>Urgency</b> and <b>Impact</b>, and if intended release timeline is feasible
+    req -> RM: Communicate adhoc/hotfix\n to RM
+    RM -> req: Preliminary response to requester
+    note over req#Tomato: RM agrees to proceed
+    req -> Art : Raise JIRA ticket\nin project board
+    hnote over Art#LimeGreen: JIRA Feature\nTicket
+
+    req -> Art : Raise JIRA ticket\nin <b>SPFE</b> board
+    hnote over Art#LimeGreen: JIRA SPFE\nTicket
+
+    req -> FeatDev: Communicate adhoc/hotfix\n to Feature Dev
+    req -> PluginDOD: Communicate adhoc/hotfix\n to Plugin DOD
+
+    req -> Art : Raise <b>SWP</b>\n<b>ERA</b> ticket
+    hnote over Art#LimeGreen: SWP Ticket\nNeed to contain\n- Urgency\n- Impact\n- ALL feature tickets\n- SPFE ticket\n- Include RN system
+    Art -> RM : SWP notifies RM & RN DOD
+    Art -> RN_DOD : SWP notifies RN DOD
+
+    note over FeatDev: - Make featureBranch\n\tbranch from <b>release</b>\n\tin feature repo\n- Work on feature
+    FeatDev -> Art: Raise MR for\nfeature code change
+    hnote over Art#LimeGreen: Feature <b>MR</b>\nin plugin repo
+    FeatDev -> Art: Link MR to\nJIRA Feature Ticket
+
+end
+
+@enduml

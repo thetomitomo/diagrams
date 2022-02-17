@@ -1,0 +1,22 @@
+@startuml
+title RN Greyscale Regular \nRelease Schedule
+
+robust "Greyscale %" as RN
+
+legend
+hours lapsed
+end legend
+
+@-2
+RN is "0%"
+
+@0
+RN is "34%"
+
+@2
+RN is "68%"
+
+@4
+RN is "100%"
+
+@enduml

@@ -1,0 +1,33 @@
+
+@startuml Entity Diagram
+!theme reddress-darkred
+
+title REDB Migration Step 0 (status quo)
+
+entity SORM {
+    +<b>Active: FALSE</b>
+}
+
+entity REDB {
+    +<b>Active: FALSE</b>
+}
+
+entity GForm {
+    +<b>Active: TRUE</b>
+}
+
+entity GSDB {
+    +<b>Active: TRUE</b>
+}
+
+note "<b>Active:TRUE</b>\n- database_refresh\n- verify_onboarding_repos" as GForm_REDB_write
+' includes: 
+' - runner_scripts/database/database_refresh.py
+' - cronjobs/orp/verify_onboarding_repos.py
+
+SORM .. REDB
+
+GForm --> GForm_REDB_write : transform >
+GForm_REDB_write --> GSDB  : write >
+
+@enduml

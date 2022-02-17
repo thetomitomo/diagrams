@@ -1,0 +1,16 @@
+@startuml
+title SORM Onboard Flow
+
+start
+
+:Entrance Point: \nSWP-SORM;
+
+if (Already in Release Management?) then (TRUE)
+    #LightBlue:SORM-Update flow|
+else (FALSE)
+    #LightBlue:SORM-Init flow|
+endif
+:User submits SORM;
+end
+
+@enduml

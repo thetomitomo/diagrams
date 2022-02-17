@@ -1,0 +1,83 @@
+@startuml
+title SORM InitFlow
+#Thistle:User input from entry point|
+#LightBlue:Pass respective data to SORM Change Request as
+- <b>CR-ServiceName</b>
+- <b>CR-Regions</b>
+- <b>CR-Environments</b>
+- <b>CR-GitRepo</b>;
+#LightBlue:INIT SWP-SORM ticket object, 
+inherits all fields from ASJP;
+
+#LightBlue:<b>REDB Onboarded Services</b> = GET onboarded service names in REDB;
+note right 
+    REDB Onboarded Services = Services in REDB that are <b>Active</b>
+end note
+
+    if (Service <b>is</b> previously onboarded:\n CR-ServiceName in <b>REDB Onboarded Services</b>) then (TRUE)
+        partition "Identify DIFF of REDB & CR"{
+            #Yellow:Notes
+
+            This scenario is for
+            - Service already in CMDB
+            - Service already onboarded in REDB
+
+            It means:
+            - User wants to init new Service in other Environment
+            - OR User wants to update default Regions to be deployed
+
+            Consequently, we will need to integrate
+            - Entity Init flow for respective NEW entities
+            - REDB to fetch new data for given Service upon ASJP processing<
+            #LightBlue:GET current data in onboarded REDB
+            - GET REDB-ServiceEnvironments : Environments that are initialised in REDB for this Service;
+            
+            #LightBlue:<b>EnvDiff</b> = GET diff between CURRENT config & user CR
+            Given 
+            A = REDB-ServiceEnvironments
+            B = CR-Environments
+
+            - <b>CR-Env</b> = GET Env that is in CR that is not in REDB
+                - <b>B'∩A</b>;
+        }
+else (FALSE)
+    partition "SORM InitFlow: Service"{
+        #LightBlue:Add page for <b>SORM-InitFlow-Service</b> into current flow;
+        #Thistle:SORM-InitFlow-Service|
+        #LightGreen:Answer Queries for InitFlow
+        Refer to <b>RSDM:Truncated SORM Metadata</b> for exact queries;
+    }
+    partition "SORM InitFlow: GitRepo"{
+        #LightBlue:Add page for <b>SORM-InitFlow-GitRepo</b> into current flow;
+        #Thistle:SORM-InitFlow-GitRepo|
+        #LightGreen:Answer Queries for InitFlow
+        Refer to <b>RSDM:Truncated SORM Metadata</b> for exact queries;
+    }
+endif
+partition "SORM InitFlow: ServiceEnvironment"{
+    #LightBlue:For each Environment in <b>CR-Environments</b>:
+    - Add page for <b>SORM-InitFlow-ServiceEnvironment</b> into current flow;
+    note right
+        Only Query for
+        - LIVE
+        - STABLE
+        - STAGING
+        - UAT
+    end note
+    #Thistle:SORM-InitFlow-ServiceEnvironment|
+    #LightGreen:Answer Queries for InitFlow
+    Refer to <b>RSDM:Truncated SORM Metadata</b> for exact queries;
+}
+
+#LightGreen:User submits ASJP-SORM;
+#LightBlue:Store all body params for POST requests to REDB;
+
+
+repeat
+    #Thistle:ASJP Approval Flow|
+repeat while (Approved?) is (No)
+->Yes;
+#LightBlue:Send POST requests to REDB to update DB;
+stop
+    
+@enduml

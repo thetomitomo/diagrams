@@ -1,0 +1,14 @@
+group 1.0 release-backup preparation
+    release->release_backup: merge **release** into **release-backup**
+    note over release,release_backup: This is to backup current live code
+
+    release->master: merge **release** into **master**
+    note over master,release: This is to sync upcoming version\n with live
+
+    master->release: merge **master** into **release**
+    note over master,release: This is to merge regular \nrelease scope into **release**
+
+    hnote over release#Thistle: DOD generate new minor tag
+    hnote over release #DarkOrchid: Upcoming Regular\nversion: **V1.6.0**
+    hnote over release#Thistle: DOD prebuild **V1.6.0**
+end group

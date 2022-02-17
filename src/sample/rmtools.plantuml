@@ -1,0 +1,236 @@
+@startuml
+
+title RMTools - Class Diagram
+
+
+class User {
+  + attr : dict 
+  + email : str
+  + email_name : str
+  + domain : str
+  + mattermost : str
+  + full_name : str˚
+  ==
+  - init( **email:str**, //**atr:dict//)
+  ..
+}
+
+class UserProcessor {
+  + email_list : list[str]
+  + mailstring : str
+  + user_list : list[<User>]
+  ==
+  - init( **email_list : list[str]** )
+  ..
+  + get_mattermost_list() : list[str]
+  + get_db_data() : list[<User>]
+}
+
+class VersionToken {
+  + year : str
+  + month : str
+  + regular_n : str
+  + regular : bool
+  + irregular_n : str
+  + version_str : str
+  + project : str
+  + name : str
+  + numerical : str
+  + platform : str
+  - _debug_ : str
+  ==
+  - init( 
+  **version_str : str** , 
+  //project : str// , 
+  //platform : str// ,
+  //version_obj : <JiraVersion>//
+  )
+  ..
+}
+
+class Platform{
+  + platform : str
+  + sub_platform : list[str]
+  + home_board : str
+  + short : str
+  + long : str
+  ==
+  - init( **platform : str** )
+  ..
+}
+
+
+class RMVersion {
+  + version_obj : <JiraVersion>
+  + versionToken : <VersionToken>
+  + project : str
+  + platform : str
+  + name : str
+  ==
+  - init(
+    version_str : str,
+    //project : str = ''//,
+    //platform : str = ''//,
+    //version_obj : str = ''//, )
+  ..
+  + get_desc() -> str
+  + get_date_comparator() -> <datetime>
+  + version_compare( version_to_compare : str ) -> str
+  + is_before( version_to_compare : str ) -> bool
+  + is_same( version_to_compare : str ) -> bool
+  + is_after( version_to_compare : str ) -> bool
+}
+
+object JiraVersion {
+  from JIRA
+}
+
+class Deployment {
+  + attr : type
+  ==
+  - init( var )
+  ..
+}
+
+class IssueMR {
+  + attr : type
+  ==
+  - init( var )
+  ..
+}
+
+class RMIssue {
+  + attr : type
+  ==
+  - init( var )
+  ..
+}
+
+object JiraIssue {
+  from JIRA
+}
+
+
+class RMMergeRequest {
+  + mr : <GitMR>
+  + assignees : list[str]
+  + mr_author : str
+  + merge_datetime : <datetime>
+  + iid : int
+  + target_branch : str
+  + state : str
+  ==
+  - init( **mr : <GitMR>** )
+  ..
+  + web_url() : str
+  + markdown() : str
+}
+
+object GitMR {
+    from gitlab 
+    alias <ProjectMergeRequest>
+}
+
+class Repository {
+  + path : str
+  + git_repo : <GitRepo>
+  + mrs : list[<RMMergeRequest>]
+  ==
+  - init( **path : str** )
+  ..
+  + get_mrs( branch : str , merged_after : <datetime> ) 
+    \   - return : list[<RMMergeRequest>]
+  + has_merge_after( branch : str , merged_after : <datetime> ) 
+    \   - return : bool
+  + web_url() : str
+  + markdown() : str
+}
+
+object GitRepo {
+    from gitlab
+}
+
+
+class RMJob {
+  + job_name : str
+  ==
+  - init( **job_name : str** )
+  ..
+  
+}
+
+object JenkinsJob {
+    from jenkinsapi
+}
+
+
+class RMTag {
+  + git_tag : <ProjectTag>
+  + tag_token : <TagToken>
+  + attributes : dict
+  + release_notes : str
+  ==
+  - init( **git_tab : <GitTag>** )
+  ..
+  + git_repo() - return : <GitRepo>
+  + issue_keys_in_tag() - return : list[str]
+  + web_url() - return : str
+  + markdown() - return : str
+}
+
+object GitTag {
+    from gitlab 
+    alias <ProjectTag>
+}
+
+
+class TagToken {
+  + name : str
+  + prefix : str
+  + major : int
+  + minor : int
+  + patch : int
+  + suffix : str
+  ==
+  - init( **tag_name : str** )
+  ..
+}
+
+
+
+
+
+
+User            "0..*"  --left--o   "0..*"  UserProcessor
+
+RMMergeRequest  "1"     --down--o   "0..*"  IssueMR 
+RMIssue         "1"     --down--o   "0..*"  IssueMR 
+
+User            "0..*"  --down--o   "0..*"  RMIssue 
+JiraIssue       "1"     --left--o   "1"     RMIssue 
+JiraVersion     "1"     --down--o   "0..*"  RMIssue 
+
+User            "0..*"  ----up---   "0..*"  RMMergeRequest
+GitMR           "1"     --right-o   "1"     RMMergeRequest
+
+RMIssue         "0..*"  --right--   "0..*"  RMMergeRequest
+
+RMMergeRequest    "0..*"  --down--o   "0..*"  Repository 
+RMTag           "0..*"  --down--o   "0..*"  Repository
+GitRepo         "1"     --left--o   "1"     Repository
+
+TagToken        "1"     --right-*   "1"     RMTag
+GitTag          "1"     --left--o   "1"     RMTag
+
+RMJob           "0..*"  --left---   "1"     Repository
+
+JenkinsJob      "1"     --right-o   "1"     RMJob
+
+VersionToken    "1"     --right--*  "1"     RMVersion
+JiraVersion     "1"     --down--o   "1"     RMVersion
+
+IssueMR         "0..*"  --down--o   "1"     Deployment 
+Repository      "0..*"  --down--o   "1"     Deployment
+RMVersion       "0..*"  --down--o   "1"     Deployment
+
+@enduml

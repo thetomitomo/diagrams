@@ -1,0 +1,56 @@
+title FE Regular Release Schedule With Emergency
+
+legend top left
+    |<#CornflowerBlue> **Item** |<#CornflowerBlue> **Description** |
+    |<#DarkOrchid> Hexagon | Version tag operation |
+    |<#Thistle> Hexagon | DOD operation |
+    |<#LimeGreen> Hexagon | RM operation |
+    |<#Yellow> Notes | Annotation |
+endlegend
+
+' actor DOD as DOD
+participant master as master
+participant release as release
+participant "release-backup" as release_backup
+participant feature as feature
+
+
+autonumber 1.1
+hnote over release #DarkOrchid: Current LIVE\nversion: **V1.5.0**
+note over master,release_backup: Assuming normal release week without code freeze
+== Wednesday 16:30 ; RM finalise scope of regular release == 
+!include ReleaseBackupPrep
+
+note over master,release_backup#Pink: If emergency release occurs here:
+
+autonumber inc A
+group 2.0 Emergency situation
+    release_backup->feature: branch out of **release-backup**
+    hnote over feature #Thistle: Dev execute fix
+    note over feature: - QA signed-off\n- MR reviewed\n- MR merged 
+    feature->release_backup: merge **feature** into **release-backup**
+
+    hnote over release_backup#Thistle: DOD generate new patch tag
+    hnote over release_backup #DarkOrchid: Emergency\nversion: **V1.5.1**
+    hnote over release_backup#LimeGreen: RM executes deployment with **V1.5.1**
+    hnote over release_backup #DarkOrchid: Current LIVE\nversion: **V1.5.1**
+end group
+
+
+autonumber inc A
+group 3.0 Sync release-backup with release
+note over release,release_backup: In case of emergency release, need to sync changes into upcoming regular version
+    release_backup->release: merge **release-backup** into **release**
+    note over release_backup,release: This is to sync changes into upcoming regular version
+    
+    hnote over release#Thistle: DOD generate new patch tag
+    hnote over release #DarkOrchid: Upcoming Regular\nversion: **V1.6.1**
+    hnote over release#Thistle: DOD prebuilds **V1.6.1**
+    note over release: As much as possible, DOD should do this\n in parallel with steps in **2.0**
+end group
+
+== Thursday 10:00 ; RM verifies no other blocker to release == 
+
+hnote over release#LimeGreen: RM executes deployment with **V1.6.1**
+
+hnote over release #DarkOrchid: Current LIVE\nversion: **V1.6.1**

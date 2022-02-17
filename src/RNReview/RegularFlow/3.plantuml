@@ -1,0 +1,23 @@
+@startuml
+
+!$AutonumStart = 3
+
+!include __init__
+
+group 3.0 Host Repository Cut-off
+    RM -> Art: Executes\nfinal verifications
+
+    == Monday 12:00 : Host repository Cut-off ==
+
+    RM -> Art: **IF** artefacts in order, keep in scope\n**ELSE** will be removed from regular release scope
+
+    RN_DOD -> Art: Merge **SPFE** MR
+
+    hnote over Art#LimeGreen:<b>MERGED\n<b>SPFE MR
+
+    == Monday 17:00 : Host repository Code-Freeze ==
+
+end
+
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+
+!$AutonumStart = 5
+!include __init__
+
+title Hotfix/Adhoc Flow Between Regular Release Pre-Build and Regular Deployment
+
+== Regular Release prebuild (Usually Wed 17:30) ==
+
+hnote over host_release #DarkOrchid: LIVE version\nV1.5.6
+host_master->host_release: Plugins' version in host-master\nnow in host-release
+
+autonumber $AutonumStart.1
+
+group Hotfix/Adhoc Flow (After Regular Release Pre-Build)
+    note over host_master,host_release_backup: Any adhoc now merge into host release-backup
+    release -> FB: NEW branch out of <b>release</b>
+
+    FB -> FB: commit into\n<b>feature</b>
+    
+    note over FB,release: After Hotfix/Adhoc is approved
+    FB -> staging: merge <b>feature</b> into <b>staging</b>
+    hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.3
+    staging -> host_release: Build version,\nand bump version in host repo release branch
+
+    FB -> release: merge <b>feature</b> into <b>release</b>
+    hnote over release #DarkOrchid:New Tag\n+patch\nV1.5.7
+    release -> host_release_backup: Build version,\nand bump version in host repo release-backup branch
+    note over host_release_backup #Green: DEPLOYMENT
+    hnote over host_release_backup #DarkOrchid: LIVE version\nV1.5.7
+end
+
+== Regular Release Start (Usually Thurs 09:30) ==
+
+@enduml

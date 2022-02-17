@@ -1,0 +1,25 @@
+@startuml
+start
+:Administrer øvelser;
+repeat
+if (X) then (FALSE)
+    (A)
+    :Y;
+    else (ja)
+    :Z;
+    if ()
+        -> [B];
+        ' (A)
+        ' Detach
+        ':Y;
+    else ()
+        -> [C];
+        :D;
+    endif
+endif
+:E;
+repeat while (Afslut) is (FALSE)
+-> TRUE;
+stop
+@enduml
+

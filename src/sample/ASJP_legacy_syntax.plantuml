@@ -1,0 +1,23 @@
+@startuml
+title ASJP-SORM Redirection Flow
+
+(*) --> "User starts ASJP flow"
+--> "Upon anwering question\nOnboarding service into Release Management?"
+
+if if
+-> [true] "Check against duplicate Already in Release Management?"
+    if check
+    --> [true] "ASJP Normal Flow" 
+    else
+    --> [false] "Add pages from SORM flow into current flow"
+    --> "Submit ASJP"
+    endif
+
+else
+  -->[false] "ASJP Normal Flow"
+  --> "Submit ASJP"
+endif
+
+"Submit ASJP" -->(*)
+
+@enduml
