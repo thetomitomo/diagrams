@@ -30,3 +30,5 @@ group 2.0 Regular Release Flow
         feature -> staging: merge <b>feature</b>\ninto <b>staging</b>
     end
 end
+
+hnote over staging #Thistle: DOD deploy staging into STAGING

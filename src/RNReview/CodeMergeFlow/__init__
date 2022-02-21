@@ -1,17 +1,18 @@
 !theme bluegray
+skinparam SequenceBoxBackgroundColor #GhostWhite
 skinparam FooterFontColor black
 !$pageNum = %substr(%filename(),0,1)
 footer Page $pageNum
 
 !include Legends.plantuml
 
-box "RN Plugin Repository" 
+box "<color #5a5a5a>RN Plugin Repository</color>"
     participant featureBranch as FB
     participant master as master
     participant staging as staging
     participant release as release
 end box
-box "Host Repository" 
+box "<color #5a5a5a>Host Repository</color>"
     participant host_master as host_master
     participant host_release as host_release
     participant host_release_backup as host_release_backup
