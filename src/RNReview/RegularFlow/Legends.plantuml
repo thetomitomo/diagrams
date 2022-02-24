@@ -13,7 +13,7 @@ legend top left
     | SPFE MR | Merge Request that is in host repo, containing version bump |
     | Host Repo | Refers to shopee/shopee_react_native repository |
     | Plugin Repo | Refers to plugin team's feature repository. Example: wallet/fe/shopeepay-plugin |
-    |<#DarkOrchid> Hexagon | Version tag operation |
+    |<#DarkOrchid> <color #white>Hexagon</color> | Version tag operation |
     |<#LimeGreen> Hexagon | Release artefacts required for proper process |
     |<#0568ae> <color #white>Notes </color> | Important remarks |
     |<#Tomato> Notes | Critical remarks |
