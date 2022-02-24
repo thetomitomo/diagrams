@@ -56,3 +56,4 @@ group Including Regression Bug in Regular Release Scope
 end
 
 == Regular Release Prebuild (Usually Wed 17:30) ==
+note over Art,RN_DOD: To avoid dragging regular release timeline, any non-critical fixes submitted \nafter this point will only be included as irregular release after regular release
