@@ -28,6 +28,9 @@ group 2.0 Regular Release Flow
     group Late Regular Release Merge
         note over feature,staging: After valid late merge request is verified by RM
         feature -> staging: merge <b>feature</b>\ninto <b>staging</b>
+        note right 
+            To follow upcoming release scope
+        end note
     end
 end
 

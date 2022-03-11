@@ -8,12 +8,15 @@ hnote over release #DarkOrchid: Current LIVE\nversion: **V1.5.5**
 == Wednesday 16:30  ==
 note over feature,release #LimeGreen: RM finalises scope of regular release for prebuild preparation 
 group 4.0 Prebuild Preparation
-    note over master,release: Sync upcoming version with live
+    hnote over staging,master#Thistle: DOD sync regression fixes into master
+    staging->master: merge **release** into **staging**
+    
+    hnote over staging,release#Thistle: DOD sync current adhoc into upcoming release scope
     release->staging: merge **release** into **staging**
 
-    hnote over staging#Thistle: Dev generate new minor tag\nin staging
+    hnote over staging#Thistle: DOD generate new minor tag\nin staging
     hnote over staging #DarkOrchid: Upcoming Regular\nversion: **V1.6.0**
-    hnote over staging#Thistle: DOD prebuild **V1.6.0**
+    hnote over staging#Thistle: DOD prebuilds **V1.6.0**
 end group
 
 

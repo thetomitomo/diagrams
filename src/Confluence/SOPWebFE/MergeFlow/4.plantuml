@@ -1,19 +1,49 @@
-!$AutonumStart = 7
+!$AutonumStart = 5
 !include __init__
 
 title FE Regular Release Schedule
 
-== Thursday 10:00 == 
-hnote over staging #DarkOrchid: Upcoming LIVE\nversion: **V1.6.1**
-hnote over release #DarkOrchid: Current LIVE\nversion: **V1.5.6**
+hnote over release #DarkOrchid: Current LIVE\nversion: **V1.5.5**
 
-group 7.0 At Regular Deployment
-    note over feature,release #LimeGreen: RM verifies no other blocker to release 
+== After Prebuild Actions  ==
 
-    hnote over staging,release#LimeGreen: RM executes deployment with **V1.6.1**
+autonumber inc A
+group 5.0 Emergency Release Situation
+    note over feature,release #Crimson: If emergency release occurs here
 
-    hnote over staging,release #DarkOrchid: Current LIVE\nversion: **V1.6.1**
+    note over feature: Raise respective SWP
+    release->feature: branch out of **release**
+    hnote over feature #Thistle: Dev execute fix
+    note over feature: - SWP Approved\n- QA signed-off\n- MR reviewed
+    feature->feature: Dev merge fix
 
-    staging->release: merge **staging** into **release**
-    note over staging,release: Further emergency releases should \ncontain regular release scope
+    feature->release: merge **feature** into **release**
+
+    hnote over release#Thistle: DOD generate new patch tag
+    hnote over release #DarkOrchid: Emergency\nversion: **V1.5.6**
+    hnote over release#LimeGreen: RM executes deployment with **V1.5.6**
+    hnote over release #DarkOrchid: Current LIVE\nversion: **V1.5.6**
+
+    autonumber inc A
+    group 6.0 Include Emergency Scope in Regular Scope
+        note over staging,release: **AFTER** verification of emergency release
+        hnote over master,release #Thistle: DOD sync changes into upcoming regular version
+        release->staging: merge **release** into **staging**
+        note over staging,release: This is to sync changes into upcoming regular version
+        
+        hnote over staging#Thistle: DOD generates new patch tag
+        hnote over staging #DarkOrchid: Upcoming Regular\nversion: **V1.6.1**
+        hnote over staging#Thistle: DOD prebuilds **V1.6.1**
+        note over staging: Where time is limited, DOD can do this\n in parallel with steps in **5.0**
+    end group
+    
+    autonumber inc A
+    group 7.0 Include Emergency Scope in Master
+        note over master,release: **AFTER** verification of emergency release
+        hnote over master,release #Thistle: DOD sync release into master
+        release->master: merge **release** into **master**
+    
+    end group
+
+
 end group
