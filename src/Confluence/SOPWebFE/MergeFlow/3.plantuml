@@ -9,7 +9,7 @@ hnote over release #DarkOrchid: Current LIVE\nversion: **V1.5.5**
 note over feature,release #LimeGreen: RM finalises scope of regular release for prebuild preparation 
 group 4.0 Prebuild Preparation
     hnote over staging,master#Thistle: DOD sync regression fixes into master
-    staging->master: merge **release** into **staging**
+    staging ->master: merge **staging** into **master**
     
     hnote over staging,release#Thistle: DOD sync current adhoc into upcoming release scope
     release->staging: merge **release** into **staging**

@@ -8,19 +8,16 @@ hnote over staging #DarkOrchid: Upcoming LIVE\nversion: **V1.6.1**
 hnote over release #DarkOrchid: Current LIVE\nversion: **V1.5.6**
 
 group 8.0 At Regular Deployment
-    note over feature,release #LimeGreen: RM verifies no other blocker to release 
+    note over staging,release #LimeGreen: RM verifies no other blocker to release 
 
     hnote over staging,release#LimeGreen: RM executes deployment with **V1.6.1**
 
     hnote over staging,release #DarkOrchid: Current LIVE\nversion: **V1.6.1**
 
-    note over master,release: **AFTER** verification of regular release
+    note over staging,release: **AFTER** verification of regular release
 
-    hnote over master,staging #Thistle: DOD sync staging into master
-    staging->master: merge **staging** into **master**
-    
     hnote over staging,release #Thistle: DOD sync staging into release
     staging->release: merge **staging** into **release**
 
-    note over master,release: Further emergency releases should contain regular release scope
+    note over staging,release: Further emergency releases should contain regular release scope
 end group
