@@ -29,7 +29,7 @@ group 2.0 Verification_&_Approval
 
     PluginDOD -> RN_DOD: Notify RN DOD\nto review SPFE MR
     RN_DOD->RN_DOD: If CB, triggers\nRN Pipeline 
-    note over Art,RN_DOD#Tomato: <b>Host repo MR</b> needs to run pipeline, takes about 45 mins
+    note over Art,RN_DOD#Tomato: <b>Host repo MR</b> needs to run pipeline: <b>rn_plugin_bootstrap</b>, takes about 45 mins
 
     == Daily cut-off for verification to release on same day is 16:30 ==
     note over req,RM#Tomato: Any requests verified after this point may not be able to be deployed on the same day.
