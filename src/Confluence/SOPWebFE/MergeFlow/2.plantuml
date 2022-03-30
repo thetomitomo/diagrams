@@ -14,4 +14,7 @@ group 3.0 Regression Bug Flow
     note right 
         To fix upcoming release scope
     end note
+
+    hnote over master,staging #Orange:Auto-Merge **staging** into **master**
+    staging -> master: merge <b>staging</b>\ninto <b>master</b>
 end
