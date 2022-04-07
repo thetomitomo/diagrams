@@ -1,4 +1,9 @@
 @startuml
+!theme bluegray
+skinparam FooterFontColor black
+
+title Legends
+
 legend top left
     |<#CornflowerBlue> **Item** |<#CornflowerBlue> **Description** |
     | Artefacts | Refers to documentations required for proper process |
