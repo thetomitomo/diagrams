@@ -1,0 +1,28 @@
+@startuml
+
+title FE Release Dashboard RM Workflow
+
+!include __init__
+
+DevPICs -> DevPICs : Add deployment request\nin JIRA ticket\nvia Release Checklist\nUnder <b>PC/RW/Lite Application 
+
+== Wednesday 16:30  ==
+
+DevPICs -> DevPICs : Executes branch merge\n& tag for micro-app
+DevPICs -> DevPICs : Executes build\nfor micro-app
+
+RM -> Dash : RM creates new Task-Version in Task
+
+RM -> DevPICs : RM notifies PICs to submit versions into Task Version
+
+DevPICs -> Dash : Dev PICs fill in Task Version
+
+hnote over RM,DevPICs: Wait for Dev PICs' input
+
+== Thursday 10:30  ==
+
+RM -> DevPICs : RM informs PICs & DOD of deployment commencement
+RM -> Dash : RM bulk input <b>SKIPPED</b> for applications\nwith no version input
+RM -> Dash : RM executes deployment\nvia Dashboard
+
+@enduml
