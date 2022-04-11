@@ -7,16 +7,66 @@ legend
 hours lapsed
 end legend
 
-@-2
+@-0.2
 RN is "0%"
 
-@0
-RN is "34%"
+@0.2
+RN is "5%"
+
+@0.4
+RN is "10%"
+
+@0.6
+RN is "15%"
+
+@0.8
+RN is "20%"
+
+@1
+RN is "25%"
+
+@1.2
+RN is "30%"
+
+@1.4
+RN is "35%"
+
+@1.6
+RN is "40%"
+
+@1.8
+RN is "45%"
 
 @2
-RN is "68%"
+RN is "50%"
+
+@2.2
+RN is "55%"
+
+@2.4
+RN is "60%"
+
+@2.6
+RN is "65%"
+
+@2.8
+RN is "70%"
+
+@3
+RN is "75%"
+
+@3.2
+RN is "80%"
+
+@3.4
+RN is "85%"
+
+@3.6
+RN is "90%"
+
+@3.8
+RN is "95%"
 
 @4
 RN is "100%"
-
 @enduml
