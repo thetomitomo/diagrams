@@ -1,9 +1,14 @@
 @startuml
+!theme bluegray
+skinparam FooterFontColor black
+
+title Legends
+
 legend top left
     |<#CornflowerBlue> **Item** |<#CornflowerBlue> **Description** |
     |<#DarkOrchid> <color #white>Hexagon</color> | Version tag operation |
-    |<#Green> Notes | Deployment operation |
-    |<#Yellow> Notes | Annotation |
+    |<#Green> <color #white>Notes</color> | Deployment operation |
+    |<#0568ae> <color #white>Notes</color> | Annotation |
     | Host Repo | Refers to shopee/shopee_react_native repository |
     | Plugin Repo | Refers to plugin team's feature repository. Example: wallet/fe/shopeepay-plugin |
 endlegend

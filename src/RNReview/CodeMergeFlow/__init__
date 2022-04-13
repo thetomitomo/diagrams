@@ -14,8 +14,8 @@ box "<color #5a5a5a>RN Plugin Repository</color>"
 end box
 box "<color #5a5a5a>Host Repository</color>"
     participant host_master as host_master
+    participant host_staging as host_staging
     participant host_release as host_release
-    participant host_release_backup as host_release_backup
 end box
 
 autonumber $AutonumStart.1

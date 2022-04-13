@@ -7,7 +7,7 @@ title Action After Regular Deployment Start
 
 == Regular Release Deployment Start (Usually Thurs 09:30) ==
 
-note over host_release #Green: DEPLOYMENT
+note over host_release #Green: REGULAR DEPLOYMENT\nby SG RM
 hnote over host_release #DarkOrchid: LIVE version\nV1.6.3
 
 autonumber inc A
