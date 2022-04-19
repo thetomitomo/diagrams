@@ -1,0 +1,9 @@
+!theme bluegray
+skinparam FooterFontColor black
+
+collections master as master
+actor Dev1_Local as Dev1_Local
+collections RemoteFeatureBranch as RemoteFeatureBranch
+actor Dev2_Local as Dev2_Local
+
+autonumber 1.1

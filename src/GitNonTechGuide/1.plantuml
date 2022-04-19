@@ -1,0 +1,20 @@
+@startuml
+
+title Generalised Code Merge Flow in Feature Development
+
+!include __init__
+
+master->Dev1_Local: branch out of\n<b>master</b>\nas new\nFeatureBranch
+hnote over Dev1_Local: save in local
+Dev1_Local->RemoteFeatureBranch: Dev1 push\nlocal changes\nto remote
+RemoteFeatureBranch->Dev2_Local: Dev2 pull\nremote branch\ninto local
+hnote over Dev2_Local: save in local
+hnote over Dev1_Local: make more changes\nsave in local
+
+Dev1_Local->RemoteFeatureBranch: sync with remote
+Dev2_Local->RemoteFeatureBranch: sync with remote
+== Ready for Regular Release  ==
+
+RemoteFeatureBranch->master: Merge into master for <b>Regular Release</b>
+
+@enduml
