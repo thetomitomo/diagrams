@@ -1,0 +1,56 @@
+@startuml
+
+title FE Release Dashboard Workflow
+
+!include __init__
+
+' == Regular Release Merge Cutoff\n(Usually Monday 17:00) ==
+
+DevPICs -> DevPICs : Add deployment request\nin JIRA ticket\nvia <b>Release Checklist</b>
+note left
+    Use Action = Deploy 
+    && "Jenkins Job" = your <b>PC/RW  Application </b>
+end note
+
+== Regular Release Prebuild Preparation\nUsually Wednesday 16:30  ==
+
+DevPICs -> DevPICs : Executes branch merge\n& tag for micro-app
+note left
+    For <b>NON-ORP</b> Independent repository, generate your own tag.
+    For <b>shopee_react_native</b>, wait for RM to liaise branch merge with DOD.
+end note
+
+DevPICs -> DevPICs : Executes build\nfor micro-app
+note left
+    <b>IMPORTANT!</b> If any region is NOT built, it will not be able to be deployed
+end note
+
+RM -> Dash : RM creates new <b>Task-Version</b>\nfor current week Regular Release
+note right
+    Example: for 2022.04.v3, Task-Version name will be
+    <b>2022.04.v3-RR</b>
+end note
+
+RM -> DevPICs : RM notifies PICs to submit versions into <b>Task Version</b>\nThis will be done in <b>FE Deployment Mattermost Channel</b>
+
+DevPICs -> Dash : Dev PICs input their application version\nfor release in <b>Task Version</b>
+DevPICs -> Dash : Dev PICs input the <b>Status</b> of their application\nas <b>Ready</b> if no further issue
+note left
+    <b>IMPORTANT!</b> Any application without input 
+    will be assumed as <b>Skipped</b>
+
+    If there is BLOCKING issue, use <b>Blocking</b> status,
+    AND click <b>Actions>Add remarks</b> to indicate reason
+
+    RM will halt deployments until blocker is resolved
+end note
+
+hnote over RM,DevPICs: Wait for Dev PICs' version input into Task-Version
+
+== Task-Version Input Cut-off\nUsually Thursday 10:30  ==
+
+RM -> DevPICs : RM informs PICs & DOD of deployment commencement
+RM -> Dash : RM bulk input <b>SKIPPED</b> for applications\nwith no version input
+RM -> Dash : RM executes deployment\nvia Dashboard
+
+@enduml
