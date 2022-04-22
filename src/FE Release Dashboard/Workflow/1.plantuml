@@ -52,11 +52,15 @@ hnote over RM,DevPICs: Wait for Dev PICs' version input into Task-Version
 
 == Task-Version Input Cut-off\nUsually Thursday 10:30  ==
 
-RM -> DevPICs : RM informs PICs & DOD of deployment commencement
+RM -> DevPICs : RM informs about deployment commencement
+RM -> PlatformDOD : RM informs about deployment commencement
 RM -> Dash : RM bulk input <b>SKIPPED</b> for applications\nwith no version input
 RM -> Dash : RM executes deployment\nvia FE Release Dashboard
 note right
     RM will usually execute deployments in 3 batches based on regions
 end note
+
+DevPICs -> RM : Monitor and verifies deployment
+PlatformDOD -> RM : Monitor and verifies deployment
 
 @enduml
