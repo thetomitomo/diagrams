@@ -14,7 +14,10 @@ end note
 
 == Regular Release Prebuild Preparation\nUsually Wednesday 16:30  ==
 
-DevPICs -> DevPICs : Executes branch merge\n& tag for micro-app
+RM -> PlatformDOD : Liaise Prebuild Preparation, merge branches, & generatie new host-repo tag
+PlatformDOD->DevPICs : Shares new tags in\nFE Deployment Mattermost Channel
+
+DevPICs -> DevPICs : <b>[INDEPENDENT REPO]</b>\nExecutes branch merge\n& tag for micro-app
 note left
     For <b>NON-ORP</b> Independent repository, generate your own tag.
     For <b>shopee_react_native</b>, wait for RM to liaise branch merge with DOD.
@@ -22,7 +25,7 @@ end note
 
 DevPICs -> DevPICs : Executes build\nfor micro-app
 note left
-    <b>IMPORTANT!</b> If any region is NOT built, it will not be able to be deployed
+    <b>IMPORTANT!</b> If any region is NOT built, it will not be able to be selected in Task-Version input later.
 end note
 
 RM -> Dash : RM creates new <b>Task-Version</b>\nfor current week Regular Release
@@ -51,6 +54,9 @@ hnote over RM,DevPICs: Wait for Dev PICs' version input into Task-Version
 
 RM -> DevPICs : RM informs PICs & DOD of deployment commencement
 RM -> Dash : RM bulk input <b>SKIPPED</b> for applications\nwith no version input
-RM -> Dash : RM executes deployment\nvia Dashboard
+RM -> Dash : RM executes deployment\nvia FE Release Dashboard
+note right
+    RM will usually execute deployments in 3 batches based on regions
+end note
 
 @enduml

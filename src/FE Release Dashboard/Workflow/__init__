@@ -4,5 +4,6 @@ skinparam FooterFontColor black
 actor RM as RM
 collections FE_Dashboard as Dash
 actor DevPICs as DevPICs
+actor PlatformDOD as PlatformDOD
 
 autonumber 1.1
