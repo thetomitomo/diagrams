@@ -1,0 +1,10 @@
+!theme bluegray
+skinparam FooterFontColor black
+
+actor PM as PM
+collections JIRA as JIRA
+actor Dev as Dev
+collections GIT as GIT
+actor RM as RM
+
+autonumber 1.1

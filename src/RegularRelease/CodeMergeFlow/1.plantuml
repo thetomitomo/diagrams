@@ -1,0 +1,22 @@
+!$AutonumStart = 1
+!include __init__
+
+title ORP Code Merge Flow - Adding into Regular Release Scope Within Schedule
+
+note over feature,release: <b>Assuming</b> normal release week without code freeze
+
+group 1.0 Feature Branch Management
+    master -> feature: NEW branch out of <b>master</b>
+    feature -> feature: commit into\n<b>feature</b>
+
+    note over feature: Follow your team's\nReview, TEST, & UAT practices
+    master -> feature: merge <b>master</b>\ninto <b>feature</b>
+    note right
+        Frequently sync <b>feature</b> with <b>master</b>
+    end note
+
+    note over feature,master: IFF releasing in upcoming <b>Regular Release</b> \n - Add Release Cycle
+    feature -> master: IFF verification passes,\nmerge <b>feature</b>\ninto <b>master</b>
+end
+
+== Code Freeze - Usually Monday 17:00 ==

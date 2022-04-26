@@ -1,0 +1,19 @@
+!$AutonumStart = 2
+!include __init__
+
+title ORP Code Merge Flow - Scope Cutoff & Merge Cutoff
+
+note over feature,release: <b>Assuming</b> normal release week without code freeze
+
+autonumber inc A
+    feature->master: Follow\n<b>1.0: Feature Branch Management</b>
+group 2.0 Scope Cutoff Flow
+    == Scope Cutoff - Usually Monday 12:00 ==
+    hnote over feature,releaase #Orange: <b>No more</b> addition of new tickets into scope is allowed
+    hnote over feature,releaase #Orange: <b>Removal</b> of non-compliant tickets from <b>Regular Release</b> scope
+    hnote over feature,releaase #LimeGreen: RM send reminders to dev PICs to merge compliant tickets\nthat are yet to be merged
+
+    feature->master: Last call for dev PICs\nto merge in-scope pending tickets
+end
+
+== Merge Cutoff - Usually Monday 17:00 ==

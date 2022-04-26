@@ -1,0 +1,25 @@
+!$AutonumStart = 7
+!include __init__
+
+title ORP Code Merge Flow - Deployment Day
+
+== Timing Depends on Service's RM-Categorised-Platform == 
+hnote over release #DarkOrchid: Current LIVE\nversion: **V1.5.6**
+hnote over staging,release #LimeGreen: RM Triggers\nAuto-Merge **staging** into **release**
+hnote over staging #DarkOrchid: New tag generated\nversion: **V1.6.0**
+
+hnote over release,staging #Orange:Auto-Merge **release** into **staging**
+$release_into_staging
+
+hnote over staging,master #Orange:Auto-Merge **staging** into **master**
+$staging_into_master
+
+
+group 7.0 Deployment Flow
+    note over staging,release #LimeGreen: RM verifies no other blocker to release\nAND obtains dev PIC's acknowledgement to start
+
+    hnote over staging,release#LimeGreen: RM executes deployment with **V1.6.0**
+
+    hnote over release #DarkOrchid: Current LIVE\nversion: **V1.6.0**
+
+end group

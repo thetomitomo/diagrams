@@ -1,0 +1,19 @@
+!$AutonumStart = 4
+!include __init__
+
+title ORP Code Merge Flow - Late Addition Before Merge Cutoff
+
+== Scope Cutoff - Usually Monday 12:00 ==
+
+note over feature, release : After Scope Cutoff, you won't be able to add upcoming <b>Release Cycle</b> into your ticket anymore
+
+group 4.0 Late Merge Flow
+    note over feature, staging : $late_justification
+    hnote over feature #LimeGreen: $if_RM_approves
+    
+    note over feature: MUST pass verifications
+    
+    feature -> master: merge <b>feature</b>\ninto <b>staging</b>
+end
+
+== Merge Cutoff - Usually Monday 17:00 ==

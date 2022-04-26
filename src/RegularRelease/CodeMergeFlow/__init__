@@ -1,0 +1,18 @@
+!theme bluegray
+skinparam FooterFontColor black
+!$pageNum = %substr(%filename(),0,1)
+footer Page $pageNum
+
+participant feature as feature
+participant master as master
+participant staging as staging
+participant release as release
+
+autonumber $AutonumStart.1
+
+!$late_justification="Appeal to your platform's RM, provide justification\n- Why we need this late addition?\n- Why this was late?"
+!$if_RM_approves="<b>IF RM approves<b>,\nRM will add <b>Release Cycle</b> in ticket"
+
+!$release_into_staging="release -> staging: merge <b>release</b>\ninto <b>staging</b>"
+!$staging_into_master="staging -> master: merge <b>staging</b>\ninto <b>master</b>"
+!$staging_into_release="staging->release: merge **staging** into **release**"

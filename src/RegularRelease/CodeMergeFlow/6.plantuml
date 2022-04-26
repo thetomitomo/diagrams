@@ -1,0 +1,20 @@
+!$AutonumStart = 6
+!include __init__
+
+title ORP Code Merge Flow - Regression Bug
+
+group 6.0 Regression Bug Flow
+    note over feature, staging : Regression Bug Flow fix is ONLY for bugs found in STAGING.\nQA lead has to certify by adding <b><color #Navy>SZ/SG_QA_Regression</color></b>
+    staging -> feature: NEW branch out of <b>staging</b>
+    
+    feature -> feature: commit into\n<b>feature</b>
+    note over feature: - QA signed-off\n- MR reviewed
+    
+    feature -> staging: merge <b>feature</b>\ninto <b>staging</b>
+    note right 
+        To fix upcoming release scope
+    end note
+
+    hnote over master,staging #Orange:Auto-Merge **staging** into **master**
+    staging -> master: merge <b>staging</b>\ninto <b>master</b>
+end

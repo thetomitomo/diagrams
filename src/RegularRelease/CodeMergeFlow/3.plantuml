@@ -1,0 +1,18 @@
+!$AutonumStart = 3
+!include __init__
+
+title ORP Code Merge Flow - Merge Cutoff
+
+note over feature,release: <b>Assuming</b> normal release week without code freeze
+
+== Merge Cutoff - Usually Monday 17:00 ==
+
+group 3.0 Merge Cutoff Flow
+    hnote over feature,release #Orange: <b>Removal</b> of non-merged tickets from <b>Regular Release</b> scope
+    hnote over master,staging #Orange:Auto-Merge **master** into **staging**
+    master -> staging: Merge <b>master</b>\ninto <b>staging</b>
+    feature->master:Next week features can\ncontinue merging into master
+
+end
+
+hnote over staging #LimeGreen: RM deploys <b>staging</b> into <b>STAGING</b>

@@ -5,11 +5,11 @@ skinparam FooterFontColor black
 title Generalised Code Merge Flow in Feature Development
 
 collections master as master
-actor Dev1_Local as Dev1_Local
-collections RemoteFeatureBranch as RemoteFeatureBranch
+collections FB as FeatureBranch
 actor Dev2_Local as Dev2_Local
 
 autonumber 1.1
+
 
 master->Dev1_Local: branch out of\n<b>master</b>\nas new\nFeatureBranch
 hnote over Dev1_Local: save in local

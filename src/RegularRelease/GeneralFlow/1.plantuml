@@ -1,0 +1,17 @@
+@startuml
+
+title General Release Timeline
+
+!include __init__
+
+PM->JIRA: Attach Release Cycle\nin Tickets
+
+== Regular Release Scope Cutoff/Scope Lockdown\nUsually Monday 12:00 ==
+
+== Regular Release Merge Cutoff\nUsually Monday 17:00 ==
+
+== Regular Release Deployments Start\nUsually Wed through Thurs ==
+
+
+
+@enduml

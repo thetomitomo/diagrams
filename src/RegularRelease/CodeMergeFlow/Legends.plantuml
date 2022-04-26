@@ -1,0 +1,12 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+legend top left
+    |<#CornflowerBlue> **Item** |<#CornflowerBlue> **Description** |
+    |<#DarkOrchid> <color #white>Hexagon</color> | Version tag operation |
+    |<#Thistle> Hexagon | DOD operation |
+    |<#LimeGreen> Hexagon | RM operation |
+    |<#Orange> Hexagon | Automation operation |
+    |<#0568ae> <color #white>Notes </color> | Annotation |
+endlegend
+@enduml
