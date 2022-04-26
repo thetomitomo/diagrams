@@ -14,7 +14,7 @@ end note
 
 == Regular Release Prebuild Preparation\nUsually Wednesday 16:30  ==
 
-RM -> PlatformDOD : Liaise Prebuild Preparation, merge branches, & generatie new host-repo tag
+RM -> PlatformDOD : Liaise Prebuild Preparation, merge branches, & generate new host-repo tag
 PlatformDOD->DevPICs : Shares new tags in\nFE Deployment Mattermost Channel
 
 DevPICs -> DevPICs : <b>[INDEPENDENT REPO]</b>\nExecutes branch merge\n& tag for micro-app
