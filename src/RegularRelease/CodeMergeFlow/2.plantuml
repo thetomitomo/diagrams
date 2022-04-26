@@ -1,7 +1,7 @@
 !$AutonumStart = 2
 !include __init__
 
-title ORP Code Merge Flow - Scope Cutoff & Merge Cutoff
+title ORP Code Merge Flow - Scope Cutoff
 
 note over feature,release: <b>Assuming</b> normal release week without code freeze
 
