@@ -35,7 +35,7 @@ group Hotfix/Adhoc Flow (before Regular Release)
         hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.2
         note over staging: V1.6.2 includes\nRegular Release\nAND the Irregular request
 
-        release -> host_master: Build version,\nand bump version in host repo
+        staging -> host_staging: Build version,\nand bump version in host repo
     end
 end
 

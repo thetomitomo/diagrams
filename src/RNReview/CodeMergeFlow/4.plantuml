@@ -22,7 +22,7 @@ group Hotfix/Adhoc Flow (After Regular Release Pre-Build)
     FB -> staging: merge <b>feature</b> into <b>staging</b>
     hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.3
     staging -> host_staging: Build version,\nand bump version in host repo staging branch
-    hnote over host_release #DarkOrchid: UPCOMING\nversion\nV1.6.3
+    hnote over host_staging #DarkOrchid: UPCOMING\nversion\nV1.6.3
 
     FB -> release: merge <b>feature</b> into <b>release</b>
     hnote over release #DarkOrchid:New Tag\n+patch\nV1.5.7
