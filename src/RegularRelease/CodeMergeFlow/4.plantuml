@@ -13,7 +13,7 @@ group 4.0 Late Merge Flow
     
     note over feature: MUST pass verifications
     
-    feature -> master: merge <b>feature</b>\ninto <b>staging</b>
+    feature -> master: merge <b>feature</b>\ninto <b>master</b>
 end
 
 == Merge Cutoff - Usually Monday 17:00 ==
