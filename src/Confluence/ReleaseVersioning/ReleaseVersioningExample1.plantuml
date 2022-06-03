@@ -1,0 +1,54 @@
+@startuml
+title Regular & Irregular Release Cycle
+
+concise "RR" as RR
+concise "IRR" as IRR
+robust Event
+robust "DateTime" as DT
+scale 100 as 150 pixels
+
+@0
+RR is "2022.06.v3 RR"
+IRR is "2022.06.v1 IRR"
+Event is _
+DT is _
+
+@1
+Event is __
+DT is __
+
+@2
+Event is _
+DT is _
+
+@100
+IRR is "2022.06.v2 IRR"
+Event->IRR : _06.v2 Release
+DT->Event : _Wed\n_19:00
+
+@200
+RR is {hidden}
+Event->RR : _ScopeCutoff
+DT->Event : _Mon\n_12:00
+
+@300
+RR is "2022.06.v4 RR"
+Event->RR : _MergeCutoff
+DT->Event : _Mon\n_17:00
+
+@400
+Event->IRR : _06.v3 Release
+DT->Event : _Wed\n_19:00
+IRR is "2022.06.v3 IRR"
+
+@500
+Event->RR : _ScopeCutoff
+DT->Event : _Mon\n_12:00
+RR is {hidden}
+
+@600
+RR is "2022.06.v5 RR"
+DT->Event : _Mon\n_17:00
+Event->RR : _MergeCutoff
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+title Regular & Irregular Release Cycle
+
+concise "RR" as RR
+concise "IRR" as IRR
+scale 100 as 100 pixels
+
+@0
+RR is "v1"
+IRR is "v0"
+
+@100
+IRR is "v1"
+
+@200
+RR is {hidden}
+
+@300
+RR is "v2"
+
+@400
+IRR is "v2"
+
+@500
+RR is {hidden}
+RR is "v3"
+
+@enduml
