@@ -1,0 +1,49 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+
+title Deployment SOP Diagram
+
+start
+
+partition "RM select scope of deployment" {
+    #Green:RM choose scope of current deployment;
+
+    if (Multiple jobs if requested by same devs) then (TRUE)
+        #Green:Rearrange jobs that are done together to be within adjacent rows;
+        note left
+            To optimise RM-Dev communication
+        end note
+        :Consider the multiple rows as scope of deployment<
+    else (FALSE)
+        :Consider the single row as scope of deployment<
+    endif
+
+    #Green:Update selected row(s) color to Yellow;
+    note left
+        In DSG, we have shortcut for coloring rows
+        CMD+option+Shift+2 : turn selected cells YELLOW to indicate WIP
+    end note 
+
+    #Green:Copy col A,B,C (Job Name, PICs, IssueKeys) 
+    from DSG for the job to be deployed;
+    note left
+        If parameter is crucial, also include col D
+    end note
+
+    #Green:Start a new thread in deployment channel,
+    Paste copied columns into thread and ask:
+    "Shall we start deployment?";
+    note left
+        To signal to dev that we want to start deployment.
+    end note
+
+    repeat
+        #Green:Follow up with devs for Ack every 15 mins ;
+    repeat while (<back:lightblue>All Dev PICs Acknowledged start of deployment?</back>) is (No)
+}
+
+:Continues to RM deployment;
+end
+
+@enduml

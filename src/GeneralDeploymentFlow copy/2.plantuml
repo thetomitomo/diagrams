@@ -1,0 +1,132 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+
+title Deployment SOP Diagram
+
+start
+
+:Continued after scope selection;
+
+partition "RM Deployment SOP" {
+repeat
+    partition "Triggering Deployment" {
+        #Green:Trigger start of deployment according to requested params;
+        #Green:Informs dev:
+        Deploying {Service} in {Regions};
+    }
+
+    partition "Deployment Follow Up" {
+    repeat
+        #Green:Follow up build status;
+    repeat while (Build is done?) is (No)
+
+    if (Deployment Failure) then
+        partition "Deployment Failure Case" {
+        #Green:In the same MM Thread,
+        Inform dev with the format
+        Hi {dev_pic}, 
+        facing error in {console_URL},
+
+        please help to check: 
+        
+        {snippet of error if RM able to identify};
+        note left
+            If Error is due to BUILD/JENKINS
+            We will need to involve SRE,
+            Check SRE on duty for service from Service-CMDB
+            And @ him in the MM thread
+        end note
+    
+        repeat
+            #Green:Follow up with dev if issue is resolved;
+        repeat while (<back:lightblue>Issue resolved?</back>) is (No)
+        }
+    elseif (Deployment Success)
+        partition "Deployment Success Case" {
+        #Green:In the same MM Thread,
+        Inform devs with the format
+        Hi {dev_pic}, deployment of {Service} is done in {Regions},
+        Please help to verify in live;
+    
+        repeat
+            #Green:Follow up with dev if LIVE deployment is verified;
+        repeat while (<back:lightblue>LIVE deployment verified?</back>) is (No)
+        }
+    elseif (Canary is Up)
+        partition "Deployment Canary Case" {
+        repeat
+            :Next batch of Canary is Up for verification;
+            #Green:In the same MM Thread,
+            Inform devs with the format
+            Hi {dev_pic}, canary of {Service} is up in {Regions},
+            Please help to verify canary instances;
+
+            repeat
+                #Green:Follow up with dev if canary verified;
+            repeat while (<back:lightblue>Canary verified?</back>) is (No)
+
+            #Green:Promote canary;
+            repeat
+                #Green:Follow up if all instances are up;
+            repeat while (All instances up?) is (No)
+
+        repeat while(All canary stages Done?) is (No)
+
+        #Green:In the same MM Thread,
+        Inform devs with the format
+        Hi {dev_pic}, deployment of {Service} is done in {Regions},
+        Please help to verify in live;
+
+        repeat
+            #Green:Follow up with dev if LIVE deployment is verified;
+        repeat while (<back:lightblue>LIVE deployment verified?</back>) is (No)
+        }
+    elseif (Deployment Stuck Due to Resources)
+        partition "Deployment Resource Stuck Case" {
+        repeat
+            #Green:Wait;
+        repeat while(Still stuck in the last 15 mins?) is (Yes)
+        #Green:Find SRE pic for the affected service via Service-CMDB detail page.
+        Ping the SRE pic in MM Thread as such
+        
+        Hi {SRE dev pic}, we are facing deployment resource issue in {console URL to service}.
+        May I know if we can clear up some resources? This is currently blocking LIVE deployment.
+        
+        Thanks;
+    
+        repeat
+            #Green:Follow up with SRE OR observe deployment progress;
+        repeat while(Deployment is Progressing?) is (No)
+
+        :Continue from applicable status above;
+        stop
+        }
+    elseif (Dev/NOC raised issue and request rollback)
+        partition "Deployment Rollback Case" {
+        #Green:Identify the last stable tag via JENKINS history OR Service-CMDB;
+        #Green:Execute rollback;
+        #Green:Follow up with dev for
+        - Root cause
+        - Resolution
+        - Expected deployment continuation plan;
+        :For more details, see <b>Rollback SOP</b> below;
+        stop 
+        }
+    else
+        #Pink:Unknown corner case;
+        stop
+    endif
+    }
+
+repeat while(All Deployment for current scope is finished?) is (No)
+
+if (ALL deployments done) then (TRUE)
+    :End of deployment;
+    stop
+else (FALSE)
+    :Start again from beginning;
+    stop
+endif
+
+@enduml
