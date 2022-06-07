@@ -74,3 +74,36 @@ out/
 4. Use this URL as your web url source
 
 The next time you rebuild your image, as long as there are is name changes, it will overwrite the old image, updating the live audience with the new image.
+
+
+# Learning the Syntax
+
+PlantUML has a few types of diagram, refer to their full types in their website: https://plantuml.com/
+
+It might be difficult to start from the syntax. 
+I found it easier to learn from looking at existing examples.
+
+## At the moment...
+
+I have built some diagrams that people feedback had been useful.
+Feel free to refer to them
+
+### Code Merge Flow Using Sequence Diagram
+
+1. [Sample Images](https://github.com/thetomitomo/diagrams/tree/master/src/RegularRelease/CodeMergeFlow)
+2. [Sample Codebase](https://github.com/thetomitomo/diagrams/tree/master/out/RegularRelease/CodeMergeFlow)
+3. [Sequence Diagram Docs](https://plantuml.com/sequence-diagram)
+
+
+### User Decision Workflow Using Activity Diagram
+
+1. [Sample Images](https://github.com/thetomitomo/diagrams/blob/master/out/RSDM/Grand%20Workflow/SORM_FULL/SORM-FullFlow-Overview.png)
+2. [Sample Codebase](https://github.com/thetomitomo/diagrams/blob/master/src/RSDM/Grand%20Workflow/SORM_FULL.plantuml)
+3. [Activity Diagram Docs](https://plantuml.com/activity-diagram-beta)
+
+### Entities Documentations Using Class Diagram
+
+1. [Sample Images](https://github.com/thetomitomo/diagrams/blob/master/out/RSDM/Entities/Class%20Diagram.png)
+2. [Sample Codebase](https://github.com/thetomitomo/diagrams/blob/master/src/RSDM/Entities.plantuml)
+3. [Class Diagram Docs](https://plantuml.com/class-diagram)
+
