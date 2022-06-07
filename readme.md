@@ -107,3 +107,30 @@ Feel free to refer to them
 2. [Sample Codebase](https://github.com/thetomitomo/diagrams/blob/master/src/RSDM/Entities.plantuml)
 3. [Class Diagram Docs](https://plantuml.com/class-diagram)
 
+
+# Styling
+
+Almost every element's styling is customisable.
+Styling can be done per theme, which is a pre-set styles
+Can be done per element
+Or can also be both.
+
+
+## Recommended Theme
+
+To achieve consistency, RM team uses this:
+
+```
+!theme bluegray
+skinparam FooterFontColor black
+```
+
+## Choosing your own theme
+
+You can pick built-in themes from [here](https://github.com/plantuml/plantuml/tree/master/themes)
+You just need to import via `!theme`
+
+## Changing specific element
+
+Lookup the element you want to change [here](https://plantuml-documentation.readthedocs.io/en/latest/formatting/all-skin-params.html)
+Then change it according to what you want.
