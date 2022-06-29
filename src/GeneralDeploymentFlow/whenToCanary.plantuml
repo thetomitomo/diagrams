@@ -1,0 +1,21 @@
+@startuml
+!theme bluegray
+
+title When To Canary
+
+start
+
+if (Default **Canary==True**\nin Jenkins) then (TRUE)
+    #Green:Deploy with Canary==True|
+    end
+else (FALSE)
+    if (Release Checklist requests\nCanary==True) then (TRUE)
+        #Green:Deploy with Canary==True|
+        end
+    else(FALSE)
+        
+endif
+#DarkRed:Deploy with Canary==False|
+end
+
+@enduml
