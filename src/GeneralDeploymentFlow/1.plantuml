@@ -9,8 +9,8 @@ start
 partition "RM select scope of deployment" {
     #Green:RM choose scope of current deployment;
 
-    if (Multiple jobs if requested by same devs) then (TRUE)
-        #Green:Rearrange jobs that are done together to be within adjacent rows;
+    if (Multiple jobs is requested by same devs) then (TRUE)
+        #Green:Select jobs to be deployed together;
         note left
             To optimise RM-Dev communication
         end note
