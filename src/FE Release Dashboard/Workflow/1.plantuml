@@ -57,7 +57,7 @@ RM -> PlatformDOD : RM informs about deployment commencement
 RM -> Dash : RM bulk input <b>SKIPPED</b> for applications\nwith no version input
 RM -> Dash : RM executes deployment\nvia FE Release Dashboard
 note right
-    RM will usually execute deployments in 3 batches based on regions
+    RM to follow pre-set batching
 end note
 
 DevPICs -> RM : Monitor and verifies deployment
