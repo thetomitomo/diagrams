@@ -34,4 +34,4 @@ group 2.0 Regular Release Flow
     end
 end
 
-hnote over staging #Thistle: DOD deploy staging into STAGING
+hnote over staging #Thistle: DOD deploy staging into STAGING env

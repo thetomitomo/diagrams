@@ -60,5 +60,5 @@ group 2.0 Regular Release Flow
     end
 
 end
-hnote over staging #Thistle: DOD deploy staging into STAGING
+hnote over staging #Thistle: DOD deploy staging into STAGING env
 note over feature,release #Coral: <color #Yellow >**ORP CHANGE**</color>\nStaging deployments should now be done from **staging**
