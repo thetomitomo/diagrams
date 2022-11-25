@@ -1,6 +1,6 @@
 @startuml
 
-title FE Release Dashboard Workflow
+title FE Release Dashboard (FERD) Workflow (Updated: Nov 2022)
 
 !include __init__
 
@@ -9,58 +9,90 @@ title FE Release Dashboard Workflow
 DevPICs -> DevPICs : Add deployment request\nin JIRA ticket\nvia <b>Release Checklist</b>
 note left
     Use Action = Deploy 
-    && "Jenkins Job" = your <b>PC/RW  Application </b>
+    && **Jenkins Job** = your <b>Host Platform</b>
+    && **Param** == "App"
+    && **Value** == **your app**
 end note
 
 == Regular Release Prebuild Preparation\nUsually Wednesday 16:30  ==
 
-RM -> PlatformDOD : Liaise Prebuild Preparation, merge branches, & generate new host-repo tag
-PlatformDOD->DevPICs : Shares new tags in\nFE Deployment Mattermost Channel
-
-DevPICs -> DevPICs : <b>[INDEPENDENT REPO]</b>\nExecutes branch merge\n& tag for micro-app
-note left
-    For <b>NON-ORP</b> Independent repository, generate your own tag.
-    For <b>shopee_react_native</b>, wait for RM to liaise branch merge with DOD.
-end note
-
-DevPICs -> DevPICs : Executes build\nfor micro-app
-note left
-    <b>IMPORTANT!</b> If any region is NOT built, it will not be able to be selected in Task-Version input later.
-end note
-
-RM -> Dash : RM creates new <b>Task-Version</b>\nfor current week Regular Release
+RM_Auto -> Dash : Creates new \n<b>Task-Version</b>\nfor current week\nRegular Release
 note right
-    Example: for 2022.04.v3, Task-Version name will be
+    Example: for 2022.04.v3,
+    Task-Version name will be
     <b>2022.04.v3-RR</b>
 end note
 
-RM -> DevPICs : RM notifies PICs to submit versions into <b>Task Version</b>\nThis will be done in <b>FE Deployment Mattermost Channel</b>
+group Prebuild Preparation
+    RM -> PlatformDOD : Finalise scope and liaise Prebuild **Preparation**
+    PlatformDOD -> PlatformDOD : Merge host-repo branch
+    PlatformDOD -> PlatformDOD : Generate new host-repo tag
+    PlatformDOD->DevPICs : Shares new host tags in\nFE MatterMost Channel
+end
 
-DevPICs -> Dash : Dev PICs input their application version\nfor release in <b>Task Version</b>
-DevPICs -> Dash : Dev PICs input the <b>Status</b> of their application\nas <b>Ready</b> if no further issue
-note left
-    <b>IMPORTANT!</b> Any application without input 
-    will be assumed as <b>Skipped</b>
+group Branch Merge & Tag Generation
+    RM -> RM_Auto : Trigger MicroApp\nBranch Merge
+    note right
+        For MicroApps onboarded into ORP
+        - Automation will merge staging into release
+        - && generate new tag
+    end note
 
-    If there is BLOCKING issue, use <b>Blocking</b> status,
-    AND click <b>Actions>Add remarks</b> to indicate reason
+    RM_Auto -> RM_Auto : Branch merge\n&& gen new Tag
+end
 
-    RM will halt deployments until blocker is resolved
-end note
+group App Prebuilds
+    PlatformDOD -> PlatformDOD : Prebuild new host-repo
+    DevPICs -> DevPICs : Trigger MicroApp\nPrebuilds
+    DevPICs -> DevPICs : Ensure prebuild success
 
-hnote over RM,DevPICs: Wait for Dev PICs' version input into Task-Version
+    group NON-ORP External Repo Only
+        DevPICs -> DevPICs : Execute branch merge\n& tag for micro-app
+        note left
+            <b>NON-ORP</b> external repository needs to
+            self-manage branch merge and tagging.
+        end note
+
+        DevPICs -> DevPICs : Executes build\nfor micro-app
+        note left
+            <b>IMPORTANT!</b> 
+            If any region is NOT built,
+            it will not be able to be deployed.
+        end note
+    end
+end
+
+group Versions Input into FERD TaskVersion
+    RM -> DevPICs : RM notifies PICs to submit versions into <b>Task Version</b>\nThis will be done in <b>rm-microfe-pics</b> MM channel
+
+    DevPICs -> Dash : Dev PICs input their application version\nfor release in <b>Task Version</b>
+    DevPICs -> Dash : Dev PICs input the <b>Status</b> of their application\nas <b>Ready</b> if no further issue
+    note right
+        <b>IMPORTANT!</b> Any application without input 
+        will be assumed as <b>Skipped</b>
+
+        If there is BLOCKING issue, use <b>Blocking</b> status,
+        AND click <b>Actions>Add remarks</b> to indicate reason
+
+        RM will halt deployments until blocker is resolved
+    end note
+
+    hnote over RM,DevPICs: Wait for Dev PICs' version input into Task-Version
+end
 
 == Task-Version Input Cut-off\nUsually Thursday 10:30  ==
 
-RM -> DevPICs : RM informs about deployment commencement
-RM -> PlatformDOD : RM informs about deployment commencement
-RM -> Dash : RM bulk input <b>SKIPPED</b> for applications\nwith no version input
-RM -> Dash : RM executes deployment\nvia FE Release Dashboard
-note right
-    RM to follow pre-set batching
-end note
+group Deployment
+    RM -> DevPICs : RM informs about deployment commencement
+    RM -> PlatformDOD : RM informs about deployment commencement
+    RM -> Dash : RM bulk input <b>SKIPPED</b> for applications\nwith no version input
+    RM -> Dash : RM executes deployment\nvia FE Release Dashboard
+    note right
+        RM to follow pre-set batching
+    end note
 
-DevPICs -> RM : Monitor and verifies deployment
-PlatformDOD -> RM : Monitor and verifies deployment
+    DevPICs -> RM : Monitor and verifies deployment
+    PlatformDOD -> RM : Monitor and verifies deployment
+end
 
 @enduml
