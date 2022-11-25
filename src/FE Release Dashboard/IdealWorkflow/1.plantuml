@@ -27,7 +27,7 @@ group Prebuild Preparation
     RM -> PlatformDOD : Finalise scope and liaise Prebuild **Preparation**
     PlatformDOD -> PlatformDOD : Merge host-repo branch
     PlatformDOD -> PlatformDOD : Generate new host-repo tag
-    PlatformDOD->DevPICs : Shares new host tags in\nFE MatterMost Channel
+    PlatformDOD->DevPICs : Shares new host tags in\n<b>rm-microfe-pics</b>\nMM channel
 end
 
 group Branch Merge & Tag Generation
