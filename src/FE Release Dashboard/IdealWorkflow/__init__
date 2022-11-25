@@ -1,0 +1,10 @@
+!theme bluegray
+skinparam FooterFontColor black
+
+actor RM as RM
+entity RM_Auto as RM_Auto
+collections FE_Dashboard as Dash
+actor DevPICs as DevPICs
+actor PlatformDOD as PlatformDOD
+
+autonumber 1.1

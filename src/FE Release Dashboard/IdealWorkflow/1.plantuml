@@ -1,0 +1,119 @@
+@startuml
+
+title ENVISIONED FE Release Dashboard Workflow
+
+!include __init__
+
+' == Regular Release Merge Cutoff\n(Usually Monday 17:00) ==
+
+DevPICs -> DevPICs : Add deployment request\nin JIRA ticket\nvia <b>Release Checklist</b>
+note left
+    Use Action = Deploy 
+    && **Jenkins Job** = your <b>Host Platform</b>
+    && **Param** == "App"
+    && **Value** == **your app**
+end note
+
+== Regular Release Prebuild Preparation\nUsually Wednesday 16:30  ==
+
+RM_Auto -> Dash : Creates new \n<b>Task-Version</b>\nfor current week\nRegular Release
+note right
+    Example: for 2022.04.v3,
+    Task-Version name will be
+    <b>2022.04.v3-RR</b>
+end note
+
+group Prebuild Preparation
+    RM -> PlatformDOD : Finalise scope and liaise Prebuild **Preparation**
+    PlatformDOD -> PlatformDOD : Merge host-repo branch
+    PlatformDOD -> PlatformDOD : Generate new host-repo tag
+    PlatformDOD->DevPICs : Shares new host tags in\nFE MatterMost Channel
+end
+
+group Branch Merge & Tag Generation
+    RM -> RM_Auto : Trigger MicroApp\nBranch Merge
+    note right
+        For MicroApps onboarded into ORP
+        - Automation will merge staging into release
+        - && generate new tag
+    end note
+
+    RM_Auto -> RM_Auto : Branch merge\n&& gen new Tag
+end
+
+group App Prebuilds
+    PlatformDOD -> PlatformDOD : Prebuild new host-repo
+    RM_Auto -> RM_Auto : Upon confirmation\nof new tag\nAutomation trigger\nMicroApp Prebuilds
+    note right #Orange
+        **TBC**
+        Ideally can setup git webhook to
+        trigger prebuild
+    end note
+    RM_Auto -> DevPICs : Notify PICs of Prebuild status
+    DevPICs -> DevPICs : Ensure prebuild success
+
+    group NON-ORP External Repo Only
+        DevPICs -> DevPICs : Execute branch merge\n& tag for micro-app
+        note left
+            <b>NON-ORP</b> external repository needs to
+            self-manage branch merge and tagging.
+        end note
+
+        DevPICs -> DevPICs : Executes build\nfor micro-app
+        note left
+            <b>IMPORTANT!</b> 
+            If any region is NOT built,
+            it will not be able to be deployed.
+        end note
+    end
+    RM_Auto -> Dash : POST built tags\ninto TaskVersion
+    note right #Orange
+        **TBC**
+        Ideally can setup RE logic to handle POST
+    end note
+end
+
+group Versions Input into FERD TaskVersion
+    RM_Auto -> DevPICs : Send **Direct Message** MM reminders to Dev PICs to\nconfirm release **version** in FERD **TaskVersion**
+    note right #Orange
+        **TBC**
+        Ideally can setup RE logic to handle together in previous step
+    end note
+
+    DevPICs -> Dash : Dev PICs confirm the status \nof their release in <b>Task Version</b>
+    DevPICs -> Dash : Dev PICs input the <b>Status</b> of their application\nas <b>Ready</b> if no further issue
+    note right
+        <b>IMPORTANT!</b> Any application without input 
+        will be assumed as <b>Skipped</b>
+
+        If there is BLOCKING issue, use <b>Blocking</b> status,
+        AND click <b>Actions>Add remarks</b> to indicate reason
+
+        RM will halt deployments until blocker is resolved
+    end note
+
+    hnote over RM,DevPICs: Wait for Dev PICs' version input into Task-Version
+end
+
+== Task-Version Input Cut-off\nUsually Thursday 10:30  ==
+
+group Deployment
+    RM -> DevPICs : RM informs about deployment commencement
+    RM -> PlatformDOD : RM informs about deployment commencement
+    RM -> Dash : RM bulk input <b>SKIPPED</b> for applications\nwith no version input
+
+    RM -> Dash : RM executes deployment\nvia FE Release Dashboard
+    note right
+        RM to follow pre-set batching
+    end note
+    Dash -> DevPICs : Send notification of deployment
+    note right #Orange
+        **TBC**
+        Ideally can setup RE logic to handle POST
+    end note
+
+    DevPICs -> RM : Monitor and verifies deployment
+    PlatformDOD -> RM : Monitor and verifies deployment
+end
+
+@enduml
