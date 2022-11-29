@@ -25,8 +25,8 @@ end note
 
 group Prebuild Preparation
     RM -> PlatformDOD : Finalise scope and liaise Prebuild **Preparation**
-    PlatformDOD -> PlatformDOD : Merge host-repo branch
-    PlatformDOD -> PlatformDOD : Generate new host-repo tag
+    PlatformDOD -> PlatformDOD : Merge host-repo\nrelease to \nstaging branch
+    PlatformDOD -> PlatformDOD : Generate new\nhost-repo tag
     PlatformDOD->DevPICs : Shares new host tags in\n<b>rm-microfe-pics</b>\nMM channel
 end
 
@@ -42,7 +42,7 @@ group Branch Merge & Tag Generation
 end
 
 group App Prebuilds
-    PlatformDOD -> PlatformDOD : Prebuild new host-repo
+    PlatformDOD -> PlatformDOD : Prebuild\nnew host-repo
     RM_Auto -> RM_Auto : Upon confirmation\nof new tag\nAutomation trigger\nMicroApp Prebuilds
     note right #Orange
         **TBC**
@@ -77,7 +77,8 @@ group Versions Input into FERD TaskVersion
     RM_Auto -> DevPICs : Send **Direct Message** MM reminders to Dev PICs to\nconfirm release **version** in FERD **TaskVersion**
     note right #Orange
         **TBC**
-        Ideally can setup RE logic to handle together in previous step
+        Ideally can setup RE logic 
+        to handle together in previous step
     end note
 
     DevPICs -> Dash : Dev PICs confirm the status \nof their release in <b>Task Version</b>
