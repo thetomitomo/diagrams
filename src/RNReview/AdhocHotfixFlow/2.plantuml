@@ -23,13 +23,29 @@ group 2.0 Verification_&_Approval
     PluginDOD -> Art: (IB Only) Build new patch version
     hnote over Art#LimeGreen:New patch\nversion build
 
-    PluginDOD -> Art: Raise version-bump <b>MR</b>\nto host-repo
-    PluginDOD -> Art: Link version-bump <b>MR</b>\nto SPFE ticket
-    hnote over Art#LimeGreen:<b>OPEN MR\nin host repo
+    group Bumping Version in Host-Repo
+        group For IB Plugins (PREFERRED FLOW)
+            PluginDOD -> Art: Add release tag in **RPR ticket** raised earlier
+            Art -> Art: Host-repo <b>MR</b>\ncreated automatically
+            PluginDOD -> Art: Follow up on errors found in RPR ticket
+            note right
+                RPR ticket will verify inputs.
+                Any error will be raised in the RPR ticket.
+                Requester MUST follow up on the errors.
+            end note
+            hnote over Art#LimeGreen:<b>OPEN MR\nin host repo
+        end
+        group For CB Plugins
+            PluginDOD -> Art: Raise version-bump <b>MR</b>\nto host-repo
+            PluginDOD -> Art: Link version-bump <b>MR</b>\nto SPFE ticket
+            hnote over Art#LimeGreen:<b>OPEN MR\nin host repo
 
-    PluginDOD -> RN_DOD: Notify RN DOD\nto review SPFE MR
-    RN_DOD->RN_DOD: If CB, triggers\nRN Pipeline 
-    note over Art,RN_DOD#Tomato: <b>Host repo MR</b> needs to run pipeline: <b>rn_plugin_bootstrap</b>, takes about 45 mins
+            PluginDOD -> RN_DOD: Notify RN DOD\nto review SPFE MR
+            RN_DOD->RN_DOD: If CB, triggers\nRN Pipeline\nafter reviewing
+            note over Art,RN_DOD#Tomato: <b>Host repo MR</b> needs to run pipeline: <b>rn_plugin_bootstrap</b>, takes about 45 mins
+        end
+    end
+
 
     == Daily cut-off for verification to release on same day is 16:30 ==
     note over req,RM#Tomato: Any requests verified after this point may not be able to be deployed on the same day.

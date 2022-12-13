@@ -14,15 +14,21 @@ group 3.0 Deployment
     Art -> req: SWP notifies requester
     Art -> RN_DOD: SWP notifies RN_DOD
 
-
-    note over Art#Tomato: <b>Host repo MR</b>\npipeline passes
-    RN_DOD -> Art: Merge SPFE MR
-    hnote over Art#LimeGreen:<b>MERGED\n<b>SPFE MR
-    RN_DOD -> Art: Generate new patch tag in host repo
+    group Merging Plugin Version in Host-Repo
+        group For IB Plugins (PREFERRED FLOW)
+           Art -> Art: If ALL verification passes:\nOpen MR will be auto-merged
+        end
+        group For CB Plugins
+            note over Art#Tomato: <b>AFTER Host repo MR</b>\npipeline passes
+            RN_DOD -> Art: Merge SPFE MR
+            hnote over Art#LimeGreen:<b>MERGED\n<b>SPFE MR
+        end
+    end
+    
+    RM -> Art: Trigger auto-tag to generate new patch tag in host repo
     hnote over Art#DarkOrchid:New host\npatch version
-    RN_DOD -> Art: Initiate RN pre-build in Jenkins
-    hnote over Art#LimeGreen:RN pre-build
-    RN_DOD -> RM: Communicate\npre-build to RM
+    RM -> Art: Initiate RN pre-build
+    hnote over Art#LimeGreen:RN pre-build          
 
     note over Art#Tomato:RN pre-build\n success
     hnote over Art#LimeGreen:<b>SUCCESS\nRN pre-build
@@ -36,7 +42,7 @@ group 3.0 Deployment
 
     RM -> FeatDev: RM requires verification from plugin team.
     RM -> req: RM requires verification from plugin team.
-    note over req,FeatDev #Tomato: Plugin team MUST verify feature in <b>live</b>
+    note over req,FeatDev #Tomato: Plugin team MUST verify feature in <b>LIVE</b> env
     req -> RM: Inform RM verification pass
 
     RM -> Art: Updates SWP to Done status

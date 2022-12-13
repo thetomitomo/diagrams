@@ -15,6 +15,11 @@ group 1.0 Initalisation
 
     req -> Art : Raise JIRA ticket\nin <b>SPFE</b> board
     hnote over Art#LimeGreen: JIRA SPFE\nTicket
+    note right
+        For **IB Plugins:**
+        You may use RPR flow.
+        Please see the details below
+    end note
 
     req -> FeatDev: Communicate adhoc/hotfix\n to Feature Dev
     req -> PluginDOD: Communicate adhoc/hotfix\n to Plugin DOD
