@@ -7,6 +7,8 @@ title Regression Bug Flow
 
 == Regular Release Merge Cut-Off (Usually Monday 17:00) ==
 
+host_master -> host_staging: Branch merge\nexecuted
+
 hnote over staging #DarkOrchid: Upcoming version\nV1.6.0
 
 group Regression Bug Flow
@@ -16,6 +18,11 @@ group Regression Bug Flow
     FB -> staging: merge <b>feature</b> into <b>staging</b>
     hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.1
     staging -> host_staging: Build version,\nand bump version in host repo
+    note left
+        For IB Plugin using RPR
+        Select **Regular** type
+        & **Regression** sub-type
+    end note
 end
 
 hnote over host_staging #DarkOrchid: Upcoming\nplugin version\nV1.6.1
@@ -26,6 +33,11 @@ group Late Merge Flow
     FB -> staging: merge <b>feature</b> into <b>staging</b>
     hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.2
     staging -> host_staging: Build version,\nand bump version in host repo
+    note left
+        For IB Plugin using RPR
+        Select **Regular** type
+        & **Late Request** sub-type
+    end note
 end
 
 hnote over host_staging #DarkOrchid: Upcoming\nplugin version\nV1.6.2

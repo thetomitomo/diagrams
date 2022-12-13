@@ -20,6 +20,7 @@ group Regular Release Flow
     FB -> master: After verified:\nmerge <b>feature</b>\ninto <b>master</b>
 
     == Friday 17:00 - Regular Release Cutoff ==
+    note over master, host_staging #Coral: **Note**: For IB Plugins **ONLY**, you may follow Monday 17:00 cutoff via RPR flow 
     master -> staging: Merge <b>master</b>\ninto <b>staging</b>
 
     hnote over staging #DarkOrchid:New Tag\n+minor\nV1.6.0
