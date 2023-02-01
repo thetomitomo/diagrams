@@ -9,26 +9,32 @@ title Hotfix/Adhoc Flow Between Regular Release Pre-Build and Regular Deployment
 
 hnote over host_release #DarkOrchid: LIVE version\nV1.5.6
 host_master->host_release: Plugins' version in host-master\nnow in host-release
+note over host_master,host_release: Any adhoc now should merge into host release
 
 autonumber $AutonumStart.1
 
 group Hotfix/Adhoc Flow (After Regular Release Pre-Build)
-    note over host_master,host_release: Any adhoc now merge into host release-backup
     release -> FB: NEW branch out of <b>release</b>
 
     FB -> FB: commit into\n<b>feature</b>
     
     note over FB,release: After Hotfix/Adhoc is approved
-    FB -> staging: merge <b>feature</b> into <b>staging</b>
-    hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.3
-    staging -> host_staging: Build version,\nand bump version in host repo staging branch
-    hnote over host_staging #DarkOrchid: UPCOMING\nversion\nV1.6.3
+    group Sync for UPCOMING version
+        FB -> staging: merge <b>feature</b> into <b>staging</b>
+        hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.3
+        staging -> host_staging: Build version,\nand bump version in host repo staging branch
+        hnote over host_staging #DarkOrchid: UPCOMING\nversion\nV1.6.3
+        note over staging,host_staging: This step is REQUIRED to include adhoc/hotfix in regular release
+        note over staging,host_staging#Tomato: Failure in this step will cause accidental revert of adhoc/hotfix when deploying regular version
+    end
 
-    FB -> release: merge <b>feature</b> into <b>release</b>
-    hnote over release #DarkOrchid:New Tag\n+patch\nV1.5.7
-    release -> host_release: Build version,\nand bump version in host repo release branch
-    note over host_release #Green: DEPLOYMENT
-    hnote over host_release #DarkOrchid: LIVE version\nV1.5.7
+    group Merge into HOST RELEASE for Deployment
+        FB -> release: merge <b>feature</b> into <b>release</b>
+        hnote over release #DarkOrchid:New Tag\n+patch\nV1.5.7
+        release -> host_release: Build version,\nand bump version in host repo release branch
+        note over host_release #Green: DEPLOYMENT
+        hnote over host_release #DarkOrchid: LIVE version\nV1.5.7
+    end
 end
 
 == Regular Release Start (Usually Thurs 09:30) ==
