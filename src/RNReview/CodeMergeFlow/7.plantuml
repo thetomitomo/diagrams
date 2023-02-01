@@ -1,0 +1,44 @@
+@startuml
+
+!$AutonumStart = 7
+!include __init__
+
+title Late Merge Flow
+
+
+== RPR Late Submission Cutoff (Usually Monday 10:00) ==
+
+group Late Merge Flow
+    note over FB, release : Late merge have to have justifiable reason.\nNeed to raise ERA and get approval to be considered.
+    note over FB, staging : After RM verifies, RM will add <b>Release Cycle</b> in the SPFE ticket
+
+    group IF New Minor Version Exists
+        hnote over host_staging #DarkOrchid: Upcoming\nplugin version\nV1.6.0
+        FB -> staging: merge <b>feature</b> into <b>staging</b>
+        hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.1
+        staging -> host_staging: Build version,\nand bump version in host repo
+        note left
+            For IB Plugin using RPR
+            Select **Regular** type
+            & **Late Request** sub-type
+        end note
+        hnote over host_staging #DarkOrchid: Upcoming\nplugin version\nV1.6.1
+    end
+
+    group ELSE IF New Minor Version Does NOT Exist
+        hnote over host_staging #DarkOrchid: LIVE\nplugin version\nV1.5.x
+        FB -> staging: merge <b>feature</b> into <b>staging</b>
+        hnote over staging #DarkOrchid:New Tag\n+minor\nV1.6.0
+        staging -> host_staging: Build version,\nand bump version in host repo
+        note left
+            For IB Plugin using RPR
+            Select **Regular** type
+            & **Late Request** sub-type
+        end note
+        hnote over host_staging #DarkOrchid: Upcoming\nplugin version\nV1.6.0
+    end
+end
+
+== Regular Release Merge Cut-Off (Usually Monday 12:00) ==
+
+@enduml

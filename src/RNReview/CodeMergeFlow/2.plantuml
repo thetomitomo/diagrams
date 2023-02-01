@@ -5,7 +5,7 @@
 
 title Regression Bug Flow
 
-== Regular Release Merge Cut-Off (Usually Monday 17:00) ==
+== Regular Release Merge Cut-Off (Usually Monday 12:00) ==
 
 host_master -> host_staging: Branch merge\nexecuted
 
@@ -24,23 +24,6 @@ group Regression Bug Flow
         & **Regression** sub-type
     end note
 end
-
-hnote over host_staging #DarkOrchid: Upcoming\nplugin version\nV1.6.1
-
-group Late Merge Flow
-    note over FB, release : Late merge have to have justifiable reason.\nApproach RM justifying why this late scope need to be added into regular release.
-    note over FB, staging : After RM approves, RM will add <b>Release Cycle</b> in SPFE
-    FB -> staging: merge <b>feature</b> into <b>staging</b>
-    hnote over staging #DarkOrchid:New Tag\n+patch\nV1.6.2
-    staging -> host_staging: Build version,\nand bump version in host repo
-    note left
-        For IB Plugin using RPR
-        Select **Regular** type
-        & **Late Request** sub-type
-    end note
-end
-
-hnote over host_staging #DarkOrchid: Upcoming\nplugin version\nV1.6.2
 
 == Regular Release Release Pre-Build (Usually Wed 17:30) ==
 

@@ -17,9 +17,13 @@ group 3.0 Host Repository MERGE Cut-off
 
     hnote over Art#LimeGreen:<b>MERGED\n<b>SPFE MR
 
+    == Monday 10:00 : RPR Late Submission Cutoff ==
+
+    note over req,RM#Tomato: Beyond this point, late scope request will need ERA adhoc request
+
     == Monday 12:00 : Host repository Merge Cutoff ==
 
-    note over req,RM#Tomato: Beyond this point:\n- Late scope request will need ERA adhoc request
+    note over req,RM#Tomato: Beyond this point:\n- In-Scope requests not yet merged will be REMOVED
 
 end
 

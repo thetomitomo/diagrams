@@ -8,7 +8,7 @@ title Regular Release Cutoff
 hnote over host_release #DarkOrchid:LIVE version\nV1.5.5
 
 group Feature Branch Management
-    master -> FB: NEW branch out of <b>master</b>
+    master -> FB: NEW branch\nout of <b>master</b>
     FB -> FB: commit into\n<b>feature</b>
 end
 
@@ -19,16 +19,18 @@ group Regular Release Flow
 
     FB -> master: After verified:\nmerge <b>feature</b>\ninto <b>master</b>
 
-    == Friday 17:00 - Regular Release Cutoff ==
-    note over master, host_staging #Coral: **Note**: For IB Plugins **ONLY**, you may follow Monday 17:00 cutoff via RPR flow 
+    == AFTER Plugin DOD confirmed all inscope changes are merged in Plugin repo ==
+
+    ' note over master, host_staging #Coral: **Note**: For IB Plugins **ONLY**, you may follow Monday 17:00 cutoff via RPR flow 
     master -> staging: Merge <b>master</b>\ninto <b>staging</b>
 
     hnote over staging #DarkOrchid:New Tag\n+minor\nV1.6.0
-    staging -> host_master: Build version,\nand bump version in host
+    staging -> host_master: Build version,\nand bump version\nin host
 end
 
 hnote over staging #DarkOrchid: Upcoming version\nV1.6.0
 
-note over FB,master:Next week feature can continue merging
+    == Friday 17:00 - Regular Release Scope Cutoff ==
+note over FB,master:Next week feature can continue merging\ninto <b>master</b>
 
 @enduml
