@@ -41,4 +41,10 @@ end
 
 == Regular Release Merge Cut-Off (Usually Monday 12:00) ==
 
+hnote over host_master,release: Beyond this point, we start Regression Testing Phase
+
+== Release Cycle Limit (Usually Monday 16:00) ==
+
+note over host_master,release#Tomato: Beyond this point:\n- No additional requests can be included into regular release version
+
 @enduml

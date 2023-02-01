@@ -25,6 +25,9 @@ group 3.0 Host Repository MERGE Cut-off
 
     note over req,RM#Tomato: Beyond this point:\n- In-Scope requests not yet merged will be REMOVED
 
+    == Monday 16:00 : Release Cycle Limit ==
+
+    note over req,RM#Tomato: Beyond this point:\n- No additional requests can be included into regular release version
 end
 
 
