@@ -4,18 +4,22 @@
 
 !include __init__
 
-group 3.0 Host Repository Cut-off
+group 3.0 Host Repository MERGE Cut-off
     RM -> Art: Executes\nfinal verifications
 
-    == Monday 12:00 : Host repository Cut-off ==
+    == Friday 17:00 : Host repository Cut-off ==
+    note over req,RM#Tomato: Beyond this point:\n- Unverified tickets will be removed\n- Scope is locked down, requesters will be unable submit anymore into scope
 
-    RM -> Art: **IF** artefacts in order, keep in scope\n**ELSE** will be removed from regular release scope
+    note over req,RM: During this period,\nDevs can still execute code merge for in-scope requests.
 
-    RN_DOD -> Art: Merge **SPFE** MR
+    Art -> Art: RPR merge IB\nverified HOST-repo MR
+    RN_DOD -> Art: Merge CB\nverified HOST-repo MR
 
     hnote over Art#LimeGreen:<b>MERGED\n<b>SPFE MR
 
-    == Monday 17:00 : Host repository Code-Freeze ==
+    == Monday 12:00 : Host repository Code-Freeze ==
+
+    note over req,RM#Tomato: Beyond this point:\n- Late scope request will need ERA adhoc request
 
 end
 

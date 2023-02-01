@@ -6,35 +6,53 @@
 
 group 2.0 Code Merge, Cut-Off, & New Version
     req -> Art: Ensure artefacts\nare in order
-    FeatDev->FeatDev: Get MR to be reviewed
+    
+    group Plugin Repo Activities
+        FeatDev->FeatDev: Get MR to be reviewed
 
-    RM->Art: RM executes verifications
-    note over req,FeatDev: JIRA Ticket verified & MR reviewed
+        Art->Art: RM system executes verifications via \n- JIRA verification\n - Gitlab release_verify pipeline
+        note over req,FeatDev: JIRA Ticket pass verification\n& MR pass pipelines
 
-    FeatDev -> Art: Merge Feature <b>MR</b>\ninto plugin <b>master</b>
-    note over req,FeatDev: Feature Dev can merge into **master** anytime \nafter ticket & MR are verified
-    hnote over Art#LimeGreen:<b>MERGED\n<b>Feature MR\n in plugin repo
+        FeatDev -> Art: Merge Feature <b>MR</b>\ninto plugin <b>master</b>
+        note over req,FeatDev: NOTE: Feature Dev can merge into **master** anytime \nafter ticket & MR are verified
+        hnote over Art#LimeGreen:<b>MERGED\n<b>Feature MR\n in plugin repo
+        
+        == AFTER Plugin DOD confirmed all inscope changes are merged\nin Plugin repo==
 
-    == Friday 17:00 - Regular Release Cutoff==
+        PluginDOD -> PluginDOD: merge **master**\ninto **staging**
+        PluginDOD -> Art: Generate new plugin patch version tag\nin **staging**
+        hnote over Art#DarkOrchid:New feature\npatch version
 
-    PluginDOD -> PluginDOD: merge **master**\ninto **staging**
-    PluginDOD -> Art: Generate new plugin patch version tag\nin **staging**
-    hnote over Art#DarkOrchid:New feature\npatch version
+    end
 
-    PluginDOD -> Art: (IB Only) Build new patch version
-    hnote over Art#LimeGreen:New patch\nversion build
+    group HOST Repo Activities
+        group IF IB Plugins:
+            PluginDOD -> Art: Raise RPR
+            Art -> Art: System will raise SPFE ticket\nIF Auto create JIRA ticket\nis enabled
+            hnote over Art#LimeGreen: JIRA SPFE\nTicket
+            PluginDOD -> Art: Build new patch version
+            hnote over Art#LimeGreen:New patch\nversion build
+            PluginDOD -> Art: Submit tag into RPR
+            Art -> Art: System will raise\nhost repo MR
+            hnote over Art#LimeGreen:<b>OPEN MR\nin host repo
+            note over Art,PluginDOD#Tomato: Make sure to comments in RPR to avoid missed out MR merge
+        end
 
+        group ELSE IF: CB Plugins
+            PluginDOD -> Art : Raise JIRA ticket\nin <b>SPFE</b> board
+            hnote over Art#LimeGreen: JIRA SPFE\nTicket
 
-    PluginDOD -> Art : Raise JIRA ticket\nin <b>SPFE</b> board
-    hnote over Art#LimeGreen: JIRA SPFE\nTicket
+            PluginDOD -> Art: Raise version-bump <b>MR</b>\nto host-repo
+            PluginDOD -> Art: Link version-bump <b>MR</b>\nto **SPFE** ticket
+            hnote over Art#LimeGreen:<b>OPEN MR\nin host repo
 
-    PluginDOD -> Art: Raise version-bump <b>MR</b>\nto host-repo
-    PluginDOD -> Art: Link version-bump <b>MR</b>\nto **SPFE** ticket
-    hnote over Art#LimeGreen:<b>OPEN MR\nin host repo
-
-    PluginDOD -> RN_DOD: Notify RN DOD\nto review **SPFE** MR
-    RN_DOD->RN_DOD: If CB, triggers\nRN Pipeline 
-    note over Art,RN_DOD#Tomato: Make sure to follow MR requirement to avoid missed out MR merge
+            PluginDOD -> RN_DOD: Notify RN DOD\nto review **SPFE** MR
+            RN_DOD->RN_DOD: Review, triggers\nBootstrap Pipeline 
+            note over Art,RN_DOD#Tomato: Make sure to follow MR requirement to avoid missed out MR merge
+        end
+    end
+    == Friday 17:00 - Regular Release Scope Cutoff==
+    note over Art,RN_DOD#Tomato: Beyond this point:\n- Unverified tickets will be removed\n- Scope is locked down, requesters will be unable submit anymore into scope
 end
 
 @enduml
