@@ -7,7 +7,7 @@
 group 3.0 Host Repository MERGE Cut-off
     RM -> Art: Executes\nfinal verifications
 
-    == Friday 17:00 : Host repository Cut-off ==
+    == Friday 17:00 : Host repository Scope Cut-off ==
     note over req,RM#Tomato: Beyond this point:\n- Unverified tickets will be removed\n- Scope is locked down, requesters will be unable submit anymore into scope
 
     note over req,RM: During this period,\nDevs can still execute code merge for in-scope requests.
@@ -17,7 +17,7 @@ group 3.0 Host Repository MERGE Cut-off
 
     hnote over Art#LimeGreen:<b>MERGED\n<b>SPFE MR
 
-    == Monday 12:00 : Host repository Code-Freeze ==
+    == Monday 12:00 : Host repository Merge Cutoff ==
 
     note over req,RM#Tomato: Beyond this point:\n- Late scope request will need ERA adhoc request
 
