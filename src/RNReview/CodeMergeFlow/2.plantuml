@@ -6,6 +6,8 @@
 title Regression Bug Flow
 
 == Regular Release Merge Cut-Off (Usually Monday 12:00) ==
+note over release, host_master : RM remove Missed out merge scope
+== RN Starts Accepting Regression Fix (Usually Monday 16:00) ==
 
 host_master -> host_staging: Branch merge\nexecuted
 
