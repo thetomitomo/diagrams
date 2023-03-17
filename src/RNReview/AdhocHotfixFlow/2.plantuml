@@ -47,7 +47,7 @@ group 2.0 Verification_&_Approval
     end
 
 
-    == Daily cut-off for verification to release on same day is 16:30 ==
+    == Daily cut-off for verification to release on same day is 11:30 ==
     note over req,RM#Tomato: Any requests verified after this point may not be able to be deployed on the same day.
 
 end
