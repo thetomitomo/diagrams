@@ -1,4 +1,7 @@
 @startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam StateFontColor black
 
 state "Pending Dev Ack (Pre-Op)" as preOp
 state "Pending Dev Ack" as pendingDevAck
