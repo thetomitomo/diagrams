@@ -1,0 +1,76 @@
+@startuml
+
+state "Pending Dev Ack (Pre-Op)" as preOp
+state "Pending Dev Ack" as pendingDevAck
+state "Pending Pre-Req" as pendingPreReq
+state "Pending RM Deployment" as pendingRMDeploy
+state "Verify Canary Instance" as verifyCanary
+state "Pending Live Verification" as pendingLiveVer
+state pendingLiveVerFork <<fork>>
+state "Pending Promote" as pendingPromote
+state "Abort Requested" as abortRequested
+state "Rollback Requested" as rollbackRequested
+state "Rollback Done" as rollbackDone
+
+
+[*] --> preOp : InitSequence
+preOp: RM: Start Operation
+
+preOp --> pendingDevAck : Start Operation
+pendingDevAck: Dev: ACK
+
+pendingDevAck --> pendingPreReq : All ACKed
+pendingPreReq: Dev: TICK prereq
+
+pendingPreReq --> pendingRMDeploy : All requisites done
+pendingRMDeploy: RM: Deploys
+
+pendingRMDeploy --> Deploying : RM deploy
+Deploying : RM: Monitoring
+Deploying : RM: Abort
+
+Deploying --> Aborted : Abort
+
+Deploying --> Failed : Fails
+
+Failed --> pendingDevAck : Reinitiate
+Failed: RM: Reinitiate
+
+Deploying --> verifyCanary : progress with Canary
+verifyCanary: Dev: Ack
+verifyCanary: Dev: Request abort
+
+verifyCanary --> pendingPromote : All ACK
+pendingPromote: RM: Promote
+
+verifyCanary --> abortRequested : Request abort
+abortRequested: RM: Abort
+
+abortRequested --> Aborted : RM abort
+Aborted: Rm : Reinitiate
+
+Aborted --> pendingDevAck : Reinitiate
+pendingPromote: RM: Reinitiate
+
+pendingPromote --> pendingLiveVerFork : Promote
+note right of pendingLiveVerFork : Need Live\nVerification
+pendingLiveVerFork --> pendingLiveVer : True
+pendingLiveVerFork --> Done : False
+
+pendingLiveVer --> Done :All dev ACK\n All CIDs deployed
+pendingLiveVer --> pendingRMDeploy : not All CIDs deployed
+pendingLiveVer: Dev: ACK
+
+Deploying --> pendingLiveVerFork : Success\nwithout Canary
+
+Done: Dev: Request Rollback
+
+Done --> rollbackRequested
+rollbackRequested: RM: Execute rollback
+
+rollbackRequested --> rollbackDone : RM rollback finish
+rollbackDone: RM: Reinitiate
+
+rollbackDone --> pendingDevAck : Reinitiate
+
+@enduml
