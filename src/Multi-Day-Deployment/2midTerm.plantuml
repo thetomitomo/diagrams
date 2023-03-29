@@ -16,6 +16,7 @@ state "Abort Requested" as abortRequested
 state "Rollback Requested" as rollbackRequested
 state "Rollback Done" as rollbackDone
 
+title MidTerm Proposed State Flow
 
 [*] --> preOp : InitSequence
 note right of preOp : [CHANGED]\n- new inert status\n- REMOVE dev noti on start operation
