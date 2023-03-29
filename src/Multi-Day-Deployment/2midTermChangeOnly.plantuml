@@ -1,0 +1,27 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam StateFontColor black
+
+state "Pending Start Operation" as preOp
+state "Pending Dev Ack" as pendingDevAck
+state "Pending Pre-Release Events" as pendingPreReleaseEvents
+
+title Mid Term - Changes Only
+
+[*] --> preOp : InitSequence
+note right of preOp : [CHANGED]\n- new inert status\n- REMOVE dev noti on start operation
+preOp: RM: Start Operation
+
+note right of pendingPreReleaseEvents : [CHANGED] \n- new status\n- new check
+preOp --> pendingPreReleaseEvents : Start operation
+
+pendingPreReleaseEvents --> pendingDevAck : All events passed
+pendingPreReleaseEvents: System: Check for event whitelist
+
+note right of pendingDevAck : [CHANGED]\n- ADD dev noti on start operation
+pendingDevAck: Dev: ACK
+pendingDevAck --> [*] : To further state
+
+
+@enduml
