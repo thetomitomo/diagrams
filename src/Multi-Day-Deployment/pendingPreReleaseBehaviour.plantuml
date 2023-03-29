@@ -25,6 +25,7 @@ group Initialisation
     end note
 
     gitDB -> RE : pre_release_events (array)
+
     RE -> RE : Initialise\npre_release_blockers (map)
     note right
         For each release event
@@ -41,6 +42,12 @@ group Initialisation
     end note
 
     RE -> deploymentDB: Store map\nof each pre-release event
+
+    RE -> RE : If no pre_release_events\nTrigger state update
+    note right
+        If no pre_release_events
+    end note
+
 end group
 
     deploymentDB -> DD : Display events in popup
