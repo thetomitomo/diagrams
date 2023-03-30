@@ -62,20 +62,14 @@ end group
 group Pending Dev Ack Transitions
     group via external API
         Signoff -> RE : Toggle state via RE API
-        RE -> deploymentDB : DB toggle handler
-        note right
-            contain key & state
-        end note
-        deploymentDB -> deploymentDB : Update date
+        RE -> deploymentDB : DB toggle handler\nwith key & state
+        deploymentDB -> deploymentDB : Update\n- key\n- state\n- date
         RE -> RE : Trigger state update
     end group
     group via Dashboard UI
         DD -> RE : Via button
-        RE -> deploymentDB : DB toggle handler
-        note right
-            contain key & state
-        end note
-        deploymentDB -> deploymentDB : Update date
+        RE -> deploymentDB : DB toggle handler\nwith key & state
+        deploymentDB -> deploymentDB : Update\n- key\n- state\n- date
         RE -> RE : Trigger state update
     end group
 end group
@@ -86,7 +80,7 @@ group State Update
 
     RE -> RE
     note right
-        If ALL True
+        If ALL event state == True
             transition to next state
         else
             pass

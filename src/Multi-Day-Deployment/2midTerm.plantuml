@@ -26,7 +26,9 @@ note right of pendingPreReleaseEvents : [CHANGED] \n- new status\n- new check
 preOp --> pendingPreReleaseEvents : Start operation
 
 pendingPreReleaseEvents --> pendingDevAck : All events passed
+pendingPreReleaseEvents --> pendingDevAck : RM Override
 pendingPreReleaseEvents: System: Check for event whitelist
+pendingPreReleaseEvents: RM: Override
 
 note right of pendingDevAck : [CHANGED]\n- ADD dev noti on start operation
 pendingDevAck: Dev: ACK
