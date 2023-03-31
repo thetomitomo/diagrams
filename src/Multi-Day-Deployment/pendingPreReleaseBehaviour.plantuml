@@ -1,6 +1,7 @@
 @startuml
 !theme bluegray
 skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
 
 entity Signoff as Signoff
 entity DeploymentDashboard as DD
