@@ -9,6 +9,7 @@ participant ReleaseEngine as RE
 database gitlab_project_tab as gitDB
 database deployment_request_tab as deploymentDB
 database deployment_ack_config_tab as ackDB
+database pre_release_events_tab as PREDB
 
 title Pending Pre-Release Events Behaviour
 
@@ -42,7 +43,7 @@ group Initialisation
         }
     end note
 
-    RE -> deploymentDB: Store map\nof each pre-release event
+    RE -> PREDB: write entry\nof each pre-release event
 
     RE -> RE : If no pre_release_events\nTrigger state update
     note right
@@ -51,7 +52,7 @@ group Initialisation
 
 end group
 
-    deploymentDB -> DD : Display events in popup
+    PREDB -> DD : Display events in popup
     note right
         when user hover over the status
         Pending pre-release events
@@ -63,21 +64,21 @@ end group
 group Pending Dev Ack Transitions
     group via external API
         Signoff -> RE : Toggle state via RE API
-        RE -> deploymentDB : DB toggle handler\nwith key & state
-        deploymentDB -> deploymentDB : Update\n- key\n- state\n- date
+        RE -> PREDB : DB toggle handler\nwith key & state
+        PREDB -> PREDB : Update\n- key\n- state\n- date
         RE -> RE : Trigger state update
     end group
     group via Dashboard UI
         DD -> RE : Via button
-        RE -> deploymentDB : DB toggle handler\nwith key & state
-        deploymentDB -> deploymentDB : Update\n- key\n- state\n- date
+        RE -> PREDB : DB toggle handler\nwith key & state
+        PREDB -> PREDB : Update\n- key\n- state\n- date
         RE -> RE : Trigger state update
     end group
 end group
 
 group State Update
-    RE -> deploymentDB : GET pre_release_blockers
-    deploymentDB -> RE : pre_release_blockers
+    RE -> PREDB : GET pre_release_blockers
+    PREDB -> RE : pre_release_blockers
 
     RE -> RE
     note right
