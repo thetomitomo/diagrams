@@ -14,15 +14,23 @@ class "<b>DeploymentSequence" as DS {
 class "<b>DeploymentRequest" as DR {
     current DB : shopee_deployplatform_db.deployment_request_tab
 
-    Function Requirements:
+    NEW Function Requirements:
     - Initialise PreReleaseEvents
     - GET PreReleaseEvents
 }
 
-class "<b>PreReleaseEvents" as PRE {
-    Suggested DB : shopee_deployplatform_db.deployment_request_tab
+class "<b>[NEW Entity] PreReleaseEvents" as PRE {
+    new DB : shopee_deployplatform_db.pre_release_events_tab
 
-    Function Requirements:
+    Attributes:
+    - deployment_request_id
+    - display_name
+    - pre_release_event_name
+    - status
+    - toggle_timestamp
+
+    NEW Function Requirements:
+    - GET PreReleaseEvent
     - Toggle PreReleaseEvent
 }
 
