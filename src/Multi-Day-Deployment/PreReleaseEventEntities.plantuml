@@ -28,6 +28,7 @@ class "<b>[NEW Entity] PreReleaseEvents" as PRE {
     - pre_release_event_name
     - status
     - toggle_timestamp
+    - toggle_author
 
     NEW Function Requirements:
     - GET PreReleaseEvent
