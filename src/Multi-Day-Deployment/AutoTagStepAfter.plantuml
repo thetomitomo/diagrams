@@ -1,0 +1,33 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam StateFontColor black
+
+state "Pending Start Operation" as preOp
+state "Pending Dev Ack" as pendingDevAck
+state "Pending Pre-Release Events" as pendingPreReleaseEvents
+state AutoTagChoice <<choice>>
+
+title AFTER: State Flow Diagram
+
+[*] --> preOp : InitSequence
+preOp: RM: Start Operation
+
+note right of pendingPreReleaseEvents : [CHANGED] \n- Add new PreRelease Events\n\t- Branch Merge\n\t- Generate Tag
+preOp --> pendingPreReleaseEvents : Start operation
+
+' pendingPreReleaseEvents --> pendingDevAck : All events passed
+pendingPreReleaseEvents: System: Check for event whitelist
+pendingPreReleaseEvents --> AutoTagChoice
+
+note right of AutoTagChoice : [CHANGED]\n- New check\n- Conditional AutoMergeTag Trigger
+AutoTagChoice --> pendingDevAck : ALL PreReleaseEvents Done
+AutoTagChoice --> Trigger_AutoMergeTag : ALL PreReleaseEventsDone EXCEPT\n- Branch Merge\n- Generate Tag
+
+note right of Trigger_AutoMergeTag : [CHANGED] "Hidden" new status
+Trigger_AutoMergeTag --> pendingPreReleaseEvents
+
+pendingDevAck: Dev: ACK
+pendingDevAck --> [*] : To further state
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam StateFontColor black
+
+state "Pending Start Operation" as preOp
+state "Pending Dev Ack" as pendingDevAck
+state "Pending Pre-Release Events" as pendingPreReleaseEvents
+
+title BEFORE: State Flow Diagram
+
+[*] --> preOp : InitSequence
+preOp: RM: Start Operation
+
+preOp --> pendingPreReleaseEvents : Start operation
+
+pendingPreReleaseEvents --> pendingDevAck : All events passed
+pendingPreReleaseEvents: System: Check for event whitelist
+
+pendingDevAck: Dev: ACK
+pendingDevAck --> [*] : To further state
+
+@enduml
