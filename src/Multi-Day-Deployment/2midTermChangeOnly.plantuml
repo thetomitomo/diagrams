@@ -7,7 +7,7 @@ state "Pending Start Operation" as preOp
 state "Pending Dev Ack" as pendingDevAck
 state "Pending Pre-Release Events" as pendingPreReleaseEvents
 
-title Mid Term - Changes Only
+title State Flow Diagram - Changes Only
 
 [*] --> preOp : InitSequence
 note right of preOp : [CHANGED]\n- new inert status\n- REMOVE dev noti on start operation
@@ -22,6 +22,5 @@ pendingPreReleaseEvents: System: Check for event whitelist
 note right of pendingDevAck : [CHANGED]\n- ADD dev noti on start operation
 pendingDevAck: Dev: ACK
 pendingDevAck --> [*] : To further state
-
 
 @enduml
