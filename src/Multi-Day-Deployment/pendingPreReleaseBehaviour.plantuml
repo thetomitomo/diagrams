@@ -7,7 +7,7 @@ entity Signoff as Signoff
 entity DeploymentDashboard as DD
 participant ReleaseEngine as RE
 database gitlab_project_tab as gitDB
-database deployment_request_tab as deploymentDB
+' database deployment_request_tab as deploymentDB
 database deployment_ack_config_tab as ackDB
 database pre_release_events_tab as PREDB
 
@@ -18,38 +18,15 @@ group Initialisation
     RE -> ackDB : with jenkins_job\nGET <b>repo
     ackDB -> RE : repo
     
-    RE -> gitDB : with repo\nGET pre_release_events
-    note right
-        We will maintain 
-        the array of keys to fetch
-        For now:
-        - requires_regression_signoff
-    end note
+    RE -> gitDB : with repo\nGET requires_regression_signoff
+    
+    gitDB -> RE : requires_regression_signoff
 
-    gitDB -> RE : pre_release_events (array)
-
-    RE -> RE : Initialise\npre_release_blockers (map)
-    note right
-        For each release event
-            If release event configured as true
-                Append inside list\nof pre-release events
-        
-        pre_release_blockers = {
-            "requires_regression_signoff" : {
-                "state" : "Pending"
-                "date" : "-"
-            },
-            ..
-        }
-    end note
-
-    RE -> PREDB: write entry\nof each pre-release event
-
-    RE -> RE : If no pre_release_events\nTrigger state update
-    note right
-        If no pre_release_events
-    end note
-
+    RE -> PREDB : For each configured PreRelease Event\nInitialise an entry
+    
+    group If no pre_release_events
+        RE -> RE : Trigger state update
+    end group
 end group
 
     PREDB -> DD : Display events in popup
@@ -80,13 +57,18 @@ group State Update
     RE -> PREDB : GET pre_release_blockers
     PREDB -> RE : pre_release_blockers
 
-    RE -> RE
-    note right
-        If ALL event state == True
+    group If ALL event state == True
+        RE -> RE
+        note right
             transition to next state
-        else
+        end note
+    end group 
+    group else
+        RE -> RE
+        note right
             pass
-    end note
+        end note
+    end group            
 end group
 
 ' (*) --> [Enter State] Initialisation
