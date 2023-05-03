@@ -1,0 +1,44 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+
+title PreBuild Conditional Checks
+
+start
+
+:PreBuild is called;
+
+if (Does the CMDB service\nsupport separation of BUILD & DEPLOY?) then (FALSE)
+    :Do NOT execute PreBuild;
+    stop
+else (TRUE)
+    if (Does the CMDB service\nhost any cron jobs in LIVE?) then (TRUE)
+        :Do NOT execute PreBuild;
+        stop
+    else (FALSE)
+        if (Is the Tag version already built?) then (TRUE)
+            :Do NOT execute PreBuild;
+            stop
+        else (FALSE)
+            :Do execute PreBuild;
+        endif
+    endif
+endif
+
+stop
+
+' (*) --> "PreBuild is called"
+' ' "PreBuild is called" --> (*)
+
+' if "Does the CMDB service\nsupport separation of BUILD & DEPLOY?" then 
+'     --> [FALSE] "Do NOT execute PreBuild"
+' else
+'     ' --> [TRUE] "Pass"
+'     if "Does the CMDB service\nhost any cron jobs in LIVE?" then
+'         --> [TRUE] "Do NOT execute PreBuild"
+'     else
+'         if "Is the Tag version already built?" then
+'             --> [TRUE] "Do NOT execute PreBuild"
+'         else
+'             --> "Do execute PreBuild"
+@enduml
