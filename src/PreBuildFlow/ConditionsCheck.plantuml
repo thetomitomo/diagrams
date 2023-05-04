@@ -2,43 +2,57 @@
 !theme bluegray
 skinparam FooterFontColor black
 
-title PreBuild Conditional Checks
+title PreBuild Logic Diagram
 
 start
 
-:PreBuild is called;
+:PreBuild is called, Data:\n- Service CMDB ID\n- ReleaseTag;
 
-if (Does the CMDB service\nsupport separation of BUILD & DEPLOY?) then (FALSE)
-    :Do NOT execute PreBuild;
-    stop
-else (TRUE)
-    if (Does the CMDB service\nhost any cron jobs in LIVE?) then (TRUE)
-        :Do NOT execute PreBuild;
-        stop
+group Follow Up Previous Attempts
+    if (Was there a SUCCESS PreBuild attempt?\n(GET stored pipeline ID)) then (TRUE)
+        ' :Do NOT execute PreBuild;
+        if (Build Status == SUCCESS) then ( )
+            :Status code 0;
+            stop
+        elseif (Build Status == RUNNING) then ( )
+            :Status code 1;
+            stop
+        else (else)
+            ' :continue;
+        endif
     else (FALSE)
-        if (Is the Tag version already built?) then (TRUE)
-            :Do NOT execute PreBuild;
+    endif
+end group
+
+group Condition Check
+    if (Does the CMDB service\nsupport separation of BUILD & DEPLOY?) then (FALSE)
+        :Status code 2;
+        stop
+    else (TRUE)
+        if (Does the CMDB service\nhost any cron jobs in LIVE?) then (TRUE)
+            :Status code 3;
             stop
         else (FALSE)
-            :Do execute PreBuild;
         endif
     endif
-endif
+end group
 
+group Execute Build
+    if (Reaches Max Retry?) then (TRUE)
+        :Status code 5;
+        stop
+    else (FALSE)
+    endif
+
+    :Update DB `Attempt Count += 1`;
+    if (Execute Build) then (FAILS)
+        :Status code 4;
+        stop
+    else (SUCCESS)
+        :Status code 1;
+    endif
 stop
+end group
 
-' (*) --> "PreBuild is called"
-' ' "PreBuild is called" --> (*)
 
-' if "Does the CMDB service\nsupport separation of BUILD & DEPLOY?" then 
-'     --> [FALSE] "Do NOT execute PreBuild"
-' else
-'     ' --> [TRUE] "Pass"
-'     if "Does the CMDB service\nhost any cron jobs in LIVE?" then
-'         --> [TRUE] "Do NOT execute PreBuild"
-'     else
-'         if "Is the Tag version already built?" then
-'             --> [TRUE] "Do NOT execute PreBuild"
-'         else
-'             --> "Do execute PreBuild"
 @enduml
