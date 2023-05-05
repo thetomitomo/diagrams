@@ -14,7 +14,7 @@ note left
     && **Value** == **your app**
 end note
 
-== Regular Release Prebuild Preparation\nUsually Wednesday 16:30  ==
+== Regular Release Prebuild Preparation\nUsually Tuesday 16:30  ==
 
 RM_Auto -> Dash : Creates new \n<b>Task-Version</b>\nfor current week\nRegular Release
 note right
@@ -25,7 +25,7 @@ end note
 
 group Prebuild Preparation
     RM -> PlatformDOD : Finalise scope and liaise Prebuild **Preparation**
-    PlatformDOD -> PlatformDOD : Merge host-repo branch
+    PlatformDOD -> PlatformDOD : Merge host-repo branch (Release -> Staging)
     PlatformDOD -> PlatformDOD : Generate new host-repo tag
     PlatformDOD->DevPICs : Shares new host tags in\n<b>rm-microfe-pics</b>\nMM channel
 end
@@ -80,7 +80,7 @@ group Versions Input into FERD TaskVersion
     hnote over RM,DevPICs: Wait for Dev PICs' version input into Task-Version
 end
 
-== Task-Version Input Cut-off\nUsually Thursday 10:30  ==
+== Task-Version Input Cut-off\nUsually Wednesday 10:30  ==
 
 group Deployment
     RM -> DevPICs : RM informs about deployment commencement
