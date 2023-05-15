@@ -49,7 +49,7 @@ group Execute Build
         :Status code 4;
         stop
     else (SUCCESS)
-        :Status code 1;
+        :Status code 6;
     endif
 stop
 end group
