@@ -1,0 +1,25 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+
+title PreBuild Logic Diagram With Toggle
+
+start
+
+:PreBuild is called, Data:\n- Service CMDB ID\n- ReleaseTag\n- CheckToggle (optional);
+
+if (CheckToggle ==) then (FALSE)
+    
+else (TRUE)
+    if (Get Config EnablePreBuild?) then (FALSE)
+        :Status code 7;
+        stop
+    else (TRUE)
+    endif
+endif
+
+:Simplified PreBuild Logic Flow;
+
+stop
+
+@enduml
