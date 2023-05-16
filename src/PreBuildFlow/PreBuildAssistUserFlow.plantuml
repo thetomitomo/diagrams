@@ -1,0 +1,54 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+
+title User Flow on Deployment Dashboard with PreBuild Assist
+
+start
+
+:In "Pending Deployment" state;
+:User click action: Deploy;
+:System GET PreBuild data w Arg:\n- Service CMDB ID\n- ReleaseTag;
+
+group PreBuild Check
+    if (PreBuild Status Code) then (0 - SUCCESS)
+        
+        group Flow WITH\n**PreBuild Assist**
+            :System prompts user\n"Existing build for {version} detected,\nDEPLOY_ONLY will be pre-filled";
+            note right
+                Intended to require
+                user to "Close" this prompt
+                for a few ReleaseCycle
+                until operators are familiar
+
+                then we will remove the notice
+            end note
+            :System popup normal Deploy prompt\nWith tag & DEPLOY_ONLY==TRUE;
+            :User can proceed normally;
+            stop
+        end group
+    else ( not 0 - NON SUCCESS)
+    endif
+
+    group Flow WITHOUT\n**PreBuild Assist**
+        :System popup normal Deploy prompt;
+        :User can proceed normally;
+        split
+            :User exit;
+            stop
+        split again
+            if (User proceeds with deployment\nwith..) then (DEPLOY_ONLY==FALSE)
+                :Normal deploy execution;
+                stop
+            else (DEPLOY_ONLY==FALSE)
+                :System prompts user with error\n"No existing PreBuild";
+                :User need to close error";
+                :User is back at step right before proceeding with deployment;
+            endif
+        end split
+    end group
+end group
+
+stop
+
+@enduml
