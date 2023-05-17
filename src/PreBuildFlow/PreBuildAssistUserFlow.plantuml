@@ -10,29 +10,40 @@ start
 :User click action: Deploy;
 :System GET PreBuild data w Arg:\n- Service CMDB ID\n- ReleaseTag;
 
-group PreBuild Check
-    if (PreBuild Status Code) then (0 - SUCCESS)
-        
-        group Flow WITH\n**PreBuild Assist**
-            :System prompts user\n"Existing build for {version} detected,\nDEPLOY_ONLY will be pre-filled";
-            note right
-                Intended to require
-                user to "Close" this prompt
-                for a few ReleaseCycle
-                until operators are familiar
 
-                then we will remove the notice
-            end note
-            :System popup normal Deploy prompt\nWith tag & DEPLOY_ONLY==TRUE;
-            :User can proceed normally;
-            stop
-        end group
-    else ( not 0 - NON SUCCESS)
-    endif
+if (PreBuild Status Code) then (0 - SUCCESS)
+    
+    group **PreBuild Assist**\nwith SUCCESS build
+        :System prompts user\n"Existing build for {version} detected,\nDEPLOY_ONLY will be pre-filled";
+        note right
+            Intended to require
+            user to "Close" this prompt
+            for a few ReleaseCycle
+            until operators are familiar
 
-    group Flow WITHOUT\n**PreBuild Assist**
-        :System popup normal Deploy prompt;
+            then we will remove the notice
+        end note
+        :System popup normal Deploy prompt\nWith **FROM_BRANCH==tag**\n&& **DEPLOY_ONLY==TRUE**;
         :User can proceed normally;
+        split
+            :User exit;
+            stop
+        split again
+            :User deploy without changing param FROM_BRANCH or DEPLOY_ONLY;
+            :System execute deployment;
+            stop
+        split again
+            :User change param\n- FROM_BRANCH\n- or DEPLOY_ONLY;
+        end split
+    end group
+else ( not 0 - NON SUCCESS)
+    :System popup\nnormal Deploy prompt;
+endif
+
+group **PreBuild Assist**\nwithout SUCCESS build
+        
+    :User can proceed normally;
+    repeat
         split
             :User exit;
             stop
@@ -40,15 +51,21 @@ group PreBuild Check
             if (User proceeds with deployment\nwith..) then (DEPLOY_ONLY==FALSE)
                 :Normal deploy execution;
                 stop
-            else (DEPLOY_ONLY==FALSE)
-                :System prompts user with error\n"No existing PreBuild";
-                :User need to close error";
-                :User is back at step right before proceeding with deployment;
+            else (DEPLOY_ONLY==TRUE)
+                group Checks Before\nDeployment Execution
+                    if (GET PreBuild status with\n- CMDB ID\n- Release Tag) then (status == 0)
+                        :Proceed with\ndeploy execution;
+                        stop
+                    else (status != 0)
+                        :System prompts user with error\n"No existing PreBuild for selected tag";
+                    endif
+                end group
             endif
         end split
-    end group
+    backward :User back\nto step before\ndeployment execution;
+    repeat while (User close\nerror prompt)
 end group
 
-stop
+kill
 
 @enduml
