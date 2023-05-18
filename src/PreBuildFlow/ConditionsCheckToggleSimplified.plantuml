@@ -12,7 +12,7 @@ if (CheckToggle ==) then (FALSE)
     
 else (TRUE)
     if (Get Config EnablePreBuild?) then (FALSE)
-        :Status code 7;
+        :Status code 2;
         stop
     else (TRUE)
     endif

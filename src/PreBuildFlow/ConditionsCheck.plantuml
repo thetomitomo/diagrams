@@ -30,7 +30,7 @@ group Condition Check
         stop
     else (TRUE)
         if (Does the CMDB service\nhost any cron jobs in LIVE?) then (TRUE)
-            :Status code 3;
+            :Status code 2;
             stop
         else (FALSE)
         endif
@@ -39,17 +39,17 @@ end group
 
 group Execute Build
     if (Reaches Max Retry?) then (TRUE)
-        :Status code 5;
+        :Status code 3;
         stop
     else (FALSE)
     endif
 
     :Update DB `Attempt Count += 1`;
     if (Execute Build) then (FAILS)
-        :Status code 4;
+        :Status code 3;
         stop
     else (SUCCESS)
-        :Status code 6;
+        :Status code 1;
     endif
 stop
 end group
