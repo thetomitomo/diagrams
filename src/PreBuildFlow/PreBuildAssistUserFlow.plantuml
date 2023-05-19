@@ -56,7 +56,10 @@ group **PreBuild Assist**\nwithout SUCCESS build
                     if (GET PreBuild status with\n- CMDB ID\n- Release Tag) then (status == 0)
                         :Proceed with\ndeploy execution;
                         stop
-                    else (status != 0)
+                    elseif (status == 1)
+                        :- System GET PreBuild callback_id\n- System aborts the PreBuild pipeline\n- System initialise the full BUILD+DEPLOY pipeline;
+                        stop
+                    else (else other status)
                         :System prompts user with error\n"No existing PreBuild for selected tag";
                     endif
                 end group
