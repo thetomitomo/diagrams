@@ -3,7 +3,7 @@
 
 title ORP Code Merge Flow - Regression Bug
 
-group 6.0 Regression Bug Flow
+group 6.0 Regression Bug Flow (All DEV action)
     note over feature, staging : Regression Bug Flow fix is ONLY for bugs found in STAGING.\nQA lead has to certify by adding <b><color #Navy>SZ/SG_QA_Regression</color></b>
     staging -> feature: NEW branch out of <b>staging</b>
     
@@ -15,6 +15,5 @@ group 6.0 Regression Bug Flow
         To fix upcoming release scope
     end note
 
-    hnote over master,staging #Orange:Auto-Merge **staging** into **master**
-    staging -> master: merge <b>staging</b>\ninto <b>master</b>
+    note over staging: Dev deploy\ninto staging env
 end

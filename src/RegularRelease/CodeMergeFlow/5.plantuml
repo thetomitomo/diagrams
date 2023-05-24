@@ -3,11 +3,11 @@
 
 title ORP Code Merge Flow - Late Addition After Merge Cutoff
 
-== Scope Cutoff - Usually Monday 12:00 ==
+== Scope Cutoff  ==
 
 note over feature, release : After Scope Cutoff, you won't be able to add upcoming <b>Release Cycle</b> into your ticket anymore
 
-== Merge Cutoff - Usually Monday 17:00 ==
+== Merge Cutoff  ==
 
 hnote over feature,release #Orange:Removal of <b>in-scope pending merge</b> tickets
 hnote over master,staging #Orange:Auto-Merge **master** into **staging**
@@ -15,7 +15,7 @@ master -> staging: merge <b>master</b>\ninto <b>staging</b>
 
 group 5.0 Late Merge Flow
     note over feature, staging : $late_justification
-    hnote over feature,staging #Red:Any <b>low-priority</b> late request should follow <b>next Regular Release<b>
+    hnote over feature,staging #Red:Any <b>low-priority</b> late request should follow <b>next Regular Release
     
     hnote over feature #LimeGreen: $if_RM_approves
     note over feature: MUST pass verifications
@@ -23,4 +23,4 @@ group 5.0 Late Merge Flow
     feature -> staging: merge <b>feature</b>\ninto <b>staging</b>
 end
 
-== Staging Deployment Start - Usually Monday 19:00  ==
+== Staging Deployment Start  ==
