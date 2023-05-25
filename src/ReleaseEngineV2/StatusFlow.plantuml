@@ -32,6 +32,8 @@ userSubmitFailure --> FailedVerification : User submit\nfail verification
 InScopePendingAction -down-> InScopeCompletedAction : Complete\nConfigured Action
 InScopePendingAction --> FailedVerification : Fails\nVerification
 FailedVerification --> InScopePendingAction : Pass\nVerification
+FailedVerification --> Rejected : Scope\nCutoff event
+
 InScopePendingAction -right-> Rejected : Merge\nCutoff event
 Rejected -left-> InScopePendingAction : Add back\nfrom\nLate Scope
 InScopeCompletedAction --> Released : Complete\nLIVE Release
