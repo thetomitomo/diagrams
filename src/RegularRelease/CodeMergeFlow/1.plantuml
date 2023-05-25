@@ -19,4 +19,4 @@ group 1.0 Feature Branch Management
     feature -> master: IFF verification passes,\nmerge <b>feature</b>\ninto <b>master</b>
 end
 
-== Code Freeze - Usually Monday 17:00 ==
+== Code Freeze ==

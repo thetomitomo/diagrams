@@ -5,7 +5,7 @@ title ORP Code Merge Flow - Merge Cutoff
 
 note over feature,release: <b>Assuming</b> normal release week without code freeze
 
-== Merge Cutoff - Usually Monday 17:00 ==
+== Merge Cutoff ==
 
 group 3.0 Merge Cutoff Flow
     hnote over feature,release #Orange: <b>Removal</b> of non-merged tickets from <b>Regular Release</b> scope
