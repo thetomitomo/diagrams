@@ -1,0 +1,39 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam StateFontColor white
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+skinparam ArrowColor #007faf
+
+title Default Change Request State Flow Template
+
+state userSubmitSuccess <<start>>
+state userSubmitFailure <<start>>
+' state "In Scope" as InScope
+state "In Scope Pending Action" as InScopePendingAction
+InScopePendingAction: Change request is inscope\nbut pending action
+
+state "In Scope Completed Action" as InScopeCompletedAction
+InScopeCompletedAction: Change request\nis inscope
+
+state "Failed Verification" as FailedVerification
+FailedVerification: Change request\nfailed verification
+
+state "Rejected" as Rejected
+Rejected: Change request\nis removed from scope
+
+state "Released" as Released
+Released: Change request\nis delivered
+
+userSubmitSuccess --> InScopePendingAction : User submit\npass verification
+userSubmitFailure --> FailedVerification : User submit\nfail verification
+
+InScopePendingAction -down-> InScopeCompletedAction : Complete\nConfigured Action
+InScopePendingAction --> FailedVerification : Fails\nVerification
+FailedVerification --> InScopePendingAction : Pass\nVerification
+InScopePendingAction -right-> Rejected : Merge\nCutoff event
+Rejected -left-> InScopePendingAction : Add back\nfrom\nLate Scope
+InScopeCompletedAction --> Released : Complete\nLIVE Release
+
+@enduml
