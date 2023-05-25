@@ -1,0 +1,39 @@
+@startuml
+
+title "Theoretical Transfer Flow"
+
+frame In_AU {
+    actor Kathe
+    actor Erin
+    collections AU_Combined_to_ID
+}
+frame In_ID {
+    stack DadAllowance
+    stack Allianz
+    stack BuEdi
+    collections Anita_In
+    collections Anita_Out
+}
+frame In_SG {
+    actor Kenther
+    actor Katherine
+    actor Tomy
+    stack RoboMama
+    collections SG_Combined
+}
+
+Kathe --> AU_Combined_to_ID : 4.22M
+Erin --> AU_Combined_to_ID : 4.22M
+AU_Combined_to_ID -[dashed]-> Anita_In : 8.44M
+
+Tomy --> RoboMama : 3.0M
+Tomy --> SG_Combined : 1.22M
+Kenther --> SG_Combined : 4.22M
+Katherine --> SG_Combined : 4.22M
+
+SG_Combined -[dashed]-> Anita_In : 9.66M
+
+Anita_In --> Anita_Out : 18.1M
+Anita_Out --> Allianz : 7.6M
+Anita_Out --> BuEdi : 6.0M
+Anita_Out --> DadAllowance : 4.5M

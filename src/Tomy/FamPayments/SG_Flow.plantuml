@@ -1,0 +1,21 @@
+@startuml
+title "SG Payment Flow"
+
+actor Katherin
+actor Kenther
+actor Tomy
+
+== 20th of Previous month ==
+
+Tomy -> Tomy : Check\nSGD->Rp\nFX rate
+Tomy -> Katherin : Announce how much\nSGD to transfer\nEquivalent to 4.22 M Rupiah
+Tomy -> Kenther : Announce how much\nSGD to transfer\nEquivalent to 4.22 M Rupiah
+
+== 25th of Previous month ==
+
+
+Katherin -> Tomy : Transfers SGD
+Kenther -> Tomy : Transfers SGD
+
+Tomy -> Robo : Transfers 3M Rp\nequivalent in SGD
+Tomy --> Anita : Transfers 9.66 M Rp

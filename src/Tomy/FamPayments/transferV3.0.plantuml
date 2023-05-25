@@ -1,0 +1,47 @@
+@startuml
+
+title Theoretical Transfer Flow (RUPIAH)
+
+frame In_AU {
+    actor Kathe
+    actor Erin
+    collections AU_Combined_to_ID
+}
+frame In_ID {
+    stack DadAllowance
+    stack Allianz
+    stack BuEdi
+    collections Anita_In
+    collections Anita_Out
+    note right
+        Handled by
+        **Kenther**
+    end note
+}
+frame In_SG {
+    actor Kenther
+    actor Katherine
+    actor Tomy
+    stack RoboMama
+    collections SG_Combined
+    note right
+        Handled by
+        **Tomy***
+    end note
+}
+
+Kathe --> AU_Combined_to_ID : 4,220,580
+Erin --> AU_Combined_to_ID : 4,220,580
+AU_Combined_to_ID -[dashed]-> Anita_In : 8,441,160
+
+Tomy --> RoboMama : 3,000,000
+Tomy --> SG_Combined : 1,220,580
+Kenther --> SG_Combined : 4,220,580
+Katherine --> SG_Combined : 4,220,580
+
+SG_Combined -[dashed]-> Anita_In : 9,661,740
+
+Anita_In --> Anita_Out : 18,102,900
+Anita_Out --> Allianz : 7.6M
+Anita_Out --> BuEdi : 6.0M + 2,900
+Anita_Out --> DadAllowance : 4.5M

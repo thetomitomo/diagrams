@@ -1,0 +1,40 @@
+@startuml
+
+title "Theoretical Transfer Flow"
+
+actor Kathe
+actor Erin
+actor Kenther
+actor Katherine
+actor Tomy
+
+stack DadAllowance
+stack RoboMama
+stack Allianz
+stack BuEdi
+
+collections AU_Combined_to_ID
+collections AU_Combined_to_SG
+collections SG_Combined
+collections Anita
+
+Kathe --> AU_Combined_to_ID : 900K
+Erin --> AU_Combined_to_ID : 900K
+AU_Combined_to_ID -[dashed]-> DadAllowance : 1.8M
+
+Kathe --> AU_Combined_to_SG : 3.32M
+Erin --> AU_Combined_to_SG : 3.32M
+AU_Combined_to_SG -[dashed]-> SG_Combined : 6.64M
+
+
+
+Tomy --> RoboMama : 3.0M
+Tomy --> SG_Combined : 1.22M
+Kenther --> SG_Combined : 4.22M
+Katherine --> SG_Combined : 4.22M
+
+SG_Combined -[dashed]-> Anita : 13.6M
+SG_Combined -[dashed]-> DadAllowance : 2.7M
+
+Anita --> Allianz : 7.6M
+Anita --> BuEdi : 6.0M
