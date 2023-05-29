@@ -1,0 +1,24 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam PartitionBackgroundColor ghostwhite
+
+title Current Deployment Flow
+
+start
+
+:RM Verifications;
+:RM Get Dev to monitor LIVE;
+:RM Initialise Pipeline;
+group Standard\nPipeline Execution
+    #grey:Pipeline execute BUILD/
+    note right
+        Avg 29.6% of pipeline duration
+    end note
+    #grey:Pipeline execute DEPLOY/
+end group
+:Dev monitor LIVE & verify to RM;
+
+end
+
+@enduml

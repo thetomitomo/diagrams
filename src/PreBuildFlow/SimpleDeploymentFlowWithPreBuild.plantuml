@@ -1,0 +1,33 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam PartitionBackgroundColor ghostwhite
+skinparam ActivityBorderColor #79838c
+
+title Proposed Deployment Flow\nwith PreBuild Assist
+
+start
+
+:RM Verifications;
+split
+    #orange:PreBuild runs in background|
+    kill
+split again
+    :RM Get Dev to monitor LIVE;
+end split
+
+:RM Initialise Pipeline with <b>PreBuild Assist;
+
+group Pipeline Execution\nwith <b><back:Yellow>PreBuild Assist</back>
+if (can PreBuild) then (FALSE)
+    #grey:Pipeline execute DEPLOY only/
+else (TRUE)
+    #grey:Pipeline execute BUILD/
+    #grey:Pipeline execute DEPLOY/
+endif
+end group
+:Dev monitor LIVE & verify to RM;
+
+end
+
+@enduml
