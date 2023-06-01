@@ -14,14 +14,12 @@ start
 if (PreBuild Status Code) then (0 - SUCCESS)
     
     group **PreBuild Assist**\nwith SUCCESS build
-        :System prompts user\n"Existing build for {version} detected,\nDEPLOY_ONLY will be pre-filled";
-        note right
-            Intended to require
-            user to "Close" this prompt
-            for a few ReleaseCycle
-            until operators are familiar
+        :System prompts user;
+        note left
+            "Existing build for {version} detected,
+            DEPLOY_ONLY will be pre-filled"
 
-            then we will remove the notice
+            1. Acknowledge
         end note
         :System popup normal Deploy prompt\nWith **FROM_BRANCH==tag**\n&& **DEPLOY_ONLY==TRUE**;
         :User can proceed normally;
@@ -36,7 +34,26 @@ if (PreBuild Status Code) then (0 - SUCCESS)
             :User change param\n- FROM_BRANCH\n- or DEPLOY_ONLY;
         end split
     end group
-else ( not 0 - NON SUCCESS)
+elseif (1 - WIP)
+    group **PreBuild Assist**\nwith WIP build
+        :System prompts user;
+        note left
+            "Existing build for {version} is WIP,
+            Do you want to 
+
+            1. Abort it and continue
+            2. OR exit prompt and wait"
+        end note
+        if (User choose) then (1)
+            :System abort existing PreBuild;
+            :Close prompt;
+        else (2)
+            :Close both prompt and deployment window;
+            stop
+        endif
+        :System popup\nnormal Deploy prompt;
+    end group
+else (2,3 - NA/Failed)
     :System popup\nnormal Deploy prompt;
 endif
 
@@ -49,7 +66,7 @@ group **PreBuild Assist**\nwithout SUCCESS build
             stop
         split again
             if (User proceeds with deployment\nwith..) then (DEPLOY_ONLY==FALSE)
-                :Normal deploy execution;
+                :Normal\ndeploy execution;
                 stop
             else (DEPLOY_ONLY==TRUE)
                 group Checks Before\nDeployment Execution
@@ -57,16 +74,24 @@ group **PreBuild Assist**\nwithout SUCCESS build
                         :Proceed with\ndeploy execution;
                         stop
                     elseif (status == 1)
-                        :- System GET PreBuild callback_id\n- System aborts the PreBuild pipeline\n- System initialise the full BUILD+DEPLOY pipeline;
-                        stop
-                    else (else other status)
-                        :System prompts user with error\n"No existing PreBuild for selected tag";
+                        group Abort WIP\nPreBuild Override
+                            :- System GET PreBuild callback_id\n- System aborts the PreBuild pipeline\n- System initialise the full BUILD+DEPLOY pipeline;
+                            stop
+                        end group
+                    else (Else other status)
+                        :Error prompt\nto user;
+                        note right
+                            "No existing PreBuild
+                            for selected tag"
+                            
+                            1. Acknowledge
+                        end note
                     endif
                 end group
             endif
         end split
     backward :User back\nto step before\ndeployment execution;
-    repeat while (User close\nerror prompt)
+    repeat while (User ACK\nerror prompt)
 end group
 
 kill

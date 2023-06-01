@@ -8,6 +8,14 @@ start
 
 :PreBuild is called, Data:\n- Service CMDB ID\n- ReleaseTag;
 
+group Pre-Check
+    if (Any existing pipeline running\nfor this ReleaseTag?) then (TRUE)
+        :Status code 1;
+        stop
+    else (FALSE)
+    endif
+end group
+
 group Follow Up Previous Attempts
     if (Was there a SUCCESS PreBuild attempt?\n(GET stored pipeline ID)) then (TRUE)
         ' :Do NOT execute PreBuild;
