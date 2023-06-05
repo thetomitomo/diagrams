@@ -1,0 +1,34 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+
+actor ReleaseManager as RM
+actor DevPIC as Dev
+participant ReleaseEngine as RE
+participant DeploymentDashboard as DD
+participant CMDB
+
+title Current Deployment Flow
+RM -> DD : Generates deployment sequence
+== After Pre-Release Events Passes ==
+RM -> DD : Trigger Start Operation
+DD -> Dev : Pending Dev Ack
+note over Dev: Usually waiting time occurs here\n to get dev input
+Dev -> DD : Acknowledges
+
+DD -> DD : Check for Pre-reqs
+DD -> RM : Notify RM: Pending RM Deployment
+
+RM -> DD: Triggers deployment
+DD -> CMDB: Triggers pipeline
+CMDB -> CMDB : BUILD stage
+CMDB -> CMDB : DEPLOY stage
+CMDB -> DD : Build status update
+
+DD -> Dev : Notify dev to verify LIVE
+note over Dev,DD: Dev Attention required here
+Dev -> DD : ACK after monitoring LIVE deployment
+
+
+@enduml
