@@ -1,0 +1,60 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+
+actor ReleaseManager as RM
+actor DevPIC as Dev
+participant ReleaseEngine as RE
+participant DeploymentDashboard as DD
+participant CMDB
+database gitlab_merge_request as MRDB
+
+title Deployment Flow with AutoPreBuild and PreBuildAssist
+
+autonumber 1.1
+
+RM -> DD : Generates deployment sequence
+== After Pre-Release Events Passes ==
+
+autonumber inc A
+group Trigger Auto Start 
+    RE -> MRDB : GET MR data
+    MRDB -> RE : MR data
+    RE -> CMDB : Call PreBuild() for TAGGED not yet PreBuilt
+end group
+
+
+autonumber inc A
+RM -> DD : Trigger Start Operation
+DD -> Dev : Pending Dev Ack
+note over Dev: Usually waiting time occurs here\n to get dev input
+Dev -> DD : Acknowledges
+
+DD -> DD : Check for Pre-reqs
+DD -> RM : Notify RM: Pending RM Deployment
+
+autonumber inc A
+group PreBuild Assist
+    RM -> DD: Triggers deployment
+    DD -> RE: GET PreBuild data
+    RE -> DD: PreBuild data
+    group PreBuild Success
+        DD -> CMDB: Triggers pipeline
+        CMDB -> CMDB : DEPLOY stage
+    end group
+    group PreBuild Fail
+        DD -> CMDB: Triggers pipeline
+        CMDB -> CMDB : BUILD stage
+        CMDB -> CMDB : DEPLOY stage
+    end group
+    CMDB -> DD : Build status update
+end group
+
+autonumber inc A
+DD -> Dev : Notify dev to verify LIVE
+note over Dev,DD: Dev Attention required here
+Dev -> DD : ACK after monitoring LIVE deployment
+
+
+@enduml
