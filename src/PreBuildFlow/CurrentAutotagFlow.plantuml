@@ -1,0 +1,33 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+
+actor ReleaseManager as RM
+participant ReleaseEngine as RE
+' database deployment_ack_config_tab as ackDB
+' database gitlab_project_tab as gitDB
+' participant DeploymentDashboard as DD
+' database deployment_request_tab as deplßoymentDB
+database gitlab_merge_request as MRDB
+entity gitLab as git
+
+title Current Autotag Flow
+
+RM -> RE : Trigger auto-merge\nFor repository
+RE -> git : init auto-merge MR
+RE -> MRDB : init auto-merge\nMR entry
+
+group While Has entry with unmerged MR
+    RE -> MRDB : GET MRs: HandleScanAutoTag()
+    MRDB -> RE : MRs data
+    RE -> git : tries to merge unmerged MR 
+end group
+
+group While has entry with untagged MR
+    RE -> MRDB : GET MRs: HandleScanAutoTag()
+    MRDB -> RE : MRs data
+    RE -> git : tries to tag untagged repo
+end group
+
+@enduml
