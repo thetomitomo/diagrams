@@ -6,7 +6,7 @@ skinparam StateFontColor black
 state "Pending Dev Ack(PreOp)" as pendingDevAckPreOp
 state "Pending Dev Ack" as pendingDevAck
 
-title State Flow Diagram - Changes Only
+title State Flow Diagram\n- Status Quo
 
 [*] --> pendingDevAckPreOp : InitSequence
 pendingDevAckPreOp --> pendingDevAck : Start operation

@@ -5,21 +5,21 @@ skinparam StateFontColor black
 
 state "Pending Start Operation" as preOp
 state "Pending Dev Ack" as pendingDevAck
-state "Pending Pre-Release Events" as pendingPreReleaseEvents
+state "Pending Readiness Check" as pendingReadiness
 
-title State Flow Diagram - Changes Only
+title State Flow Diagram\n- Changes Only
 
 [*] --> preOp : InitSequence
-note right of preOp : [CHANGED]\n- new inert status\n- REMOVE dev noti on start operation
+note right of preOp : [CHANGED]\n- new inert status\n- REMOVE dev noti\n  on start operation
 preOp: RM: Start Operation
 
-note right of pendingPreReleaseEvents : [CHANGED] \n- new status\n- new check
-preOp --> pendingPreReleaseEvents : Start operation
+note right of pendingReadiness : [CHANGED] \n- new status\n- new check
+preOp --> pendingReadiness : Start operation
 
-pendingPreReleaseEvents --> pendingDevAck : All events passed
-pendingPreReleaseEvents: System: Check for event whitelist
+pendingReadiness --> pendingDevAck : All events passed
+pendingReadiness: System: Check for event whitelist
 
-note right of pendingDevAck : [CHANGED]\n- ADD dev noti on start operation
+note right of pendingDevAck : [CHANGED]\n- ADD dev noti\n  on start operation
 pendingDevAck: Dev: ACK
 pendingDevAck --> [*] : To further state
 
