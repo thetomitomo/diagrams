@@ -10,6 +10,7 @@ title State Flow Diagram\n- Status Quo
 
 [*] --> pendingDevAckPreOp : InitSequence
 pendingDevAckPreOp --> pendingDevAck : Start operation
+pendingDevAckPreOp: RM: Start Operation
 
 pendingDevAck: Dev: ACK
 pendingDevAck --> [*] : To further state
