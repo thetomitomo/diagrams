@@ -1,0 +1,17 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam StateFontColor black
+
+state "Pending Dev Ack(PreOp)" as pendingDevAckPreOp
+state "Pending Dev Ack" as pendingDevAck
+
+title State Flow Diagram - Changes Only
+
+[*] --> pendingDevAckPreOp : InitSequence
+pendingDevAckPreOp --> pendingDevAck : Start operation
+
+pendingDevAck: Dev: ACK
+pendingDevAck --> [*] : To further state
+
+@enduml
