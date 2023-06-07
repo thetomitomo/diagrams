@@ -1,0 +1,95 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam StateFontColor black
+
+title Current Deployment Dashboard State Flow
+
+
+state 1_Preparing {
+    state "Pending Dev Ack (Pre-Op)" as preOp
+    [*] -up-> preOp : InitSequence
+    preOp: RM: Start Operation
+}
+
+state 2_Operating{
+    state pendingDevAckFork <<fork>>
+    
+    ' preOp -> pendingDevAck : Start Operation
+    preOp -> pendingDevAckFork : Start Operation
+    state "Pending RM Deployment" as pendingRMDeploy
+    state "Verify Canary Instance" as verifyCanary
+    state "Pending Live Verification" as pendingLiveVer
+    state pendingLiveVerFork <<fork>>
+    state "Pending Promote" as pendingPromote
+    state "Abort Requested" as abortRequested
+    state "Rollback Requested" as rollbackRequested
+    state "Rollback Done" as rollbackDone
+
+    state "Pending Dev Ack" as pendingDevAck
+    state "Pending Pre-Req" as pendingPreReq
+    pendingDevAckFork -left-> pendingDevAck
+    pendingDevAck: Dev: ACK
+
+    ' pendingDevAck --> pendingPreReq : All ACKed
+    pendingDevAck -left-> pendingPreReq : All ACKed
+    pendingPreReq: Dev: TICK prereq
+
+    pendingPreReq -down-> pendingRMDeploy : All\nrequisites\ndone
+    pendingRMDeploy: RM: Deploys
+
+    pendingRMDeploy -left-> Deploying : RM deploy
+    Deploying : RM: Monitoring
+    Deploying : RM: Abort
+
+    Deploying -right-> Aborted : Abort
+
+    Deploying -up-> Failed : Fails
+
+    Failed -up-> pendingDevAckFork : Reinitiate
+    Failed: RM: Reinitiate
+
+    Deploying --> verifyCanary : progress\nwith Canary
+    verifyCanary: Dev: Ack
+    verifyCanary: Dev: Request abort
+
+    verifyCanary --> pendingPromote : All ACK
+    pendingPromote: RM: Promote
+
+    verifyCanary -right-> abortRequested : Request abort
+    abortRequested: RM: Abort
+
+    abortRequested -up-> Aborted : RM abort
+    Aborted: Rm : Reinitiate
+
+    Aborted --> pendingDevAckFork : Reinitiate
+    pendingPromote: RM: Reinitiate
+
+    pendingPromote --> pendingLiveVerFork : Promote
+    note right of pendingLiveVerFork : Need Live\nVerification
+    pendingLiveVerFork -right-> pendingLiveVer : True
+    pendingLiveVerFork --> Done : False
+
+    pendingLiveVer --> Done :All dev ACK\n All CIDs deployed
+    pendingLiveVer -up-> pendingRMDeploy : not All\nCIDs deployed
+    pendingLiveVer: Dev: ACK
+
+    Deploying --> pendingLiveVerFork : Success\nwithout\nCanary
+
+    Done: Dev: Request Rollback
+
+    Done -right-> rollbackRequested
+    rollbackRequested: RM: Execute rollback
+
+    rollbackRequested -up-> rollbackDone : RM finish\nrollback
+    rollbackDone: RM: Reinitiate
+
+    rollbackDone -right-> pendingDevAckFork : Reinitiate
+}
+
+state 3_OperationDone {
+    state "Done (Operation Done)" as DoneOpsDone
+    Done --> DoneOpsDone : RM toggle\ncomplete operation
+}
+
+@enduml
