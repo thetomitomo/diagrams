@@ -1,0 +1,58 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+
+actor ReleaseManager as RM
+participant DeploymentDashboard as DD
+participant ReleaseEngine as RE
+' database deployment_ack_config_tab as ackDB
+' database gitlab_project_tab as gitDB
+' database deployment_request_tab as deplßoymentDB
+' database gitlab_merge_request as MRDB
+' entity gitLab as git
+entity "Readiness System" as readinessSys
+
+title Readiness Check Protocol
+
+RM -> DD : Execute operation
+
+group GET Readiness Checks
+    DD -> RE : GET service's\nReadinessChecks 
+    note left
+        Retrieve readiness checks
+        required for service
+
+        <b>args:
+        - cmdb_service_id
+        - deployment_request_id
+    end note
+    RE -> RE : GET ReadinessChecks\nin config
+    RE -> RE : init entry\nin DB
+    RE -> DD : Display
+end group
+
+group Update Readiness Check Status
+    group If Readiness System is able to call Release Engine
+        readinessSys -> RE : Update Status
+        note left
+            System to update
+            specific readiness
+            check of a service
+
+            <b>args:
+            - cmdb_service_id
+            - deployment_request_id
+            - readiness_check_id
+        end note
+    end group
+    group If Readiness System is unable to call Release Engine
+        RE -> readinessSys : GET Status
+        readinessSys -> RE : response
+        RE -> RE : Update Status
+    end group
+    RE -> RE : update entry\nin DB
+end group
+
+
+@enduml
