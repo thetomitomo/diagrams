@@ -3,8 +3,8 @@
 skinparam FooterFontColor black
 skinparam DatabaseFontColor #007faf
 
-actor ReleaseManager as RM
-participant DeploymentDashboard as DD
+' actor ReleaseManager as RM
+' participant DeploymentDashboard as DD
 participant ReleaseEngine as RE
 ' database deployment_ack_config_tab as ackDB
 ' database gitlab_project_tab as gitDB
@@ -15,22 +15,22 @@ entity "Readiness System" as readinessSys
 
 title Readiness Check Protocol
 
-RM -> DD : Execute operation
+' RM -> DD : Execute operation
 
-group GET Readiness Checks
-    DD -> RE : GET service's\nReadinessChecks 
-    note left
-        Retrieve readiness checks
-        required for service
+' group GET Readiness Checks
+'     DD -> RE : GET service's\nReadinessChecks 
+'     note left
+'         Retrieve readiness checks
+'         required for service
 
-        <b>args:
-        - cmdb_service_id
-        - deployment_request_id
-    end note
-    RE -> RE : GET ReadinessChecks\nin config
-    RE -> RE : init entry\nin DB
-    RE -> DD : Display
-end group
+'         <b>args:
+'         - cmdb_service_id
+'         - deployment_request_id
+'     end note
+'     RE -> RE : GET ReadinessChecks\nin config
+'     RE -> RE : init entry\nin DB
+'     RE -> DD : Display
+' end group
 
 group Update Readiness Check Status
     group If Readiness System is able to call Release Engine
