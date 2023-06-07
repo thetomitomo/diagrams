@@ -1,0 +1,51 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+
+title Relationship Between DeploymentSequence - DeploymentRequest - ReadinessCheck
+
+class "<b>DeploymentSequence" as DS {
+    current DB: shopee_deployplatform_db.deployment_seq_tab
+}
+class "<b>DeploymentRequest" as DR {
+    current DB : shopee_deployplatform_db.deployment_request_tab
+    ' ---
+    ' NEW Function Requirements:
+    ' - Initialise PreReleaseEvents
+    ' - GET PreReleaseEvents
+}
+
+class "<b>[NEW Entity] ReadinessCheck" as Readiness {
+    Attributes:
+    - readiness_check_id
+    - display_name
+    - default_pics
+    ' ---
+    ' NEW Function Requirements:
+    ' - Update ReadinessCheck
+}
+
+class "<b>[NEW Entity] ReadinessCheckOperation" as ReadinessOps {
+    Attributes:
+    - readiness_check_id
+    - deployment_request_id
+    - display_name
+    - default_pics
+    - toggle_timestamp
+    - toggle_author
+    ' ---
+    ' NEW Function Requirements:
+    ' - GET ReadinessCheckOps
+    ' - Toggle ReadinessCheckOps
+    ' - Update ReadinessCheckOps
+}
+
+DS "1" *-- "many" DR 
+DR "1" *-- "many" ReadinessOps
+ReadinessOps "many" -up-* "1" Readiness
+
+@enduml
