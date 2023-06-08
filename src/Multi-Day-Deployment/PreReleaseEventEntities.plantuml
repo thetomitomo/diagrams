@@ -13,24 +13,39 @@ class "<b>DeploymentSequence" as DS {
 }
 class "<b>DeploymentRequest" as DR {
     current DB : shopee_deployplatform_db.deployment_request_tab
-
+   ---
     NEW Function Requirements:
     - Initialise PreReleaseEvents
     - GET PreReleaseEvents
 }
 
-class "<b>[NEW Entity] PreReleaseEvent" as PRE {
+class "<b>[NEW Entity] ReadinessCheck" as Readiness {
     Attributes:
-    - pre_release_event_id
+    - readiness_check_id
     - display_name
     - default_pics
-    
+    ---
     NEW Function Requirements:
-    - GET PreReleaseEvent
-    - Toggle PreReleaseEvent
+    - Update ReadinessCheck
+}
+
+class "<b>[NEW Entity] ReadinessCheckOperation" as ReadinessOps {
+    Attributes:
+    - readiness_check_id
+    - deployment_request_id
+    - display_name
+    - default_pics
+    - toggle_timestamp
+    - toggle_author
+    ---
+    NEW Function Requirements:
+    - GET ReadinessCheckOps
+    - Toggle ReadinessCheckOps
+    - Update ReadinessCheckOps
 }
 
 DS "1" *-- "many" DR 
-DR "1" *-- "many" PRE
+DR "1" *-- "many" ReadinessOps
+ReadinessOps "many" -up-* "1" Readiness
 
 @enduml
