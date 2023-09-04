@@ -1,0 +1,43 @@
+@startmindmap
+
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+title Sample Release Process Instance
+
+* MP Release Process
+** VersionType1:RegularReleaseWorkflow
+*** ReleaseVersionStages
+**** Stage_1
+**** Stage_2
+**** Stage_3
+*** RegularReleaseVerification
+**** JIRAVeri
+**** GitVeri
+*** DeploymentSequenceFlow
+** VersionType2:EmergencyReleaseWorkflow
+*** ReleaseVersionStages
+**** Stage_1
+**** Stage_2
+**** Stage_3
+*** EmergencyReleaseVerification
+**** JIRAVeri
+**** GitVeri
+*** DeploymentSequenceFlow
+** CustomWorkflow
+*** ReleaseVersionStages
+**** Stage_1
+**** Stage_3
+*** CustomVerification
+**** JIRAVeri
+**** GitVeri
+*** DeploymentSequenceFlow
+** Repositories
+*** repo_A
+*** repo_B
+*** repo_C
+
+@endmindmap
