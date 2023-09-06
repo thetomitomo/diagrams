@@ -1,0 +1,59 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+
+title Current Config PR Relationship
+
+class "<b>PublishRequest" as PR {
+    publishID
+}
+
+class "<b>Configuration" as config {
+    namespace
+}
+
+class "<b>Change Request" as CR {
+    CR_ID
+    ChangeType
+    Sub-Team
+}
+
+class "<b>JiraTicket" as JIRA {
+    issueKey
+}
+
+class "<b>ReleaseVersion" as version {
+    versionID
+}
+
+class "<b>ReleaseWorkflow" as workflow {
+    workflow
+}
+
+class "<b>Service" as service {
+    CMDB_ID
+}
+
+class "<b>ConfigPluginChangeRequest" as pluginCR {
+    JIRAIssueKey
+}
+
+' class "<b>Repository" as Repo {
+'     repoPath
+'     projectID
+' }
+
+
+service "n" -left-o "1" config
+PR -up-> config
+CR "1" -right- "1" JIRA
+CR "n" -up-* "1" version
+version "1" -up-> "1" workflow
+
+JIRA <-right- pluginCR
+pluginCR -up-* PR
+@enduml
