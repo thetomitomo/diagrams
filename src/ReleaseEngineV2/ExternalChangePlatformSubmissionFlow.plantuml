@@ -1,0 +1,45 @@
+@startuml
+title External Change Platform User and System Flow - CR Submission
+
+!theme bluegray
+skinparam FooterFontColor black
+skinparam ActivityBorderColor #79838c
+
+
+actor User
+control "Release\nEngine" as RE #800080
+collections "JIRA" as JIRA
+entity "Ext\nChange\nPlatform" as ECP #C8A2C8
+
+group CR Submission
+    User -> ECP : Create ExtChangeScopeCR
+    User -> JIRA : Create Ticket
+    User -> JIRA : Attach ExtChangeScopeCR
+    note right: needs ExtChangeScopeID
+    RE -> ECP : GetChangeDetailsFromChangePlatform()
+    ECP -> RE : 
+    RE -> JIRA : Write ExtChangeScope data
+
+    User -> RE : Submit CR
+    note right: needs:\n- Ticket ID\n- ChangeType\n- Version
+    RE -> JIRA : Attach Version
+    RE -> ECP : GetChangeDetailsFromChangePlatform()
+    ECP -> RE : 
+    RE -> JIRA : GetChangeDetailsFromTicketSystem()
+    JIRA -> RE : 
+    RE -> RE : Ticket verification
+    RE -> JIRA : Update ReleaseStatus
+    RE -> User : Return verification results
+end group
+
+group CR Removal
+    == Assuming CR submitted ==
+    User -> RE : Trigger Remove Scope
+    note right: Only allowed at specific conditions
+    
+    RE -> JIRA : Remove Version, ReleaseStatus
+    
+end group
+
+
+@enduml

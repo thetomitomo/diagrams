@@ -1,0 +1,36 @@
+@startuml
+title External Change Platform User and System Flow - Operation
+
+!theme bluegray
+skinparam FooterFontColor black
+skinparam ActivityBorderColor #79838c
+
+
+actor User
+control "Release\nEngine" as RE #800080
+entity "Ext\nChange\nPlatform" as ECP #C8A2C8
+
+group Forward Operation Execution
+    User -> RE : Trigger Start Deployment
+    RE -> ECP : <b>StartOperation()
+    ECP -> RE : <b>UpdateOperationStatus()
+
+    group loop until complete
+        User -> RE : Read status,\ntrigger continues
+        RE -> ECP : <b>PromoteOperation()
+        ECP -> RE : <b>UpdateOperationStatus()
+    end group
+end group
+
+group Revert Operation Execution
+    User -> RE : Trigger Start Deployment
+    RE -> ECP : <b>StartOperation()
+    ECP -> RE : <b>UpdateOperationStatus()
+
+    User -> RE : Read status,\ntrigger revert
+    RE -> ECP : <b>RevertOperation()
+    ECP -> RE : <b>UpdateOperationStatus()
+end group
+
+
+@enduml
