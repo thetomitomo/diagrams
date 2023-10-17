@@ -3,17 +3,17 @@
 
 title ORP Code Merge Flow - Regression Bug
 
-group 6.0 Regression Bug Flow (All DEV action)
-    note over feature, staging : Regression Bug Flow fix is ONLY for bugs found in STAGING.\nQA lead has to certify by adding <b><color #Navy>SZ/SG_QA_Regression</color></b>
-    staging -> feature: NEW branch out of <b>staging</b>
+group 6.0 Regression Bug Flow
+    note over feature, staging : Regression Bug Flow fix is ONLY for bugs found in STAGING.\nDev to\n1. Raise new JIRA bug ticket\n2. Link as Issuelink: <b>"Blocks"<b> targeting Product Line Regression Task ticket\n3. You may find it in your product line's <b>Release Version-Regression Testing</b> stage\n4. After reviewed by QA, it can be added into scope on Release Version UI via "<b>Add to Scope</b>"
+    staging -> feature: NEW <b>feature</b> branch out of <b>staging</b>
     
     feature -> feature: commit into\n<b>feature</b>
-    note over feature: - QA signed-off\n- MR reviewed
+    note over feature: Pass JIRA Verification
     
     feature -> staging: merge <b>feature</b>\ninto <b>staging</b>
     note right 
         To fix upcoming release scope
     end note
 
-    note over staging: Dev deploy\ninto staging env
+    note over staging: Dev deploy\n <b>staging</b> env
 end
