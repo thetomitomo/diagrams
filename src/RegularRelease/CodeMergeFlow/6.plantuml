@@ -7,7 +7,7 @@ group 6.0 Regression Bug Flow
     staging -> feature: NEW <b>feature</b> branch out of <b>staging</b>
     
     feature -> feature: commit into\n<b>feature</b>
-    note over feature, release : Regression Bug Flow fix is ONLY for bugs found in STAGING.\nActions required\n1. Raise new JIRA bug ticket\n2. Get <b>QA Lead</b> to certify by adding <b><color #Navy>SZ/SG_QA_Regression</color></b> \n3. Go to Release Version-Regression Testing stage\n4. Link as Issuelink: <b>"Blocks"</b> targeting Product Line Regression Task ticket\n5. Get <b>RM</b> to review and add into scope on Release Version UI via "<b>Add to Scope</b>"
+    note over feature, release : Regression Bug Flow fix is ONLY for bugs found in STAGING.\nActions required\n1. <b>Reporter</b> to Raise new JIRA bug ticket\n2. Get <b>QA Lead</b> to certify by adding <b><color #Navy>SZ/SG_QA_Regression</color></b> \n3. <b>Reporter</b> to go Release Version-Regression Testing stage\n\t && Link as Issuelink: <b>"Blocks"</b> targeting Product Line Regression Task ticket\n4. Get <b>RM</b> to review and add into scope on Release Version UI via "<b>Add to Scope</b>"
     note over feature: Pass JIRA Verification
     
     feature -> staging: merge <b>feature</b>\ninto <b>staging</b>
