@@ -6,11 +6,11 @@ title PreBuild Logic Diagram
 
 start
 
-:PreBuild is called, Data:\n- Service CMDB ID\n- ReleaseTag;
+:PreBuild is called, Data:\n- Service CMDB ID / pipeline name\n- ReleaseTag;
 
 group Pre-Check
     if (Any existing pipeline running\nfor this ReleaseTag?) then (TRUE)
-        :Status code 1;
+        :Status code 2;
         stop
     else (FALSE)
     endif
@@ -20,10 +20,10 @@ group Follow Up Previous Attempts
     if (Was there a SUCCESS PreBuild attempt?\n(GET stored pipeline ID)) then (TRUE)
         ' :Do NOT execute PreBuild;
         if (Build Status == SUCCESS) then ( )
-            :Status code 0;
+            :Status code 1;
             stop
         elseif (Build Status == RUNNING) then ( )
-            :Status code 1;
+            :Status code 2;
             stop
         else (else)
             ' :continue;
@@ -34,11 +34,11 @@ end group
 
 group Condition Check
     if (Does the CMDB service\nsupport separation of BUILD & DEPLOY?) then (FALSE)
-        :Status code 2;
+        :Status code 3;
         stop
     else (TRUE)
         if (Does the CMDB service\nhost any cron jobs in LIVE?) then (TRUE)
-            :Status code 2;
+            :Status code 3;
             stop
         else (FALSE)
         endif
@@ -47,17 +47,17 @@ end group
 
 group Execute Build
     if (Reaches Max Retry?) then (TRUE)
-        :Status code 3;
+        :Status code 4;
         stop
     else (FALSE)
     endif
 
     :Update DB `Attempt Count += 1`;
     if (Execute Build) then (FAILS)
-        :Status code 3;
+        :Status code 4;
         stop
     else (SUCCESS)
-        :Status code 1;
+        :Status code 2;
     endif
 stop
 end group
