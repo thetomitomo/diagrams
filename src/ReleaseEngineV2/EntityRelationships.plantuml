@@ -1,0 +1,136 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+
+title Functional Entity Relationships
+
+class "<b>Team" as team {
+    teamID
+}
+
+class "<b>Release Version" as version {
+    versionID
+    versionStage
+}
+
+class "<b>Change Request" as CR {
+    CR_ID
+    ChangeType
+}
+
+class "<b>JiraTicket" as JIRA {
+    issueKey
+}
+
+class "<b>Sub-Team" as subTeam {
+    teamID
+    ---
+    In DB, team & subTeam is sharing same table
+}
+
+class "<b>Workflow aka ''Component''" as workflow {
+    workflowName
+    listOfRepo
+    jiraComponent
+    jiraVerification
+    gitVerification
+}
+
+class "<b>Service" as service {
+    CMDB_ID
+}
+
+class "<b>Release Checklist" as RC {
+}
+
+class "<b>Merge Request" as MR {
+    MR_ID
+}
+
+class "<b>Repository" as Repo {
+    repoPath
+    projectID
+}
+
+class "<b>RegressionScope" as RegrScope {
+        scopeID
+}
+
+class "<b>RegressionSchedule" as RegrSched {
+        scheduleID
+}
+
+class "<b>RegressionTask" as RegrSched {
+        TaskName
+        Team
+        Workflow
+}
+
+' class "<b>[NEW Entity] ReadinessCheckOperation" as ReadinessOps {
+'     new DB TBC: shopee_deployplatform_db.readiness_check_operations_tab
+
+'     Attributes:
+'     - readiness_check_id
+'     - deployment_request_id
+'     - display_name
+'     - default_pics
+'     - toggle_timestamp
+'     - toggle_author
+'     ---
+'     <b> NEW Function Requirements:
+'     - GET ReadinessCheckOps
+'     - Update ReadinessCheckOps
+'     - Delete ReadinessCheckOps
+' }
+
+' class "<b> Service" as Service {
+'     Attributes:
+'     - CMDB ID
+'     ---
+'     <b> NEW Function Requirements:
+'     - GET ReadinessCheckOperations
+' }
+
+' class "<b>[NEW Entity] Readiness Config" as ReadinessConfig {
+'     ---
+'     Attributes:
+'     - active
+' }
+
+version "n" -right-> "1" team
+subTeam "n" -up-> "1" team
+' version "1" -left-> "1" subTeam
+CR "n" -up-> "1" subTeam
+CR "n" -up-> "1" version
+JIRA "1" -up-> "1" CR
+MR "1" -left-> "1" JIRA
+MR "1" -right-> "1" Repo
+RC "1" -up->  "1" JIRA
+service "n" -left-> "1" RC
+service "n" -up-> "1" Repo
+RegrScope "n" -left-> "1" team
+RegrScope "1" <-left- "n" RegrSched
+
+version "n" <-- "1" RegrSched
+' team "1" <-- "n" RegrSched
+Repo "n" -up-> "1" team
+
+workflow "n   " .right.> "1" team
+workflow "1   " .right.> "n" Repo
+workflow "n" .left.> "1" RegrSched
+workflow "n" .down.> "n" RegrScope
+
+
+' DS "1" *-- "0..*" DR 
+' DR "1" *-- "0..*" ReadinessOps
+' ReadinessOps "0..*" -up-* "1" Readiness
+' Service "1" -left- "1" ReadinessConfig
+' ReadinessConfig "1" -- "1" Readiness
+' Service "1" --> "0..*" DR
+
+
+@enduml

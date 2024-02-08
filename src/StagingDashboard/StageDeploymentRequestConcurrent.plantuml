@@ -1,0 +1,41 @@
+@startuml stage_deployment_requests_for_bulk_deployments
+
+title "Stage" Deployment Requests from Staging Deployment Sequence to be process for bulk deployments
+
+' autonumber
+autonumber 1.1
+
+Client --> ReleaseEngine : Send POST request to /start_operations for staging sequence
+note right: Client will either be RunOnce executed at code freeze time or a function executed by code_freeze workflow
+ReleaseEngine --> Client : Return request received
+
+autonumber inc A
+group execute the following steps asynchronously
+    ReleaseEngine --> ReleaseEngine : Get the deployment requests of the deployment sequence
+    ReleaseEngine --> ReleaseEngine : Sort them into 3 different arrays which is by priority (1,2,3)
+    loop through each deployment requests
+        ReleaseEngine --> ReleaseEngine : Check the merge status of `master to staging branch merge`
+        alt merge status == Merged
+            ReleaseEngine --> ReleaseEngine : Update deployment request's Deployment Status to `Pending Deployment`
+        end
+    end
+    ReleaseEngine --> Redis : Get dlock for processing `PendingStagingDeploymentRequests` with no retry logic if cannot get dlock
+    Redis --> ReleaseEngine         
+    ReleaseEngine --> Cache : Get `PendingStagingDeploymentRequests` object
+    note right 
+        this cache object is indexed by release cycle and release namespace for now 
+        e.g. of redis key - "staging_deployment:pending_requests#2023.05.v1:Marketplace"
+    end note
+    Cache --> ReleaseEngine
+    alt object does not exist cache yet
+        ReleaseEngine --> Cache : Init an object (`PendingStagingDeploymentRequests`) as a map with 3 attributes (1,2,3), each is an array of Deployment Request IDs
+        Cache --> ReleaseEngine
+    end
+    ReleaseEngine --> ReleaseEngine : Compare and keep unique deployment request IDs for each priority arrays
+    ReleaseEngine --> ReleaseEngine : Update the array values accordingly in `PendingStagingDeploymentRequests`
+    ReleaseEngine --> Cache : Set cache of `PendingStagingDeploymentRequests`
+    Cache --> ReleaseEngine
+    ReleaseEngine --> Redis : Release dlock
+    Redis --> ReleaseEngine
+end
+@enduml

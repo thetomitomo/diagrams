@@ -1,0 +1,25 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam PartitionBackgroundColor ghostwhite
+
+title CR Status Flow
+
+start
+
+:User Submit CR;
+
+if (Repository is in\nCode Freeze?) then (TRUE)
+    :BLOCK merge;
+    kill
+else (FALSE)
+    if (Ticket associated has\nRelease Version\nof earliest upcoming version submission) then (FALSE)
+        :BLOCK merge;
+        kill
+    else (TRUE)
+    :Continue to other 
+    MR verification logic;
+    stop
+endif
+
+@enduml

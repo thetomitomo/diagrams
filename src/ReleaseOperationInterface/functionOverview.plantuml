@@ -1,0 +1,67 @@
+@startmindmap
+title Features of Release Operation Interface
+* Release\noperation\ninterface
+** Deployment
+***[#Orange] Separation of\nbuild&release
+***[#Coral] Forward\ndeployment
+****[#Coral] Abort deployment
+****[#Coral] Greyscale deployment
+*****[#Coral] Canary deployment
+*****[#Coral] % deployment
+*****[#Orange] Scheduled\n% deployment
+****[#Coral] Single deployment
+*****[#Coral] Deploy single unit
+*****[#Coral] Deploy single region
+****[#Coral] Bulk deployment
+*****[#Coral] Deploy multiple units
+*****[#Coral] Deploy multiple regions
+***[#Coral] Deployment\nmonitoring
+****[#Coral] View deployment\ncontents
+*****[#Coral] View progress
+*****[#Coral] View status
+*****[#Coral] View version
+*****[#Coral] View tag
+*****[#Coral] View commit hash
+*****[#LightGreen] View related\nJIRA tickets
+*****[#LightGreen] View related\nMerge Requests
+****[#Coral] View versions'\nexposure
+*****[#Coral] View per region
+*****[#Coral] View per service
+*****[#Coral] View per version
+*****[#Coral] View over time
+****[#LightGreen] View service error metrics\nfor DOD support
+***[#Coral] Rollback
+****[#Coral] Fast rollback
+*****[#Coral] Single region rollback
+*****[#Coral] Multiple region rollback
+****[#Coral] Provides information\nof last stable version
+***[#LightGreen] Notification
+****[#LightGreen] Notify non-success case to PIC
+**[#Coral] Audit
+***[#Coral] View deployment history
+****[#Coral] What was deployed
+****[#Coral] When it was deployed
+****[#Coral] Who did the deployement
+** Data features
+***[#Coral] UI support\nfor CRUD of\nconfiguration
+****[#Coral] RM in-scope toggle
+****[#Coral] RM categorisation
+***[#Orange] View related\nmeta data
+****[#Orange] View related CMDB object
+****[#Orange] View source repository
+****[#Orange] View DOD
+**[#Orange] API integration
+***[#Orange] Data provision
+****[#Orange] GET interface objects
+*****[#Orange] View meta data
+****[#Orange] GET deployment history
+****[#Orange] GET deployment progress
+***[#Orange] Config management
+****[#Orange] CRU of RM related config
+***[#Orange] Process integration
+****[#Orange] POST new build
+**[#Coral] Operation guide
+***[#Coral] Definition of\ninterface objects
+****[#Coral] View documentation\nof object relationship
+***[#Coral] Guide of operations on deployment UI
+@endmindmap

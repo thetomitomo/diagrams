@@ -1,0 +1,71 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+legend top left
+    |Color| Type |
+    |<#DarkOrchid>| Version tag operation|
+    |<#Green>| Deployment operation|
+    |<#Yellow>| Annotation|
+
+endlegend
+
+title <b>JIRA-MR</b> User Flows
+
+' box "RN Plugin Repository" 
+actor Dev as dev
+collections Gitlab as git
+collections JIRA
+collections "Release Engine" as RE
+' end box
+
+autonumber 1.1
+group Case 1
+    hnote over JIRA: JIRA ticket
+    dev->git: Create feature branch
+    dev->git: Feature development\nOn feature branch
+    dev->git: Dev attach JIRA key in Git
+
+    dev->JIRA: Updates JIRA as per project flow
+
+    group CR submission
+        dev ->RE: Submit CR
+        hnote over RE: CR created
+        RE -> JIRA: Initial verification
+        JIRA -> RE: 
+        RE -> dev: Verification result
+    end group
+
+    group Re-Verification
+        hnote over RE: CR created
+        RE -> JIRA: Verify
+        JIRA -> RE: 
+        group Pass
+            RE -> JIRA: Update JIRA
+            hnote over JIRA: Status: InScopePendingMerge
+        end group
+    end group
+
+    == When ready to merge ==
+    RN_Dev->RM: Provide plugin versions to RM:JingXue
+
+    RM -> RN_DOD: Request version
+    RM -> RN_DOD: Build RN version on snapshot
+    RN_DOD -> RM: RN Version
+    RM -> QA: Inform QA of the version
+    QA -> QA: Regression testing
+    QA -> Dev: Report bugs
+
+    == SCHEDULED: Fri 22, Sep 10:00 ==
+    Dev -> Dev: Devs to complete respective RPRv2 flow
+    
+    RM -> RM: build new LIVE RN version
+    RM -> RM: Deploy RN in Greyscale
+    
+end group
+
+
+@enduml

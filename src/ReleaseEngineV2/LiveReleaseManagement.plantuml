@@ -1,0 +1,74 @@
+title Planned Live Release Management
+
+!theme bluegray
+skinparam FooterFontColor black
+skinparam ActivityBorderColor #79838c
+
+|Dev|
+|Release Manager / Release Engine|
+|Key Stakeholder / Release Approver|
+|QA|
+fork
+end fork {<b>Continued from\n<b>Pre-Release Management}
+
+fork
+    |Release Manager / Release Engine|
+    :Rollback verification;
+fork again
+    |QA|
+    :Regression signoff;
+end fork
+
+|Key Stakeholder / Release Approver|
+
+if (Approve Release) then (Yes)
+else (No)
+    repeat
+        :Approver\nraise concern;
+        |Release Manager / Release Engine|
+        :Facilitate Resolution;
+        
+        |Key Stakeholder / Release Approver|
+        :Re-approval;
+    repeat while (Approved) is (No)
+    ->Yes;
+endif
+
+fork
+end fork {<b>Transition to\n<b>Live Release Management}
+
+
+|Release Manager / Release Engine|
+:Init LIVE Release;
+
+:Service Readiness Check;
+
+:Notify dev to ack & standby;
+
+|Dev|
+:Dev ACK and standby;
+
+|Release Manager / Release Engine|
+:Execute grayscale release;
+
+|Dev|
+:Grayscale verification;
+
+|Release Manager / Release Engine|
+:Promote grayscale;
+
+|Dev|
+:Ack live verification;
+
+|Release Manager / Release Engine|
+:Notify release progress;
+
+split
+    |Release Manager / Release Engine|
+    :Release reports;
+split again
+    |QA|
+    :Live testing & signoff;
+end split
+
+stop

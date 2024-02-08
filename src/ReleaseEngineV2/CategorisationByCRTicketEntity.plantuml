@@ -1,0 +1,46 @@
+@startuml Entity Diagram
+
+!theme reddress-darkred
+title CR Categorisation by Ticket - Entity Diagram
+
+class Ticket {
+    -----
+}
+
+class ReleaseChecklist {
+    -----
+    +deployment_requests
+}
+
+class JiraBoard {
+    -----
+    +component
+}
+
+class Component{
+    + name
+}
+
+class Repository {
+    +repo_path
+}
+
+class Service {
+    +CMDB_ID
+}
+
+class MergeRequest {
+
+}
+
+
+Service "0..*" -- "1" Repository
+MergeRequest "0..*" -- "1" Repository
+MergeRequest "0..*" -- "1" Ticket
+Ticket "1" -- "1" ReleaseChecklist
+Ticket "1" -- "0..*" Component
+ReleaseChecklist "1" -- "1..*" Service
+Ticket "1..*" -- "1" JiraBoard
+JiraBoard "1" -- "0..*" Component
+
+@enduml

@@ -1,0 +1,66 @@
+title Change Management Workflow
+
+!theme bluegray
+skinparam FooterFontColor black
+skinparam ActivityBorderColor #79838c
+
+|Dev|
+|Release Manager / Release Engine|
+start
+
+group Version Management
+    :Version creation;
+    ' :Change request submission;
+    repeat
+        |Dev|
+        :Change request submission;
+        |Release Manager / Release Engine|
+        :Auto verification|
+        backward :Return reject reasons;
+    repeat while (Pass verification?) is (FALSE) not (TRUE)
+
+    :Version lock down;
+    :Generate operation scope and dependency;
+    split
+        |Dev|
+        :Acknowledge change request\n& release dependency;
+        kill
+    split again
+        |Release Manager / Release Engine|
+        repeat
+            :Release Version & scope/
+            |Key Stakeholder / Release Approver|
+            backward :Remove from\nrelease scope;
+        repeat while (Ack Release Scope) is (FALSE) not (TRUE)
+    end split
+
+end group
+
+group Pre-Release Management
+
+    |Release Manager / Release Engine|
+    :Staging deployment;
+
+    split
+        :Rollback operation\nverification;
+        kill
+    split again
+        |QA|
+        :Generate test scope;
+    end split
+
+    :Regression Testing;
+
+    split
+        |Dev|
+        :Fix testing issues;
+        kill
+    split again
+        |QA|
+        :Testing signoff;
+    end split
+
+    |Release Manager / Release Engine|
+    :Auto verify rollback release|
+
+end group

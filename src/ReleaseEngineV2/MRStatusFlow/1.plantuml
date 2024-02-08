@@ -1,0 +1,72 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+
+title MR Status Flow
+
+start
+
+:MR is saved in DB;
+#Orchid:Assuming:\n- CR status: In Scope - Pending Merge;
+' #Orchid:MR Status: Opened;
+' #Orange:CR/Ticket Status: In Scope - Pending Merge;
+
+' group Pre-Check
+'     if (Any existing pipeline running\nfor this ReleaseTag?) then (TRUE)
+'         :Status code 2;
+'         stop
+'     else (FALSE)
+'     endif
+' end group
+
+group Single MR Merge Event (Existing)
+    if (On MR Merge\nAny Other existing MR linked to CR?) then (FALSE)
+        ' :Do NOT execute PreBuild;
+        ' if (Build Status == SUCCESS) then ( )
+        ' :Status code 1;
+        #Orchid:CR Status: In Scope - Merged;
+            stop
+        ' elseif (Build Status == RUNNING) then ( )
+            ' :Status code 2;
+            ' stop
+        ' else (else)
+            ' :continue;
+        ' endif
+    else (TRUE)
+    endif
+end group
+
+group Multi MR Check
+    if (ALL MR linked to CR in Merged status?) then (True)
+        #Orchid:CR Status: In Scope - Merged;
+        stop
+    else (FALSE)
+        #Orchid:CR Status: In Scope - Partially Merged;
+        stop
+        ' if (Does the CMDB service\nhost any cron jobs in LIVE?) then (TRUE)
+        '     :Status code 3;
+        '     stop
+        ' else (FALSE)
+        ' endif
+    endif
+end group
+
+' group Execute Build
+'     if (Reaches Max Retry?) then (TRUE)
+'         :Status code 4;
+'         stop
+'     else (FALSE)
+'     endif
+
+'     :Update DB `Attempt Count += 1`;
+'     if (Execute Build) then (FAILS)
+'         :Status code 4;
+'         stop
+'     else (SUCCESS)
+'         :Status code 2;
+'     endif
+' stop
+' end group
+
+
+@enduml

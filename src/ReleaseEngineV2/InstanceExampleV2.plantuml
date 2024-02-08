@@ -1,0 +1,54 @@
+@startmindmap
+
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+title Sample Release Process Instance V2
+* Team
+** MP Release Process\n(CodeChange)
+*** RegWorkflow
+**** Stage_1
+**** Stage_2
+**** Stage_3
+**** Stage_4
+
+*** ER WkFlow
+**** Stage_1
+**** Stage_2
+**** Stage_3
+
+
+*** Scope
+**** repo_A
+**** repo_B
+** CUSTOM Release Process\n(CodeChange)
+*** RegWorkflow
+**** Stage_1
+**** Stage_2
+**** Stage_3
+
+*** ER WkFlow
+**** Stage_1
+**** Stage_2
+
+*** Scope
+**** repo_C
+**** repo_D
+** MP Config Process\n(ConfigChange)
+*** Reg WkFlow
+**** Stage_1
+**** Stage_2
+**** Stage_3
+**** Stage_4
+**** Stage_5
+*** ER WkFlow
+**** Stage_1
+**** Stage_2
+*** Scope
+**** namespace_x
+**** namespace_y
+
+@endmindmap

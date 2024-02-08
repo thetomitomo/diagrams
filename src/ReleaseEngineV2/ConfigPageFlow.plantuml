@@ -1,0 +1,122 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+
+title Config Page Flow - System Admin View
+
+class "<b>Portal Landing Page" as portalLanding {
+    
+}
+
+class "<b>Team Landing Page" as teamLanding {
+    CAN SEE
+    - List of Teams & metadata
+    ---
+    CAN DO
+    - Create new Team
+    - Update existing team
+}
+
+class "<b>Team Detail Page" as teamDetail {
+    CAN SEE
+    - List of SubTeams & metadata
+    - Current 
+    ---
+    CAN DO
+    - Create new Sub-Team
+    - Update existing Sub-Team
+    - Remove existing Sub-Team
+}
+
+' class "<b>ReleaseProcess" as process {
+'     processName
+' }
+
+' class "<b>SystemType" as systemType {
+'     typeName
+' }
+' class "<b>ChangePlatform" as changePlatform {
+'     identifier
+' }
+
+' class "<b>Release Checklist" as RC {
+' }
+
+' class "<b>Merge Request" as MR {
+'     MR_ID
+' }
+
+' class "<b>Repository" as Repo {
+'     repoPath
+'     projectID
+' }
+
+' class "<b>ReleaseType or Workflow" as ReleaseType {
+'     typeName
+'     jiraVerification
+'     gitVerification
+'     versionStages
+'     deploymentWorkflow
+' }
+
+' class "<b>RegressionScope" as RegrScope {
+'         scopeID
+'         ProcessCovered
+' }
+
+' class "<b>RegressionTask" as RegrSched {
+'         TaskName
+'         Team
+'         WorkflowCovered
+' }
+
+' class "<b>[NEW Entity] ReadinessCheckOperation" as ReadinessOps {
+'     new DB TBC: shopee_deployplatform_db.readiness_check_operations_tab
+
+'     Attributes:
+'     - readiness_check_id
+'     - deployment_request_id
+'     - display_name
+'     - default_pics
+'     - toggle_timestamp
+'     - toggle_author
+'     ---
+'     <b> NEW Function Requirements:
+'     - GET ReadinessCheckOps
+'     - Update ReadinessCheckOps
+'     - Delete ReadinessCheckOps
+' }
+
+' class "<b> Service" as Service {
+'     Attributes:
+'     - CMDB ID
+'     ---
+'     <b> NEW Function Requirements:
+'     - GET ReadinessCheckOperations
+' }
+
+' class "<b>[NEW Entity] Readiness Config" as ReadinessConfig {
+'     ---
+'     Attributes:
+'     - active
+' }
+
+portalLanding -down-> teamLanding : sidebar
+teamLanding -down-> teamDetail : click
+
+' version "n" -down-* "1" team
+' CR "n" -left-o "1" version
+' systemType "1" -left-* "1" Repo
+' changePlatform "1" -left-o "1" systemType
+' Repo "n" -up-o "1" team
+' ReleaseType "n   " <-right- "1" version
+' ReleaseType "n   " -down-* "1" process
+' process "1   " o-down- "n" Repo
+' process "n   " -right- "1" team
+' process "n" -left-> "1" RegrScope
+
+@enduml

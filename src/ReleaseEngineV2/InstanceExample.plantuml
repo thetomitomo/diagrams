@@ -14,7 +14,7 @@ title Sample Release Process Instance
 **** Stage_1
 **** Stage_2
 **** Stage_3
-*** RegularReleaseVerification
+*** RegularReleaseVerification  
 **** JIRAVeri
 **** GitVeri
 *** DeploymentSequenceFlow

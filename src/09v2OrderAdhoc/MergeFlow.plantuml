@@ -1,0 +1,49 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+legend top left
+    |Color| Type |
+    |<#DarkOrchid>| Version tag operation|
+    |<#Green>| Deployment operation|
+    |<#Yellow>| Annotation|
+
+endlegend
+
+title <b>Order Adhoc</b> RN Flow
+
+' box "RN Plugin Repository" 
+    actor RM
+    actor RN_Dev
+    actor RN_DOD
+    ' participant staging as staging
+    ' participant release as release
+' end box
+
+autonumber 1.1
+group RN
+    Dev->RN_Dev: Respective plugins handle branch management according to own plugin's 
+
+    == SCHEDULED: Tue 19, Sep 11:30-14:00 ==
+    RN_Dev->RM: Provide plugin versions to RM:JingXue
+
+    RM -> RN_DOD: Request version
+    RM -> RN_DOD: Build RN version on snapshot
+    RN_DOD -> RM: RN Version
+    RM -> QA: Inform QA of the version
+    QA -> QA: Regression testing
+    QA -> Dev: Report bugs
+
+    == SCHEDULED: Fri 22, Sep 10:00 ==
+    Dev -> Dev: Devs to complete respective RPRv2 flow
+    
+    RM -> RM: build new LIVE RN version
+    RM -> RM: Deploy RN in Greyscale
+    
+end
+
+
+@enduml

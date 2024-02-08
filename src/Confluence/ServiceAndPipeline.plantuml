@@ -1,0 +1,43 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+
+title Current Relationship Between Service - Pipeline\n(From RM perspective)
+circle service_ID
+circle service_name
+circle pipeline_name
+
+class "Pipeline" {
+    AKA: Jenkins pipeline
+
+    - pipeline_name:str
+    - git_address:str
+    - env:str
+    - params:obj
+}
+
+class "CMDB Service" as CMDBService {
+    - service_id:int
+    - service_name:str
+    - git_project:str
+    - service_owners:list
+    - params:obj
+}
+
+class SDU {
+    - sdu_id:int
+    - version:str
+    - service_id:int
+    - service_name:str
+    - env:str
+    - cid:str
+}
+
+SDU "many" -up- "1" CMDBService
+Pipeline "1" -right- "many" CMDBService
+
+@enduml

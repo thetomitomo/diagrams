@@ -1,0 +1,41 @@
+@startuml
+
+!$AutonumStart = 1
+
+!include __init__
+
+group 1.0 Initalisation
+
+    req -> Art : Raise JIRA ticket\nin project board
+    note right
+        Have <b>Urgent</b> and <b>Impactful</b>
+        requirements
+    end note
+    
+    hnote over Art#LimeGreen: JIRA Feature\nTicket
+
+    req -> FeatDev: Communicate adhoc/hotfix\n to Feature Dev
+
+    req -> Art : Raise <b>SWP</b>\n<b>ERA</b> ticket
+    hnote over Art#LimeGreen: SWP-ERA Ticket
+    note right
+        **SWP**: Shopee Workflow Platform
+        **ERA**: Emergency Release Application
+    end note
+    Art -> RM : SWP notifies RM
+    Art -> Approvers : SWP notifies Approvers
+    note left 
+        It is <b>requesters' responsibility</b>
+        to follow up approvals
+        from approvers
+    end note
+    
+
+    note over FeatDev: - Make featureBranch\n\tbranch from <b>release</b>\n\tin feature repo\n- Work on code change
+    FeatDev -> Art: Raise MR for\n code change
+    hnote over Art#LimeGreen: Feature <b>MR</b>\nin project repo
+    FeatDev -> Art: Link MR to\nJIRA Feature Ticket
+
+end
+
+@enduml

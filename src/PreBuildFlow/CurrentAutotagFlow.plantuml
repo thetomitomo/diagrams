@@ -7,12 +7,12 @@ actor ReleaseManager as RM
 participant ReleaseEngine as RE
 ' database deployment_ack_config_tab as ackDB
 ' database gitlab_project_tab as gitDB
-' participant DeploymentDashboard as DD
+participant DeploymentDashboard as DD
 ' database deployment_request_tab as deplßoymentDB
 database gitlab_merge_request as MRDB
 entity gitLab as git
 
-title Current Autotag Flow
+title Current Autotag Flow`
 
 RM -> RE : Trigger auto-merge\nFor repository
 RE -> git : init auto-merge MR

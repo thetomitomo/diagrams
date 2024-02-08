@@ -1,0 +1,79 @@
+@startuml Entity Diagram
+
+!theme reddress-darkred
+title Release Engine Entity Diagram
+
+class gitlab_merge_request_tab {
+    +ID: uint
+
+    +<b>project: str</b>
+    +<b>merge_request_id: uint</b>
+    -----
+    +CreatedAt: int64
+    +UpdatedAt: int64
+    -----
+    +auto_merge: uint
+    +merged: uint
+    +release_cycle: str
+    +release_tag: str
+    +remark: str
+    +last_notice_at: str
+    +target_branch: str
+}
+
+class deployment_ack_config_tab {
+    +ID: uint
+
+    +<b>jenkins_job: str</b>
+    -----
+    +CreatedAt: int64
+    +UpdatedAt: int64
+    +last_updated_by: str
+    -----
+    +repo: str
+    +platform: str
+    +pics:str
+    +cmdb_service_name:str
+    +req_ticket_lvl_dev:uint
+    +req_live_veri:uint
+    +cmdb_service_id:uint
+    +in_stable:uint
+    +non_stable_reason: str
+    +live_deployment_method:uint
+    +pics_to_promote: str
+}
+
+class deployment_request_tab {
+    +ID: uint
+
+    +<b>jenkins_job: str</b>
+    -----
+    +CreatedAt: int64
+    +UpdatedAt: int64
+    +ops_start_time:int64
+    +ops_end_time:int64
+    -----
+    +parameters: str
+    +ticket_keys: str
+    +developers: str
+    +pics:str
+    +responded_pics:str
+    +deploy_status:str
+    +platform: str
+    +release_cycle: str
+    +release_date: str
+    +release_batch: uint
+    +jql:str
+    +pre_verification:str
+    +post_verification:str
+    +depends_on:str
+    +children:str
+    +root_msg_id:str
+    +msg_id:str
+    +target_release_tag:str
+    +rm_operator:str
+    +deployment_env:uint
+    +pics_to_promote:str
+}
+
+@enduml

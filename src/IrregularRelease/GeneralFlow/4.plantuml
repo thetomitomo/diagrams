@@ -1,0 +1,33 @@
+@startuml
+
+!$AutonumStart = 4
+
+!include __init__
+
+group 4.0 Overlap Regular Release Scenario
+    note over Art,PluginDOD: The following actions can be done in parallel with 3.0\nAs long as the request has been approved.
+    PluginDOD -> Art: Executes proper branch merge in feature repo
+    PluginDOD -> Art: Generate new regular release patch version
+    hnote over Art#DarkOrchid:New feature\npatch version
+
+    PluginDOD -> Art: Raise new SPFE ticket
+    hnote over Art#LimeGreen: New JIRA\nSPFE ticket
+
+    PluginDOD -> Art: Raise new MR to bump new version\nin host repo
+
+    hnote over Art#LimeGreen: New host\nrepo MR
+    PluginDOD -> Art: Link to new MR new SPFE ticket
+
+    PluginDOD -> RN_DOD: Notify to get MR review
+    PluginDOD -> RM: Notify to indicate scope change
+
+    note over Art#Tomato: Host repo MR pipeline\nneed to run & pass
+    RN_DOD -> Art: Review host repo MR
+    note over Art: Pipeline pass & MR reviewed pass
+    RN_DOD -> Art: Merge host repo MR
+    hnote over Art#LimeGreen: <b>MERGED\nNew host\nrepo MR
+
+    note over Art,PluginDOD: Adhoc/Hotfix scope will be included in regular release scope
+end
+
+@enduml

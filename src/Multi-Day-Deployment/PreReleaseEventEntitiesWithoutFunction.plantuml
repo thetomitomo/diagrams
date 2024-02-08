@@ -20,6 +20,8 @@ class "<b>DeploymentRequest" as DR {
 }
 
 class "<b>[NEW Entity] ReadinessCheck" as Readiness {
+    new DB TBC: shopee_deployplatform_db.readiness_checks_tab
+
     Attributes:
     - readiness_check_id
     - display_name
@@ -30,6 +32,8 @@ class "<b>[NEW Entity] ReadinessCheck" as Readiness {
 }
 
 class "<b>[NEW Entity] ReadinessCheckOperation" as ReadinessOps {
+    new DB TBC: shopee_deployplatform_db.readiness_check_operations_tab
+
     Attributes:
     - readiness_check_id
     - deployment_request_id
@@ -44,8 +48,8 @@ class "<b>[NEW Entity] ReadinessCheckOperation" as ReadinessOps {
     ' - Update ReadinessCheckOps
 }
 
-DS "1" *-- "many" DR 
-DR "1" *-- "many" ReadinessOps
-ReadinessOps "many" -up-* "1" Readiness
+DS "1" *-- "0..*" DR 
+DR "1" *-- "0..*" ReadinessOps
+ReadinessOps "0..*" -up-* "1" Readiness
 
 @enduml

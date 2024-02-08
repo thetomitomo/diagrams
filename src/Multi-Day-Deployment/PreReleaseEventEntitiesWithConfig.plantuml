@@ -56,7 +56,7 @@ class "<b>[NEW Entity] ReadinessCheckOperation" as ReadinessOps {
     - Delete ReadinessCheckOps
 }
 
-class Service {
+class "<b> Service" as Service {
     Attributes:
     - CMDB ID
     ---

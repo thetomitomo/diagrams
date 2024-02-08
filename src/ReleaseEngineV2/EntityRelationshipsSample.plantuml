@@ -1,0 +1,27 @@
+@startmindmap
+
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+title Team to Service
+
+* team
+** subteam_1
+*** repo_1
+**** service_1
+**** service_2
+*** repo_2
+**** service_3
+**** service_4
+** subteam_2
+*** repo_3
+**** service_5
+**** service_6
+*** repo_4
+**** service_7
+**** service_8
+
+@endmindmap

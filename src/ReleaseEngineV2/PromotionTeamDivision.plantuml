@@ -1,0 +1,86 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+
+title Version - Component - Service
+
+class "<b>Team" as team {
+    L3 in CMDB
+}
+
+class "<b>Sub-Team" as subTeam {
+    
+}
+
+class "<b>L4 (component)" as L4 {
+    
+}
+class "<b>service" as service {
+    subTeamID
+}
+
+' class "<b>[NEW Entity] ReadinessCheckOperation" as ReadinessOps {
+'     new DB TBC: shopee_deployplatform_db.readiness_check_operations_tab
+
+'     Attributes:
+'     - readiness_check_id
+'     - deployment_request_id
+'     - display_name
+'     - default_pics
+'     - toggle_timestamp
+'     - toggle_author
+'     ---
+'     <b> NEW Function Requirements:
+'     - GET ReadinessCheckOps
+'     - Update ReadinessCheckOps
+'     - Delete ReadinessCheckOps
+' }
+
+' class "<b> Service" as Service {
+'     Attributes:
+'     - CMDB ID
+'     ---
+'     <b> NEW Function Requirements:
+'     - GET ReadinessCheckOperations
+' }
+
+' class "<b>[NEW Entity] Readiness Config" as ReadinessConfig {
+'     ---
+'     Attributes:
+'     - active
+' }
+
+' version -right-> team
+' version -right-> subTeam
+' CR -up-> version
+' JIRA -up-> CR
+' component -up-> CR
+' CR -right-> component
+' component -up-> team
+' subTeam -up-> CR
+' CR -up-> subTeam
+subTeam -up-> team
+' RC -up-> JIRA
+' service -left-> RC
+
+' MR -right-> Repo
+' Repo -up-> team
+' MR -left-> JIRA
+' service .up.> Repo : actual\nRelationship
+
+
+' DS "1" *-- "0..*" DR 
+' DR "1" *-- "0..*" ReadinessOps
+' ReadinessOps "0..*" -up-* "1" Readiness
+' Service "1" -left- "1" ReadinessConfig
+' ReadinessConfig "1" -- "1" Readiness
+' Service "1" --> "0..*" DR
+
+' service .up.> team : for future ref
+service -up-> team : via system config
+
+@enduml

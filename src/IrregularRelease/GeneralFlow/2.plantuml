@@ -1,0 +1,31 @@
+@startuml
+
+!$AutonumStart = 2
+
+!include __init__
+
+group 2.0 Verification_&_Approval
+    req -> Art: Ensure artefacts\nare in order
+    Approvers -> Art: Approves ERA
+    note over Art: SWP approved
+    note over Art: JIRA Ticket pass verifications
+
+    req -> FeatDev: Near due date, notify feature dev to merge.
+    
+    note over Art: MR pass pipelines
+    FeatDev -> Art: Merge Feature <b>MR</b>\ninto plugin <b>release</b>
+    hnote over Art#LimeGreen:<b>MERGED\n<b>Feature MR\n in project repo
+
+    FeatDev->Art: Generate new patch tag version
+    note right
+        If product line has DOD,
+        this will be done by DOD
+    end note
+    hnote over Art#DarkOrchid:New feature\npatch version
+
+    == Cycle cut-off: 11:30 ==
+    note over req,Approvers#Tomato: Anything not verified by this point will be postponed to the next cycle.\n<b>Same day deployment</b> needs to make sure verifications are done before this point.
+
+end
+
+@enduml

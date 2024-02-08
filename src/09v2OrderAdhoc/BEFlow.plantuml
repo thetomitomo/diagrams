@@ -1,0 +1,92 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+skinparam ClassFontColor black
+skinparam ClassBackgroundColor #d2d2d2
+
+legend top left
+    |Color| Type |
+    |<#DarkOrchid>| Version tag operation|
+    |<#Green>| Deployment operation|
+    |<#Yellow>| Annotation|
+
+endlegend
+
+title <b>BE Merge</b> Flow
+
+' box "RN Plugin Repository" 
+    participant featureBranch as FB
+    participant CFB as CFB
+    participant master as master
+    participant staging as staging
+    participant release as release
+' end box
+
+autonumber 1.1
+hnote over release #DarkOrchid:SAMPLE\nLIVE version\nV1.5.5
+
+
+group BE - WITHOUT CommonFeatureBranch
+    release -> FB: NEW branch out of <b>release</b>
+    FB -> FB: commit into\n<b>feature</b>
+    FB -> staging: Merge into staging
+    note right: After raise MergeRequest,\nsend it to RM for processing
+    hnote over staging #Green:Dev execute\nStaging Deployment
+    hnote over staging #Yellow:<color #black>QA Regression starts</color>
+    == SCHEDULED: By Wed 13, Dec 14:00 ==
+    FB -> staging: Merge any required fix to staging
+
+    == SCHEDULED: By Thurs 14, Dec 14:00 ==
+    release -> staging: Sync branches
+    staging -> release: Merge into release
+    release -> release: Dev generate\nnew tag
+    hnote over release #DarkOrchid:SAMPLE\nLIVE version\nV1.5.6
+    hnote over release #Green:RM execute\nLive Deployment
+    
+end
+
+autonumber inc A
+group BE - WITH CommonFeatureBranch
+    note  over FB,release: Common Feature Branch = A branch within a repo to merge all other feature-branches for the upcoming adhoc. \nRecommended for many commits across feature-branches
+    
+    release -> FB: NEW branch out of <b>release</b>
+    FB -> FB: commit into\n<b>feature</b>
+    ' == SCHEDULED: Anytime before Tue 19, Sep 11:30 ==
+    FB -> CFB: Merge into CFB
+    note right: Gives dev more time for merging multiple changes
+
+    CFB -> staging: Merge into staging
+    note right: This MR need to contain the related JIRA tickets in title\nAfter raise MergeRequest,\nsend it to RM for processing
+    hnote over staging #Green:Dev execute\nStaging Deployment
+    hnote over staging #Yellow:<color #black>QA Regression starts</color>
+    == SCHEDULED: By Wed 13, Dec 14:00 ==
+    FB -> staging: Merge any required fix to staging
+
+    == SCHEDULED: By Thurs 14, Dec 14:00 ==
+    release -> staging: Sync branches
+    staging -> release: Merge into release
+    release -> release: Dev generate\nnew tag
+    hnote over release #DarkOrchid:SAMPLE\nLIVE version\nV1.5.6
+    hnote over release #Green:RM execute\nLive Deployment
+    
+end
+
+' autonumber inc A
+' group RN
+'     hnote over FB,release: Respective plugins handle branch management according to own plugin's 
+
+'     == SCHEDULED: Tue 19, Sep 11:30-14:00 ==
+'     hnote over FB,release: Provide plugin versions to RM:JingXue
+'     hnote over FB,release: RM will communicate with RN DOD to build AppVersion\nthen provide version to QAs for testing
+
+'     == SCHEDULED: Fri 22, Sep 10:00 ==
+'     hnote over FB,release: RM will communicate with RN DOD to build AppVersion\nthen provide version to QAs for testing
+    
+'     hnote over release #DarkOrchid:SAMPLE\nLIVE version\nV1.5.6
+'     hnote over staging #Green:Live\nDeployment
+    
+' end
+
+
+@enduml

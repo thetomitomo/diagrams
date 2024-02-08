@@ -1,0 +1,74 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+
+
+legend bottom left
+    |Color| Type |
+    |<#Orange>| RM Action |
+    |<#Green>| Dev Action |
+    |<#MediumPurple>| System Action|
+endlegend
+
+title Manual-Canary vs Auto-Canary Flow Diagram
+
+start
+
+split
+    #Grey:MANUAL-CANARY Flow;
+    repeat
+        #Orange:RM follow up with dev via notifications;
+    repeat while (All ACK Received) is (No)
+    #Orange:RM Execute Deployment;
+
+    partition "Manual Canary Flow" {
+    
+    repeat
+    :Canary is Up;
+    #MediumPurple:System notify dev to monitor & ACK;
+
+        repeat
+            #Green:Dev to ACK on Dashboard;
+            backward :<back:orange>RM to follow up\nwith dev\nif canary verified;
+        repeat while (All Dev(s) ACK Canary verified?) is (No) not (Yes)
+
+        #Orange:RM Manually Promote canary;
+        backward :Canary instances\nadvance to\nnext stage;
+        
+    repeat while(All canary stages Done?) is (No) not (Yes)
+    }
+
+    :Deployment done;
+    stop
+split again
+    #Grey:AUTO-CANARY Flow;
+    
+    repeat
+        #Orange:RM follow up with dev via notifications;
+    repeat while (All ACK Received) is (No)
+    #Orange:RM Execute Deployment;
+
+    partition "Auto Canary Flow" {
+    
+    repeat
+    :Canary is Up;
+    #MediumPurple:System notify dev to monitor & ACK;
+
+        repeat
+            #Green:Dev to ACK on Dashboard;
+            backward :<back:orange>RM to follow up\nwith dev\nif canary verified;
+        repeat while (All Dev(s) ACK Canary verified?) is (No) not (Yes)
+
+        #MediumPurple:System AUTOMATICALLY Promote canary;
+        note left
+            CHANGED
+        end note
+        backward :Canary instances\nadvance to\nnext stage;
+        
+    repeat while(All canary stages Done?) is (No) not (Yes)
+    }
+
+    :Deployment done;
+    stop
+end split
+@enduml

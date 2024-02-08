@@ -1,0 +1,74 @@
+@startuml
+!theme bluegray
+skinparam FooterFontColor black
+skinparam DatabaseFontColor #007faf
+
+actor ReleaseManager as RM
+actor User as User
+collections ReleaseEngine as RE
+database ExtSystem as Ext
+
+title RE Release Version Life Cycle Overview
+
+
+RM -> RE : Create ReleaseVersion
+hnote over RE : ReleaseVersion\n<b>(VersionSubmission)
+
+==== Version Submission ====
+' note over RM,Ext:\n\
+'     <b>User Flows:</b>\n\
+'     - Dev/PM\n\
+'         - Submit CR\n\
+
+
+User -> RE : Submit CR
+note right
+    <b>Input:</b>
+    - ReleaseVersion
+    - JIRA ticket
+    - MainTeam
+    - SubTeam
+    - ChangeType
+
+    <b>Output:</b>
+    - JIRA verification
+        - JIRA comment output
+        - JIRA status & CR status
+            - Failure -> Pending - Failed Verification
+            - Pass -> InScope - Pending Merge
+end note
+
+
+' RE -> User : Verifications
+
+==== Version Lockdown ====
+' note over RM,Ext:\n\
+'     <b>User Flows:</b>\n\
+'     - Dev/PM\n\
+'         - New Late Request Submission \n\
+'         - Add Back\n\
+
+RE -> RE: Version Transitions
+hnote over RE : ReleaseVersion\n<b>(VersionLockdown)
+
+RE -> RE : Removal of tickets
+note right
+    CR: Pending Failed Verification -> Rejected Failed Verification
+end note
+
+User -> RE : New Late Request Submission
+User -> RE : Add Back
+
+' group While Has entry with unmerged MR
+'     RE -> MRDB : GET MRs: HandleScanAutoTag()
+'     MRDB -> RE : MRs data
+'     RE -> git : tries to merge unmerged MR 
+' end group
+
+' group While has entry with untagged MR
+'     RE -> MRDB : GET MRs: HandleScanAutoTag()
+'     MRDB -> RE : MRs data
+'     RE -> git : tries to tag untagged repo
+' end group
+
+@enduml
